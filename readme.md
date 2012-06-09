@@ -20,7 +20,7 @@ Rowell has been tested on Firefox 8+ and Chrome 19+ browsers. However, since Row
 
 WE WILL NEVER BE RESPONSIBLE FOR IE USERS!!!
 
-###Development Progress
+##Development Progress
 
 In the coming series of versions more functionals will be introduced including reading posts, posting and replying to posts in different modes, a better navigation in viewing boards and posts, and possible searching functions.
 
@@ -28,7 +28,7 @@ Several bugs are known for now, including a cross-domain error when pybbs return
 
 * zhangwenqi1988[at]gmail[dot]com
 
-###Change Logs
+##Change Logs
 
 ####Version 0.0.4
 Release date: 06/06/2012
