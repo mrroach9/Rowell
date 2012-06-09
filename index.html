@@ -1,0 +1,406 @@
+﻿<!DOCTYPE html>
+<html lang='zh'>
+  <head>
+    <meta charset='utf-8'>
+    <title>9# BBS</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <meta name='description' content=''>
+    <meta name='author' content=''>
+
+    <link href='./assets/css/bootstrap.css' rel='stylesheet'>
+    <link href='./assets/css/bootstrap-responsive.css' rel='stylesheet'>
+    <link href='style.css' rel='stylesheet'>
+
+    <link rel='shortcut icon' href='favicon.ico'>
+  </head>
+
+  <body>
+  	<!-- Navigation bars for logged-in version and unlogged-in version -->
+    <div class='navbar navbar-fixed-top' id='unlogged-navbar'>
+      <div class='navbar-inner'>
+        <div class='container'>
+          <div class='brand'>
+          	<div class='title-label'>9# BBS</div>
+          </div>
+          <div class='nav-collapse'>
+            <ul class='nav'>
+              <li><a data-toggle='modal' href='#login-panel'>登录</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class='navbar navbar-fixed-top' id='logged-navbar'>
+      <div class='navbar-inner'>
+        <div class='container'>
+          <div class='brand'>
+          	<div class='title-label'>9# BBS</div>
+          </div>
+          <div class='nav-collapse'>
+            <ul class='nav'>
+              <li><a href='javascript:void(0)' id='favboard-nav-label'>收藏夹</a></li>
+              <li><a href='javascript:void(0)' id='allboard-nav-label'>所有版面</a></li>
+              <li><a href='javascript:void(0)' class='unimplemented'>设置</a></li>
+              <li><a>已登录</a></li>
+              <li><a href='javascript:void(0)' id='logout-button'>退出</a></li>
+            </ul>
+            <ul class='nav pull-right'>
+            	<li>
+            		<a href='#'>
+            			<i class='icon-arrow-up icon-white'></i>
+            			回到顶部
+            		</a>
+            	</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Login window -->
+    <div class='modal hide' id='login-panel'>
+    	<div class='modal-header'>
+    		<button type='button' class='close' data-dismiss='modal'>&times;</button>
+    		<h3>登录</h3>
+    	</div>
+    	<div class='modal-body'>
+    		<p>点击<a href='' id='login-path' target='_blank'>此处</a>获取登录码。</p>
+    		<form action='' method='get'>
+		 	 		输入登录码： <input type='text' name='auth-code' id='auth-code-textbox' />
+				</form>
+    	</div>
+    	<div class='modal-footer'>
+    		<a class='btn btn-primary' id='login-button' data-dismiss='modal'>登录</a>
+    		<a class='btn' data-dismiss='modal'>关闭</a>
+  		</div>
+  	</div>
+    
+    <!-- Main part of unlogged-in panel -->
+    <div class='container' id='unlogged-panel'>
+    	<h1>您尚未登录</h1>
+    	登录后方可浏览及发表文章。
+    </div>
+    
+    <!-- Backdrop -->
+	  <div class='modal-backdrop' id='global-backdrop'></div>
+    
+    <!-- Main part of logged-in panel -->
+    <div class='container' id='logged-panel'>
+    	<div class='subnav'>
+	    		<ul class='nav nav-pills'>
+	    			<li><a href='javascript:void(0)' id='boardlist-nav-label'></a></li>
+	    			<li><i class='icon-chevron-right right-arrow' id='boardlist-board-nav-arrow'></i></li>
+	    			<li><a href='javascript:void(0)' id='board-nav-label'></a></li>
+	    			<li><i class='icon-chevron-right right-arrow' id='board-post-nav-arrow'></i></li>
+	    			<li><a id='post-nav-label'></a></li>
+	    			<li class='pull-right'>
+	    				<div class='btn-group' id='reply-button'>
+	    					<button class='btn btn-large btn-success unimplemented'>回复 </button>
+	    					<button class='btn btn-large btn-success dropdown-toggle' data-toggle='dropdown'>
+	    						<span class='caret'></span>
+	    					</button>
+	    					<ul class='dropdown-menu'>
+	    						<li><a href='javascript:void(0)' class='unimplemented'>普通模式(S)回复</a></li>
+	    						<li><a href='javascript:void(0)' class='unimplemented'>R模式回复</a></li>
+	    						<li><a href='javascript:void(0)' class='unimplemented'>A模式回复</a></li>
+	    						<li><a href='javascript:void(0)' class='unimplemented'>N模式回复</a></li>
+	    					</ul>
+	    				</div>
+	    				<div class='btn-group' id='post-button'>
+	    					<button class='btn btn-large btn-danger unimplemented'>发帖 </button>
+	    					<button class='btn btn-large btn-danger dropdown-toggle' data-toggle='dropdown'>
+	    						<span class='caret'></span>
+	    					</button>
+	    					<ul class='dropdown-menu'>
+	    						<li><a href='javascript:void(0)' class='unimplemented'>普通模式</a></li>
+	    						<li><a href='javascript:void(0)' class='unimplemented'>Latex模式(X)</a></li>
+	    						<li><a href='javascript:void(0)' class='unimplemented'>使用模板(T)</a></li>
+	    					</ul>
+	    				</div>
+	    			</li>
+	    		</ul>
+    	</div>
+    	
+    	<div class='well' id='display-area'>
+    		<div id='boardlist-table'>
+    			<table class='table table-striped table-bordered'>
+    				<thead class='board-table-head'>
+    					<th width='60px'>帖数</th>
+    					<th width='30px'>未读</th>
+    					<th width='160px'>版名</th>
+    					<th>版面中文名</th>
+    					<th width='30px'>在线</th>
+    					<th width='200px'>版主</th>
+    				</thead>
+    				<tbody id='boardlist-table-body'>
+    				</tbody>
+    			</table>
+	    	</div>  					
+	    	
+	    	<div id='board-table'>
+	    		<table class='table table-striped table-bordered'>
+    				<thead class='board-table-head'>
+    					<th width='60px'>编号</th>
+    					<th width='30px'>未读</th>
+    					<th width='100px'>作者</th>
+    					<th width='60px'>日期</th>
+    					<th>文章标题</th>
+    				</thead>
+    				<tbody id='board-table-body'>
+    				</tbody>
+    			</table>
+    			<div class='bottom-button-bar' id='board-buttons'>
+    				<button class='btn btn-success' id='prev-page-button'>上一页</button>
+    				<button class='btn btn-success' id='next-page-button'>下一页</button>
+    			</div>
+	    	</div>
+	    	
+	    	<div id='post-view'>
+	    	</div>
+    	</div>
+    	
+    	<!--Footer -->
+		  <footer class='footer'>
+		  	<p class='pull-right'>
+		  		<a href='#'>回到顶部</a>
+		  	</p>
+		  	<p>
+		  		UI powered by <a href='http://twitter.github.com/bootstrap/index.html' target='_blank'>Twitter Bootstrap</a>.
+		  	</p>
+		  	<p>
+		  		BBS Data Exchange Interface powered by <a href='https://github.com/HenryHu/pybbs' target='_blank'>pybbs</a>.
+		  	</p>
+		  	<p>
+		  		Rowell v0.0.3 designed and coded by Mr.Roach. Contact: zhangwenqi1988[at]gmail[dot]com.
+		  	</p>
+		  </footer>
+	  </div>
+	  
+	  <div id='html-encoder'></div>
+	  
+		
+
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src='./assets/js/jquery.js'></script>
+    <script src='./assets/js/jquery.cookie.js'></script>
+    <script src='./assets/js/bootstrap-transition.js'></script>
+    <script src='./assets/js/bootstrap-alert.js'></script>
+    <script src='./assets/js/bootstrap-modal.js'></script>
+    <script src='./assets/js/bootstrap-dropdown.js'></script>
+    <script src='./assets/js/bootstrap-scrollspy.js'></script>
+    <script src='./assets/js/bootstrap-tab.js'></script>
+    <script src='./assets/js/bootstrap-tooltip.js'></script>
+    <script src='./assets/js/bootstrap-popover.js'></script>
+    <script src='./assets/js/bootstrap-button.js'></script>
+    <script src='./assets/js/bootstrap-collapse.js'></script>
+    <script src='./assets/js/bootstrap-carousel.js'></script>
+    <script src='./assets/js/bootstrap-typeahead.js'></script>
+    
+    <script src='config.js'></script>
+    <script src='common.js'></script>
+    <script src='board_names.js'></script>
+    <script src='bbs_login.js'></script>
+    <script src='bbs_view.js'></script>
+    
+    <script type='text/javascript'>
+    	$(document).ready(function(){
+				UI_init();
+    		session_retrieved($.cookie(bbs_session_cookie));
+    	});
+    	
+    	$('#login-button').live('click',function(){
+    		var auth_code = $('input#auth-code-textbox').attr('value');
+    		$('#global-backdrop').show();
+    		getSession(auth_code, session_retrieved);
+    	});
+    	
+    	$('#logout-button').live('click', UI_logout);
+    	
+    	$('#boardlist-nav-label').live('click', function(){
+    		if (bbs_current_path.path_level > 1) {
+    			view_boardlist(bbs_current_path.boardlist.type, UI_update);
+    		}
+    	});
+    	
+    	$('#board-nav-label').live('click', function(){
+    		if (bbs_current_path.path_level > 2) {
+    			view_board(bbs_current_path.board.name, -1, -1, UI_update, true);
+    		}
+    	});
+    	
+    	$('#favboard-nav-label').live('click', function(){
+    		view_boardlist(bbs_favboard_type, UI_update);
+    	});
+    	
+    	$('#allboard-nav-label').live('click', function(){
+    		view_boardlist(bbs_allboard_type, UI_update);
+    	});
+    					    	
+	    $('.board-entry').live('click', function(){
+	    	view_board($(this).attr('board-name'), -1, -1, UI_update, true);
+	    });
+	    
+	    $('#next-page-button').live('click', function(){
+	    	view_board_next_page(UI_update);
+	    });
+	    
+	    $('#prev-page-button').live('click', function(){
+	    	view_board_prev_page(UI_update);
+	    });
+
+    	function session_retrieved(session){
+    		bbs_session = session;
+    		verifySession(session, true, UI_login_finished);
+    	}
+    	
+    	function UI_init() {
+    		$('#html-encoder').hide();
+    		
+    		$('#boardlist-nac-label').hide();	    	
+    		$('#boardlist-board-nav-arrow').hide();
+    		$('#board-nav-label').hide();
+    		$('#board-post-nav-arrow').hide();
+    		$('#post-nav-label').hide();
+	    	$('#reply-button').hide();
+	    	$('#post-button').hide();
+	    	
+	    	$('#boardlist-table').hide();
+	    	$('#board-table').hide();
+	    	$('#post-view').hide();
+    		
+    		$('#logged-navbar').hide();
+    		$('#logged-panel').hide();
+    		$('#global-backdrop').hide();
+    		$('a#login-path').attr('href',bbs_server_addr + bbs_auth_path);
+    		$('#global-backdrop').show();
+    		$(document).attr("title", bbs_title + 'v' + bbs_version);
+    		$('.unimplemented').popover({
+	    		trigger: 'manual',
+	    		placement: 'bottom',
+	    		title: '矮油',
+	    		content: '此功能尚未实现，我们将在后续版本中添加，敬请谅解。'
+	    	});
+    		$('.unimplemented').mousedown(function(){
+	    		$(this).popover('toggle');
+	    	});
+    		$('.unimplemented').mouseup(function(){
+	    		$(this).popover('hide');
+	    	});
+	    	$('.unimplemented').mouseleave(function(){
+	    		$(this).popover('hide');
+	    	});
+    	}
+    	
+    	function UI_login_finished(result){
+    		if (result) {
+    			$('#unlogged-navbar').hide();
+	    		$('#unlogged-panel').hide();
+	    		$('#logged-navbar').show();
+	    		$('#logged-panel').show();
+	    		$('#post-button').hide();    		
+		    	view_boardlist(bbs_favboard_type, UI_update);
+	    	} else {
+	    		$('#unlogged-navbar').show();
+	    		$('#unlogged-panel').show();
+	    		$('#logged-navbar').hide();
+	    		$('#logged-panel').hide();
+	    	}
+	    	$('#global-backdrop').hide();
+	    }
+	    
+	    function UI_logout(){
+	    	removeSessionCookie();
+	    	$('#unlogged-navbar').show();
+	    	$('#unlogged-panel').show();
+	    	$('#logged-navbar').hide();
+	    	$('#logged-panel').hide();
+	    }
+	    
+	    function UI_update(path, content){
+	    	UI_subnavbar_update(path);
+	    	UI_maindiv_update(path, content);
+	    }
+	    
+	    function UI_subnavbar_update(path) {
+	    	$('#boardlist-nav-label').hide();	    	
+    		$('#boardlist-board-nav-arrow').hide();
+    		$('#board-nav-label').hide();
+    		$('#board-post-nav-arrow').hide();
+    		$('#post-nav-label').hide();
+	    	$('#reply-button').hide();
+	    	$('#post-button').hide();
+	    	if (path.path_level >= 1) {
+	    		$('#boardlist-nav-label').text(path.boardlist.zhname);
+	    		$('#boardlist-nav-label').show();
+	    	}
+	    	if (path.path_level >= 2) {
+	    		$('#board-nav-label').text(path.board.name);
+	    		$('#boardlist-board-nav-arrow').show();
+	    		$('#board-nav-label').show();
+	    		$('#post-button').show();
+	    	}
+	    	if (path.path_level >= 3) {
+	    		$('#post-nav-label').text(path.post.title);
+	    		$('#board-post-nav-arrow').show();
+	    		$('#post-nav-label').show();
+	    		$('#reply-button').show();
+	    	}
+	    }
+	    
+	    function UI_maindiv_update(path, content) {
+	    	$('#boardlist-table').hide();
+	    	$('#board-table').hide();
+	    	$('#post-view').hide();
+	    	if (path.path_level == 1) {
+	    		
+	    		$('#boardlist-table-body').empty();
+	    		for (var i = 0; i < content.length; ++i) {
+	    			var entryStr = UI_generate_board_entry(content[i]);
+	    			$('#boardlist-table-body').append(entryStr);
+	    		}
+					$('#boardlist-table').show();
+					
+				} else if (path.path_level == 2) {
+					
+					$('#board-table-body').empty();
+	    		for (var i = 0; i < content.length; ++i) {
+	    			var entryStr = UI_generate_post_entry(content[i]);
+	    			$('#board-table-body').append(entryStr);
+	    		}
+					$('#board-table').show();
+					
+				}
+	    }
+	    
+	    function UI_generate_board_entry(entry){
+	    	var entryStr =  	 '<tr href=\'\' class=\'board-entry\' board-name=\'' + entry.name + '\'>'
+	    									 + 		'<td>' + entry.total + '</td>'
+	    									 +		'<td class=\'board-table-center\'>' 
+	    									 + 				(entry.read ? '' : '<i class=\'icon-asterisk\'></i>') 
+	    									 + 		'</td>'
+	    									 +		'<td>' + entry.name + '</td>'
+	    									 +		'<td>' + entry.zhname + '</td>'
+	    									 +		'<td>' + entry.currentusers + '</td>'
+	    									 +		'<td>' + entry.BM + '</td>'
+	    									 + '</tr>';
+	  		return entryStr;
+	  	}
+	  	
+	  	function UI_generate_post_entry(entry){
+	  		var entryStr =  	 '<tr href=\'\' class=\'post-entry unimplemented\' post-id=\'' + entry.id + '\'>'
+	    									 + 		'<td>' + entry.id + '</td>'
+	    									 +		'<td class=\'board-table-center\'>' 
+	    									 + 				(entry.read ? '' : '<i class=\'icon-asterisk\'></i>') 
+	    									 +		'</td>'
+	    									 +		'<td>' + entry.owner + '</td>'
+	    									 +		'<td>' + entry.posttime + '</td>'
+	    									 +		'<td>' + entry.title + '</td>'
+	    									 + '</tr>';
+	  		return entryStr;
+	  	}
+	    									
+    </script>
+  </body>
+</html>
+ 

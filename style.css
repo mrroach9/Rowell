@@ -1,0 +1,34 @@
+﻿body {
+	padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+}
+.right-arrow {
+	vertical-align: middle;
+	margin-top: 10px;
+}
+.title-label {
+	color: white;
+}
+.footer {
+	margin-top: 45px;
+	padding: 35px 0 36px;
+	border-top: 1px solid #E5E5E5;
+}
+.board-table-center th{
+	text-align: center;
+}
+td.board-table-center{
+	text-align: center;
+}
+.board-entry {
+	cursor: pointer;
+}
+.post-entry {
+	cursor: pointer;
+}
+.modal-backdrop.inner-backdrop {
+	opacity : 0.6;
+	position: absolute;
+}
+.bottom-button-bar {
+	text-align: center;
+}

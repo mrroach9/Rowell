@@ -1,0 +1,48 @@
+Rowell, a pure front-end web terminal of 9# BBS 
+project, made by Mr.Roach.
+
+Last updated: v0.0.4, 06/06/2012.
+
+============Version 0.0.4 Change Log==============
+Release date: 06/06/2012
+1. Board viewing with next/prev button is support-
+ed, with all posts listed in tables.
+
+2. Several bug fixed, including html encoding pro-
+blem that may cause injection, and incomplete
+board and post listing bug.
+
+3. Some refinement on the UI design.
+
+Current existing bug:
+1. When reaching the bottom of a board, next button
+will lead to an error since incomplete CORS suppo-
+rt.
+
+============Version 0.0.3 Change Log==============
+Release date: 06/06/2012
+1. Board list viewing is supported, all boards(
+or favourite boards) are displayed in tables.
+
+2. Secondary navigation bar now works, displaying
+the current path of user's location.
+
+============Version 0.0.2 Change Log==============
+Release date: 06/05/2012
+1. Login and logout functional added, with CORS 
+newly supported from pybbs. Users will be redirec-
+ted to default pybbs login page, then input autho-
+rization code back. 
+
+2. Session cookie is stored. When user logs out, 
+the session cookie will be removed.
+
+3. Footers and "unimplemented" popup are added to
+UI. Several other minor improvement on UI design.
+
+
+============Version 0.0.1 Change Log==============
+Release date: 06/04/2012
+First build. Basic UI framework built based on 
+Twitter Bootstrap. No actural functions supported.
+
