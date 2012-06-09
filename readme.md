@@ -41,9 +41,7 @@ Release date: 06/06/2012
 
 Current existing bug:
 
-* When reaching the bottom of a board, next button
-will lead to an error since incomplete CORS suppo-
-rt.
+* When reaching the bottom of a board, next button will lead to an error since incomplete CORS support.
 
 ####Version 0.0.3
 Release date: 06/06/2012
