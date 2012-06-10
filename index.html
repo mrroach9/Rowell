@@ -98,7 +98,7 @@
 	    				<div class='btn-group' id='reply-button'>
 	    					<button class='btn btn-large btn-success unimplemented'>回复 </button>
 	    					<button class='btn btn-large btn-success dropdown-toggle' data-toggle='dropdown'>
-	    						<span class='caret'></span>
+	    						<span class='caret caret-white'></span>
 	    					</button>
 	    					<ul class='dropdown-menu'>
 	    						<li><a href='javascript:void(0)' class='unimplemented'>普通模式(S)回复</a></li>
@@ -157,11 +157,22 @@
 	    	</div>
 	    	
 	    	<div id='post-view'>
+	    		<div class='post-view-area' id='post-view-area'>
+	    		</div>
+	    		<div class='bottom-button-bar' id='post-buttons'>
+    				<button class='btn btn-success' id='prev-post-button'>上一贴</button>
+    				<button class='btn btn-success' id='next-post-button'>下一贴</button>
+    			</div>	    			
 	    	</div>
+	    	
     	</div>
     	
-    	<!--Footer -->
-		  <footer class='footer'>
+    	
+	  </div>
+	  
+	  <!--Footer -->
+	  <div class='container' id='footer-div'>
+			<footer class='footer'>
 		  	<p class='pull-right'>
 		  		<a href='#'>回到顶部</a>
 		  	</p>
@@ -172,11 +183,17 @@
 		  		BBS Data Exchange Interface powered by <a href='https://github.com/HenryHu/pybbs' target='_blank'>pybbs</a>.
 		  	</p>
 		  	<p>
-		  		Rowell v0.0.3 designed and coded by Mr.Roach. Contact: zhangwenqi1988[at]gmail[dot]com.
+		  		Rowell is designed and coded by Mr.Roach. 
+		  		<iframe src="http://markdotto.github.com/github-buttons/github-btn.html?user=mrroach9&repo=Rowell&type=watch" 
+		  				allowtransparency="true" frameborder="0" scrolling="0" width="66px" height="20px">
+		  		</iframe>
 		  	</p>
-		  </footer>
-	  </div>
-	  
+		  	<p>
+		  		For any suggestions and bug reports, contact zhangwenqi1988[at]gmail[dot]com.
+		  	</p>
+			</footer>
+		</div>
+		
 	  <div id='html-encoder'></div>
 	  
 		
@@ -241,12 +258,24 @@
 	    	view_board($(this).attr('board-name'), -1, -1, UI_update, true);
 	    });
 	    
+	    $('.post-entry').live('click',function() {
+	    	view_post($(this).attr('post-id'), UI_update, true);
+	    });
+	    
 	    $('#next-page-button').live('click', function(){
 	    	view_board_next_page(UI_update);
 	    });
 	    
 	    $('#prev-page-button').live('click', function(){
 	    	view_board_prev_page(UI_update);
+	    });
+	    
+	    $('#next-post-button').live('click', function(){
+	    	view_next_post(UI_update);
+	    });
+	    
+	    $('#prev-post-button').live('click', function(){
+	    	view_prev_post(UI_update);
 	    });
 
     	function session_retrieved(session){
@@ -256,8 +285,14 @@
     	
     	function UI_init() {
     		$('#html-encoder').hide();
+    		$('#logged-navbar').hide();
+    		$('#logged-panel').hide();
     		
-    		$('#boardlist-nac-label').hide();	    	
+	    	$('#boardlist-table').hide();
+	    	$('#board-table').hide();
+	    	$('#post-view').hide();
+    		
+    		$('#boardlist-nav-label').hide();	    	
     		$('#boardlist-board-nav-arrow').hide();
     		$('#board-nav-label').hide();
     		$('#board-post-nav-arrow').hide();
@@ -265,16 +300,11 @@
 	    	$('#reply-button').hide();
 	    	$('#post-button').hide();
 	    	
-	    	$('#boardlist-table').hide();
-	    	$('#board-table').hide();
-	    	$('#post-view').hide();
-    		
-    		$('#logged-navbar').hide();
-    		$('#logged-panel').hide();
-    		$('#global-backdrop').hide();
-    		$('a#login-path').attr('href',bbs_server_addr + bbs_auth_path);
     		$('#global-backdrop').show();
+    		
+    		$('a#login-path').attr('href',bbs_server_addr + bbs_auth_path);
     		$(document).attr("title", bbs_title + 'v' + bbs_version);
+    		
     		$('.unimplemented').popover({
 	    		trigger: 'manual',
 	    		placement: 'bottom',
@@ -344,6 +374,7 @@
 	    		$('#post-nav-label').text(path.post.title);
 	    		$('#board-post-nav-arrow').show();
 	    		$('#post-nav-label').show();
+	    		$('#post-button').hide();
 	    		$('#reply-button').show();
 	    	}
 	    }
@@ -370,6 +401,10 @@
 	    		}
 					$('#board-table').show();
 					
+				} else if (path.path_level == 3) {
+					$('#post-view-area').empty();
+					$('#post-view-area').html(content.content);
+					$('#post-view').show();
 				}
 	    }
 	    

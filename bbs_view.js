@@ -13,6 +13,7 @@
 	
 	post : {
 		id : -1,
+		xid : -1,
 		title : ''
 	},
 	path_level: -1
@@ -57,6 +58,7 @@ function view_boardlist(type, callback_func){
 		};
 		bbs_current_path.post = {
 			id : -1,
+			xid : -1,
 			title : ''
 		};
 		bbs_current_path.path_level = 1;
@@ -117,6 +119,7 @@ function view_board(board_name, start, end, callback_func, retry){
 		};
 		bbs_current_path.post = {
 			id : -1,
+			xid : -1,
 			title : ''
 		};
 		bbs_current_path.path_level = 2;
@@ -137,7 +140,7 @@ function view_board_next_page(callback_func){
 	var name = bbs_current_path.board.name;
 	var newStart = bbs_current_path.board.end + 1;
 	var newEnd = newStart + bbs_post_count - 1;
-	view_board(name, newStart, newEnd, callback_func);
+	view_board(name, newStart, newEnd, callback_func, true);
 }
 
 function view_board_prev_page(callback_func){
@@ -147,7 +150,52 @@ function view_board_prev_page(callback_func){
 	var name = bbs_current_path.board.name;
 	var newEnd = bbs_current_path.board.start - 1;
 	var newStart = newEnd - bbs_post_count + 1;
-	view_board(name, newStart, newEnd, callback_func);
+	view_board(name, newStart, newEnd, callback_func, true);
+}
+
+function view_post(post_id, callback_func, retry) {
+	var request_settings = {
+		url : bbs_server_addr + bbs_viewpost_path,
+		type: 'GET',
+		data: {
+			session : bbs_session,
+			board : bbs_current_path.board.name,
+			id : post_id
+		},
+		cache: false
+	};
+	
+	var resp = $.ajax(request_settings);
+	resp.success(function(response){
+		post = extractPostContent(response);
+		bbs_current_path.post = {
+			id : post.id,
+			xid : post.xid,
+			title : post.title
+		};
+		bbs_current_path.path_level = 3;
+		callback_func(bbs_current_path, post);
+	});
+	
+	resp.fail(function(jqXHR, textStatus){
+		if (retry) {
+			view_board(board_name, -1, -1, callback_func, false);
+		}
+	});
+}	
+
+function view_next_post(callback_func) {
+	if (bbs_current_path.path_level != 3) {
+		return;
+	}
+	view_post(bbs_current_path.post.id + 1, callback_func, true);
+}
+
+function view_prev_post(callback_func) {
+	if (bbs_current_path.path_level != 3) {
+		return;
+	}
+	view_post(bbs_current_path.post.id - 1, callback_func, true);
 }
 
 function extractPostInfo(contentStr) {
@@ -190,4 +238,18 @@ function extractBoardInfo(contentStr, type){
 	return boardlist;
 }
 		
+function extractPostContent(contentStr) {
+	post = JSON.parse(contentStr);
+	post.title = html_encode(post.title);
+	post.content = html_encode(post.content);
+	//Replace all \n to <br>
+	var reg = new RegExp("\n", "g");
+	post.content = post.content.replace(reg, '<br>');
+	
+	//Eliminate all ASCII control characters
+	reg = new RegExp("\\[[0-9;]*m", "g");
+	post.content = post.content.replace(reg, '');
+	
+	return post;
+}
 	

@@ -30,6 +30,19 @@ Several bugs are known for now, including a cross-domain error when pybbs return
 
 ##Change Logs
 
+####Version 0.1
+Release date: 06/10/2012
+
+* Post viewing is now supported with html encoded, ASCII control characters eliminated, displaying in plain texts. Prev and next post button are also provided for navigation.
+
+* Several bugs are fixed, including tags that are not hided when loading the UI and other minor bugs.
+
+* Refinements on UI design.
+
+Current existing bug:
+
+* Due to the same CORS error in v0.0.4, the browser may report an error in console when user tries to read next post if it already reaches the end of the board.
+
 ####Version 0.0.4
 Release date: 06/06/2012
 

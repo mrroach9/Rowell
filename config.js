@@ -7,6 +7,7 @@ var bbs_session_verify_path = '/session/verify';
 var bbs_allboard_path = '/board/list';
 var bbs_favboard_path = '/favboard/list';
 var bbs_postlist_path = '/board/post_list';
+var bbs_viewpost_path = '/post/view';
 
 var bbs_favboard_type = 'FAVBOARD';
 var bbs_allboard_type = 'ALLBOARD';
@@ -20,5 +21,5 @@ var bbs_max_post_count = 999;
 
 var bbs_session_cookie = 'bbs_session';
 var bbs_title = '9# BBS - Rowell ';
-var bbs_version = '0.0.4';
+var bbs_version = '0.1';
 

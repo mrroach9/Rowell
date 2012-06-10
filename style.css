@@ -32,3 +32,9 @@ td.board-table-center{
 .bottom-button-bar {
 	text-align: center;
 }
+
+.post-view-area {
+	margin-left: 10px;
+	margin-bottom: 10px;
+	margin-right: 10px;
+}
