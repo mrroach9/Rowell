@@ -189,7 +189,7 @@
 		  		</iframe>
 		  	</p>
 		  	<p>
-		  		For any suggestions and bug reports, contact zhangwenqi1988[at]gmail[dot]com.
+		  		For all suggestions and bug reports, contact zhangwenqi1988[at]gmail[dot]com.
 		  	</p>
 			</footer>
 		</div>
@@ -306,19 +306,10 @@
     		$(document).attr("title", bbs_title + 'v' + bbs_version);
     		
     		$('.unimplemented').popover({
-	    		trigger: 'manual',
+	    		trigger: 'hover',
 	    		placement: 'bottom',
 	    		title: '矮油',
 	    		content: '此功能尚未实现，我们将在后续版本中添加，敬请谅解。'
-	    	});
-    		$('.unimplemented').mousedown(function(){
-	    		$(this).popover('toggle');
-	    	});
-    		$('.unimplemented').mouseup(function(){
-	    		$(this).popover('hide');
-	    	});
-	    	$('.unimplemented').mouseleave(function(){
-	    		$(this).popover('hide');
 	    	});
     	}
     	
