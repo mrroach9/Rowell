@@ -30,6 +30,11 @@ Several bugs are known for now, including a cross-domain error when pybbs return
 
 ##Change Logs
 
+####Version 0.1.1
+Release date: 06/10/2012
+
+* Bug fixed: A previous bug that appears in newer version of firefox may receive ajax response as XML as default settings, which cause a XML parsing error. It has been fixed by setting the response to plain text in order to be compatible to both Chrome and Firefox.
+
 ####Version 0.1
 Release date: 06/10/2012
 

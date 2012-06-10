@@ -30,6 +30,7 @@ function view_boardlist(type, callback_func){
 			start: 1,
 			count: bbs_max_board_count,
 		},
+		dataType: 'text',
 		cache: false
 	};
 	
@@ -86,6 +87,7 @@ function view_board(board_name, start, end, callback_func, retry){
 			session: bbs_session,
 			name: board_name
 		},
+		dataType: 'text',
 		cache: false
 	};
 	
@@ -162,6 +164,7 @@ function view_post(post_id, callback_func, retry) {
 			board : bbs_current_path.board.name,
 			id : post_id
 		},
+		dataType: 'text',
 		cache: false
 	};
 	

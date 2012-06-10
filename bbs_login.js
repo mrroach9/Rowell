@@ -10,6 +10,7 @@
 			client_id: bbs_client_id,
 			client_secret: bbs_client_secret
 		},
+		dataType: 'text',
 		cache: false
 	};
 
@@ -47,6 +48,7 @@ function verifySession(session, saveSession, callback_func){
 		data: {
 			session: session
 		},
+		dataType: 'text',
 		cache: false
 	};
 	
