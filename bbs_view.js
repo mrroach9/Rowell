@@ -182,7 +182,7 @@ function view_post(post_id, callback_func, retry) {
 	
 	resp.fail(function(jqXHR, textStatus){
 		if (retry) {
-			view_board(board_name, -1, -1, callback_func, false);
+			view_post(post_id, callback_func, false);
 		}
 	});
 }	
@@ -204,6 +204,7 @@ function view_prev_post(callback_func) {
 function extractPostInfo(contentStr) {
 	postlist = JSON.parse(contentStr);
 	for (var i = 0; i < postlist.length; ++i) {
+		postlist[i].title = html_encode(postlist[i].title);
 		if (postlist[i].title.substr(0,4) != 'Re: ') {
 			postlist[i].title = '● ' + postlist[i].title;
 		}
@@ -213,7 +214,6 @@ function extractPostInfo(contentStr) {
 		var strArr = dateStr.split(' ');
 		dateStr = strArr[1] + ' ' + strArr[2];
 		postlist[i].posttime = dateStr;
-		postlist[i].title = html_encode(postlist[i].title);
 	}
 	return postlist;
 }

@@ -12,6 +12,19 @@
     <link href='style.css' rel='stylesheet'>
 
     <link rel='shortcut icon' href='favicon.ico'>
+    
+    <script type="text/javascript">
+		  var _gaq = _gaq || [];
+		  _gaq.push(['_setAccount', 'UA-27374551-1']);
+		  _gaq.push(['_setDomainName', 'roach-works.com']);
+		  _gaq.push(['_trackPageview']);
+		
+		  (function() {
+		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		  })();
+		</script>
   </head>
 
   <body>
@@ -31,7 +44,7 @@
       </div>
     </div>
     
-    <div class='navbar navbar-fixed-top' id='logged-navbar'>
+    <div class='navbar navbar-fixed-top hide' id='logged-navbar'>
       <div class='navbar-inner'>
         <div class='container'>
           <div class='brand'>
@@ -82,20 +95,17 @@
     	登录后方可浏览及发表文章。
     </div>
     
-    <!-- Backdrop -->
-	  <div class='modal-backdrop' id='global-backdrop'></div>
-    
     <!-- Main part of logged-in panel -->
-    <div class='container' id='logged-panel'>
+    <div class='container hide' id='logged-panel'>
     	<div class='subnav'>
 	    		<ul class='nav nav-pills'>
-	    			<li><a href='javascript:void(0)' id='boardlist-nav-label'></a></li>
+	    			<li><a class='hide' href='javascript:void(0)' id='boardlist-nav-label'></a></li>
 	    			<li><i class='icon-chevron-right right-arrow' id='boardlist-board-nav-arrow'></i></li>
-	    			<li><a href='javascript:void(0)' id='board-nav-label'></a></li>
+	    			<li><a class='hide' href='javascript:void(0)' id='board-nav-label'></a></li>
 	    			<li><i class='icon-chevron-right right-arrow' id='board-post-nav-arrow'></i></li>
-	    			<li><a id='post-nav-label'></a></li>
+	    			<li><a class='hide' id='post-nav-label'></a></li>
 	    			<li class='pull-right'>
-	    				<div class='btn-group' id='reply-button'>
+	    				<div class='btn-group hide' id='reply-button'>
 	    					<button class='btn btn-large btn-success unimplemented'>回复 </button>
 	    					<button class='btn btn-large btn-success dropdown-toggle' data-toggle='dropdown'>
 	    						<span class='caret caret-white'></span>
@@ -107,7 +117,7 @@
 	    						<li><a href='javascript:void(0)' class='unimplemented'>N模式回复</a></li>
 	    					</ul>
 	    				</div>
-	    				<div class='btn-group' id='post-button'>
+	    				<div class='btn-group hide' id='post-button'>
 	    					<button class='btn btn-large btn-danger unimplemented'>发帖 </button>
 	    					<button class='btn btn-large btn-danger dropdown-toggle' data-toggle='dropdown'>
 	    						<span class='caret'></span>
@@ -123,7 +133,7 @@
     	</div>
     	
     	<div class='well' id='display-area'>
-    		<div id='boardlist-table'>
+    		<div id='boardlist-table' class='hide'>
     			<table class='table table-striped table-bordered'>
     				<thead class='board-table-head'>
     					<th width='60px'>帖数</th>
@@ -138,7 +148,7 @@
     			</table>
 	    	</div>  					
 	    	
-	    	<div id='board-table'>
+	    	<div id='board-table' class='hide'>
 	    		<table class='table table-striped table-bordered'>
     				<thead class='board-table-head'>
     					<th width='60px'>编号</th>
@@ -156,7 +166,7 @@
     			</div>
 	    	</div>
 	    	
-	    	<div id='post-view'>
+	    	<div id='post-view' class='hide'>
 	    		<div class='post-view-area' id='post-view-area'>
 	    		</div>
 	    		<div class='bottom-button-bar' id='post-buttons'>
@@ -194,10 +204,9 @@
 			</footer>
 		</div>
 		
-	  <div id='html-encoder'></div>
+		<div id='global-backdrop' class='modal-backdrop'></div>
+	  <div id='html-encoder' class='hide'></div>
 	  
-		
-
     <!-- Placed at the end of the document so the pages load faster -->
     <script src='./assets/js/jquery.js'></script>
     <script src='./assets/js/jquery.cookie.js'></script>
@@ -219,213 +228,14 @@
     <script src='board_names.js'></script>
     <script src='bbs_login.js'></script>
     <script src='bbs_view.js'></script>
+    <script src='bbs_UI.js'></script>
     
     <script type='text/javascript'>
-    	$(document).ready(function(){
+			$(document).ready(function(){
+				UI_register_func();
 				UI_init();
-    		session_retrieved($.cookie(bbs_session_cookie));
-    	});
-    	
-    	$('#login-button').live('click',function(){
-    		var auth_code = $('input#auth-code-textbox').attr('value');
-    		$('#global-backdrop').show();
-    		getSession(auth_code, session_retrieved);
-    	});
-    	
-    	$('#logout-button').live('click', UI_logout);
-    	
-    	$('#boardlist-nav-label').live('click', function(){
-    		if (bbs_current_path.path_level > 1) {
-    			view_boardlist(bbs_current_path.boardlist.type, UI_update);
-    		}
-    	});
-    	
-    	$('#board-nav-label').live('click', function(){
-    		if (bbs_current_path.path_level > 2) {
-    			view_board(bbs_current_path.board.name, -1, -1, UI_update, true);
-    		}
-    	});
-    	
-    	$('#favboard-nav-label').live('click', function(){
-    		view_boardlist(bbs_favboard_type, UI_update);
-    	});
-    	
-    	$('#allboard-nav-label').live('click', function(){
-    		view_boardlist(bbs_allboard_type, UI_update);
-    	});
-    					    	
-	    $('.board-entry').live('click', function(){
-	    	view_board($(this).attr('board-name'), -1, -1, UI_update, true);
-	    });
-	    
-	    $('.post-entry').live('click',function() {
-	    	view_post($(this).attr('post-id'), UI_update, true);
-	    });
-	    
-	    $('#next-page-button').live('click', function(){
-	    	view_board_next_page(UI_update);
-	    });
-	    
-	    $('#prev-page-button').live('click', function(){
-	    	view_board_prev_page(UI_update);
-	    });
-	    
-	    $('#next-post-button').live('click', function(){
-	    	view_next_post(UI_update);
-	    });
-	    
-	    $('#prev-post-button').live('click', function(){
-	    	view_prev_post(UI_update);
-	    });
-
-    	function session_retrieved(session){
-    		bbs_session = session;
-    		verifySession(session, true, UI_login_finished);
-    	}
-    	
-    	function UI_init() {
-    		$('#html-encoder').hide();
-    		$('#logged-navbar').hide();
-    		$('#logged-panel').hide();
-    		
-	    	$('#boardlist-table').hide();
-	    	$('#board-table').hide();
-	    	$('#post-view').hide();
-    		
-    		$('#boardlist-nav-label').hide();	    	
-    		$('#boardlist-board-nav-arrow').hide();
-    		$('#board-nav-label').hide();
-    		$('#board-post-nav-arrow').hide();
-    		$('#post-nav-label').hide();
-	    	$('#reply-button').hide();
-	    	$('#post-button').hide();
-	    	
-    		$('#global-backdrop').show();
-    		
-    		$('a#login-path').attr('href',bbs_server_addr + bbs_auth_path);
-    		$(document).attr("title", bbs_title + 'v' + bbs_version);
-    		
-    		$('.unimplemented').popover({
-	    		trigger: 'hover',
-	    		placement: 'bottom',
-	    		title: '矮油',
-	    		content: '此功能尚未实现，我们将在后续版本中添加，敬请谅解。'
-	    	});
-    	}
-    	
-    	function UI_login_finished(result){
-    		if (result) {
-    			$('#unlogged-navbar').hide();
-	    		$('#unlogged-panel').hide();
-	    		$('#logged-navbar').show();
-	    		$('#logged-panel').show();
-	    		$('#post-button').hide();    		
-		    	view_boardlist(bbs_favboard_type, UI_update);
-	    	} else {
-	    		$('#unlogged-navbar').show();
-	    		$('#unlogged-panel').show();
-	    		$('#logged-navbar').hide();
-	    		$('#logged-panel').hide();
-	    	}
-	    	$('#global-backdrop').hide();
-	    }
-	    
-	    function UI_logout(){
-	    	removeSessionCookie();
-	    	$('#unlogged-navbar').show();
-	    	$('#unlogged-panel').show();
-	    	$('#logged-navbar').hide();
-	    	$('#logged-panel').hide();
-	    }
-	    
-	    function UI_update(path, content){
-	    	UI_subnavbar_update(path);
-	    	UI_maindiv_update(path, content);
-	    }
-	    
-	    function UI_subnavbar_update(path) {
-	    	$('#boardlist-nav-label').hide();	    	
-    		$('#boardlist-board-nav-arrow').hide();
-    		$('#board-nav-label').hide();
-    		$('#board-post-nav-arrow').hide();
-    		$('#post-nav-label').hide();
-	    	$('#reply-button').hide();
-	    	$('#post-button').hide();
-	    	if (path.path_level >= 1) {
-	    		$('#boardlist-nav-label').text(path.boardlist.zhname);
-	    		$('#boardlist-nav-label').show();
-	    	}
-	    	if (path.path_level >= 2) {
-	    		$('#board-nav-label').text(path.board.name);
-	    		$('#boardlist-board-nav-arrow').show();
-	    		$('#board-nav-label').show();
-	    		$('#post-button').show();
-	    	}
-	    	if (path.path_level >= 3) {
-	    		$('#post-nav-label').text(path.post.title);
-	    		$('#board-post-nav-arrow').show();
-	    		$('#post-nav-label').show();
-	    		$('#post-button').hide();
-	    		$('#reply-button').show();
-	    	}
-	    }
-	    
-	    function UI_maindiv_update(path, content) {
-	    	$('#boardlist-table').hide();
-	    	$('#board-table').hide();
-	    	$('#post-view').hide();
-	    	if (path.path_level == 1) {
-	    		
-	    		$('#boardlist-table-body').empty();
-	    		for (var i = 0; i < content.length; ++i) {
-	    			var entryStr = UI_generate_board_entry(content[i]);
-	    			$('#boardlist-table-body').append(entryStr);
-	    		}
-					$('#boardlist-table').show();
-					
-				} else if (path.path_level == 2) {
-					
-					$('#board-table-body').empty();
-	    		for (var i = 0; i < content.length; ++i) {
-	    			var entryStr = UI_generate_post_entry(content[i]);
-	    			$('#board-table-body').append(entryStr);
-	    		}
-					$('#board-table').show();
-					
-				} else if (path.path_level == 3) {
-					$('#post-view-area').empty();
-					$('#post-view-area').html(content.content);
-					$('#post-view').show();
-				}
-	    }
-	    
-	    function UI_generate_board_entry(entry){
-	    	var entryStr =  	 '<tr href=\'\' class=\'board-entry\' board-name=\'' + entry.name + '\'>'
-	    									 + 		'<td>' + entry.total + '</td>'
-	    									 +		'<td class=\'board-table-center\'>' 
-	    									 + 				(entry.read ? '' : '<i class=\'icon-asterisk\'></i>') 
-	    									 + 		'</td>'
-	    									 +		'<td>' + entry.name + '</td>'
-	    									 +		'<td>' + entry.zhname + '</td>'
-	    									 +		'<td>' + entry.currentusers + '</td>'
-	    									 +		'<td>' + entry.BM + '</td>'
-	    									 + '</tr>';
-	  		return entryStr;
-	  	}
-	  	
-	  	function UI_generate_post_entry(entry){
-	  		var entryStr =  	 '<tr href=\'\' class=\'post-entry unimplemented\' post-id=\'' + entry.id + '\'>'
-	    									 + 		'<td>' + entry.id + '</td>'
-	    									 +		'<td class=\'board-table-center\'>' 
-	    									 + 				(entry.read ? '' : '<i class=\'icon-asterisk\'></i>') 
-	    									 +		'</td>'
-	    									 +		'<td>' + entry.owner + '</td>'
-	    									 +		'<td>' + entry.posttime + '</td>'
-	    									 +		'<td>' + entry.title + '</td>'
-	    									 + '</tr>';
-	  		return entryStr;
-	  	}
-	    									
+				UI_session_retrieved($.cookie(bbs_session_cookie));
+			});							
     </script>
   </body>
 </html>
