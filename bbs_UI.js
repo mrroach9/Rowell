@@ -111,7 +111,9 @@ function UI_notify_update(msg){
 	$('#notification-content').html(str);
 	$('#notification').attr('class',bbs_msg[msg.type]['class_name']);
 	$('#notification').fadeIn();
-	$('#notification').delay(3000).fadeOut();
+	setTimeout(function(){
+		$('#notification').fadeOut();
+	}, 3000);
 }
 	    
 function UI_subnavbar_update(path) {
