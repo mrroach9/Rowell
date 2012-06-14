@@ -24,7 +24,7 @@ WE WILL NEVER BE RESPONSIBLE FOR IE USERS!!!
 
 * Displaying posts in monospaced font.
 
-* "First Page" and "Last Page" buttons in viewing boards.
+* "First Page" and "Last Page" buttons in viewing boards. Same topic navigation buttons in viewing posts.
 
 * Notification system for info, warning and errors.(done in v0.1.2)
 
