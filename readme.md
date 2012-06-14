@@ -20,27 +20,42 @@ Rowell has been tested on Firefox 8+ and Chrome 19+ browsers. However, since Row
 
 WE WILL NEVER BE RESPONSIBLE FOR IE USERS!!!
 
-##Development Progress
+##Development Plan
 
-In the coming series of versions more functionals will be introduced including posting and replying to posts in different modes, a better navigation in viewing boards and posts, and possible searching functions.
+* Displaying posts in monospaced font.
 
-Several bugs are known for now, including a cross-domain error when pybbs returns error message, bad displaying on different resolutions and imcompatibility on other browsers. For any suggestions and bug reports, please contact Wenqi Zhang (Mr.Roach) at:
+* "First Page" and "Last Page" buttons in viewing boards.
 
-* zhangwenqi1988[at]gmail[dot]com
+* Notification system for info, warning and errors.(done in v0.1.2)
+
+* CORS support when http error occurs, remove "retry" args in current functions, use the status code to detect error instead.(done in v0.1.2)
+
+* Simple version of writing and replying posts.
+
+* Add Google Analysis code. (done in v0.1.2)
+
+* Use a minimum height for post-displaying area, so that the next and prev button stay at a fixed position for most of the short articles. (done in v0.1.2)
+
+* Subfolder support in favBoard list. Path structure needs to be rewritten.
+
+* Configuration system.
+
+* Simple ASCII art interpreter.
 
 ##Change Logs
 
 ####Version 0.1.2
 Release date: 06/14/2012
 
-* CORS is supported when error occurs. Notification system is correspondingly
-added, an alert info box will popup at the top when a notification arrives. Currently all alerts includes post/boards out of range info and network error. The notifications can be easily expanded for future usage.
+*  Notification system is added, an alert info box will popup at the top when a notification arrives. Currently post/boards out of range info and network error are supported. The notifications can be easily expanded for future usage.
 
-* Retry args removed from several functions in bbs_view.js. The error type detection system now purely depends on the http status code.
+* CORS is supported when error occurs. Correspondingly, "retry" args are removed from several functions in bbs_view.js. The error type detection now purely depends on the http status code.
 
-* Several UI improvements: the post area now has a minimum height of 480px, giving the next and prev button an almost-fixed position for most of the short
+* UI improvements: the post area now has a minimum height of 480px, giving the next and prev button a fixed position for most of the short
 posts. 
-Contents in footer is slightly modified.
+Contents in footer is slightly modified. Unread posts and boards now have a new icon.
+
+* Google Analysis code is added for stats.
 
 ####Version 0.1.1
 Release date: 06/10/2012
