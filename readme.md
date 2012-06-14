@@ -22,13 +22,25 @@ WE WILL NEVER BE RESPONSIBLE FOR IE USERS!!!
 
 ##Development Progress
 
-In the coming series of versions more functionals will be introduced including reading posts, posting and replying to posts in different modes, a better navigation in viewing boards and posts, and possible searching functions.
+In the coming series of versions more functionals will be introduced including posting and replying to posts in different modes, a better navigation in viewing boards and posts, and possible searching functions.
 
 Several bugs are known for now, including a cross-domain error when pybbs returns error message, bad displaying on different resolutions and imcompatibility on other browsers. For any suggestions and bug reports, please contact Wenqi Zhang (Mr.Roach) at:
 
 * zhangwenqi1988[at]gmail[dot]com
 
 ##Change Logs
+
+####Version 0.1.2
+Release date: 06/14/2012
+
+* CORS is supported when error occurs. Notification system is correspondingly
+added, an alert info box will popup at the top when a notification arrives. Currently all alerts includes post/boards out of range info and network error. The notifications can be easily expanded for future usage.
+
+* Retry args removed from several functions in bbs_view.js. The error type detection system now purely depends on the http status code.
+
+* Several UI improvements: the post area now has a minimum height of 480px, giving the next and prev button an almost-fixed position for most of the short
+posts. 
+Contents in footer is slightly modified.
 
 ####Version 0.1.1
 Release date: 06/10/2012
@@ -46,7 +58,7 @@ Release date: 06/10/2012
 
 Current existing bug:
 
-* Due to the same CORS error in v0.0.4, the browser may report an error in console when user tries to read next post if it already reaches the end of the board.
+* Due to the same CORS error in v0.0.4, the browser may report an error in console when user tries to read next post if it already reaches the end of the board.(This bug has been fixed in v0.1.2.)
 
 ####Version 0.0.4
 Release date: 06/06/2012
@@ -59,7 +71,7 @@ Release date: 06/06/2012
 
 Current existing bug:
 
-* When reaching the bottom of a board, next button will lead to an error since incomplete CORS support.
+* When reaching the bottom of a board, next button will lead to an error since incomplete CORS support. (This bug has been fixed in v0.1.2.)
 
 ####Version 0.0.3
 Release date: 06/06/2012

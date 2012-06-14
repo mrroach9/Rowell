@@ -65,21 +65,9 @@ function view_boardlist(type, callback_func){
 		bbs_current_path.path_level = 1;
 		callback_func(bbs_current_path, boardlist);
 	});
-	
-	resp.fail(function(jqXHR, textStatus){
-	});
-	
 }
 
-/** User of this function should always set retry = true, as it is
- *  set to true default. This arg is used to detect whether the post
- *  list has reached the end of the board. When such case happens, 
- *  an error will be reported by pybbs, therefore the function will
- *  attempt to load the recent posts. If the result is still error,
- *  it should be a network error. To avoid dead-loop, the function
- *  will not be executed again.
- */
-function view_board(board_name, start, end, callback_func, retry){
+function view_board(board_name, start, end, callback_func, source){
 	var request_settings = {
 		url : bbs_server_addr + bbs_postlist_path,
 		type: 'GET',
@@ -125,13 +113,32 @@ function view_board(board_name, start, end, callback_func, retry){
 			title : ''
 		};
 		bbs_current_path.path_level = 2;
+		
 		callback_func(bbs_current_path, postlist);
 	});
 	
 	resp.fail(function(jqXHR, textStatus){
-		if (retry) {
-			view_board(board_name, -1, -1, callback_func, false);
+		var msg = null;
+		if (jqXHR.status == 416) {
+			if (source == 'next') {
+				msg = {
+					type : 'info',
+					content : 'board_reach_last'
+				};
+			} else if (source == 'prev') {
+				msg = {
+					type : 'info',
+					content : 'board_reach_first'
+				};
+			}
+			view_board(board_name, -1, -1, callback_func);
+		} else {
+			var msg = {
+				type : 'error',
+				content : 'network_error'
+			};
 		}
+		UI_notify_update(msg);
 	});
 }
 
@@ -142,7 +149,7 @@ function view_board_next_page(callback_func){
 	var name = bbs_current_path.board.name;
 	var newStart = bbs_current_path.board.end + 1;
 	var newEnd = newStart + bbs_post_count - 1;
-	view_board(name, newStart, newEnd, callback_func, true);
+	view_board(name, newStart, newEnd, callback_func, 'next');
 }
 
 function view_board_prev_page(callback_func){
@@ -152,10 +159,19 @@ function view_board_prev_page(callback_func){
 	var name = bbs_current_path.board.name;
 	var newEnd = bbs_current_path.board.start - 1;
 	var newStart = newEnd - bbs_post_count + 1;
-	view_board(name, newStart, newEnd, callback_func, true);
+	view_board(name, newStart, newEnd, callback_func, 'prev');
 }
 
-function view_post(post_id, callback_func, retry) {
+/** Source marks the way you come to this function, which
+ *  helps to generate notifications.
+ *  If source == 'click', then it is called by click on an
+ *  entry from the post list. No special info will be notified.
+ *  If source == 'next', then it is called by click next
+ *  in reading a post. If this is the last post, a 
+ *  'post-reach-end' notification will be issued.
+ *  Similar case for source == 'prev'.
+ */
+function view_post(post_id, callback_func, source) {
 	var request_settings = {
 		url : bbs_server_addr + bbs_viewpost_path,
 		type: 'GET',
@@ -180,10 +196,27 @@ function view_post(post_id, callback_func, retry) {
 		callback_func(bbs_current_path, post);
 	});
 	
-	resp.fail(function(jqXHR, textStatus){
-		if (retry) {
-			view_post(post_id, callback_func, false);
+	resp.fail(function(jqXHR, textStatus) {
+		var msg = null;
+		if (jqXHR.status == 416) {
+			if (source == 'next') {
+				msg = {
+					type : 'info',
+					content : 'post_reach_last'
+				};
+			} else if (source == 'prev') {
+				msg = {
+					type : 'info',
+					content : 'post_reach_first'
+				};
+			}
+		} else {
+			var msg = {
+				type : 'error',
+				content : 'network_error'
+			};
 		}
+		UI_notify_update(msg);
 	});
 }	
 
@@ -191,14 +224,14 @@ function view_next_post(callback_func) {
 	if (bbs_current_path.path_level != 3) {
 		return;
 	}
-	view_post(bbs_current_path.post.id + 1, callback_func, true);
+	view_post(bbs_current_path.post.id + 1, callback_func, 'next');
 }
 
 function view_prev_post(callback_func) {
 	if (bbs_current_path.path_level != 3) {
 		return;
 	}
-	view_post(bbs_current_path.post.id - 1, callback_func, true);
+	view_post(bbs_current_path.post.id - 1, callback_func, 'prev');
 }
 
 function extractPostInfo(contentStr) {

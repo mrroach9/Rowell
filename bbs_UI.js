@@ -28,11 +28,11 @@
 	});
 	    				
 	$('.board-entry').live('click', function(){
-		view_board($(this).attr('board-name'), -1, -1, UI_update, true);
+		view_board($(this).attr('board-name'), -1, -1, UI_update, 'click');
 	});
 	   
 	$('.post-entry').live('click',function() {
-		view_post($(this).attr('post-id'), UI_update, true);
+		view_post($(this).attr('post-id'), UI_update, 'click');
 	});
 		    
 	$('#next-page-button').live('click', function(){
@@ -49,6 +49,10 @@
 		    
 	$('#prev-post-button').live('click', function(){
 		view_prev_post(UI_update);
+	});
+	
+	$('#notification-close-button').live('click', function(){
+		$('#notification').fadeOut();
 	});
 }
 
@@ -93,11 +97,21 @@ function UI_logout(){
 	$('#logged-navbar').hide();
 	$('#logged-panel').hide();
 }
-	    
+
 function UI_update(path, content){
 	UI_subnavbar_update(path);
 	UI_maindiv_update(path, content);
 	$('#logged-panel').show();	
+}
+
+function UI_notify_update(msg){
+	if (msg == null) return;
+	var str = '<strong>'+bbs_msg[msg.type]['zhname'] + '</strong>'
+	        + bbs_msg[msg.type][msg.content];
+	$('#notification-content').html(str);
+	$('#notification').attr('class',bbs_msg[msg.type]['class_name']);
+	$('#notification').fadeIn();
+	$('#notification').delay(3000).fadeOut();
 }
 	    
 function UI_subnavbar_update(path) {

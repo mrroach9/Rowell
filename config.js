@@ -15,11 +15,32 @@ var bbs_favboard_name = '收藏夹';
 var bbs_allboard_name = '所有版面';
 var bbs_error_session = 'SESSION_ERROR';
 
+var bbs_msg = {
+	info : {
+		zhname : '提示：',
+		class_name : 'alert alert-info',
+		board_reach_last : '已到达本版最后一页。',
+		board_reach_first : '已到达本版第一页。',
+		post_reach_last : '已到达本版最后一贴。',
+		post_reach_first : '已到达本版第一帖。'
+	},
+	error : {
+		zhname : '错误：',
+		class_name : 'alert alert-error',
+		network_error : '网络连接异常，无法完成您的请求。'
+	},
+	warning : {
+		class_name : 'alert alert-block',
+		zhname : '警告：'
+	}
+};
+		
+
 var bbs_max_board_count = 9999;
 var bbs_post_count = 20;
 var bbs_max_post_count = 999;
 
 var bbs_session_cookie = 'bbs_session';
 var bbs_title = '9# BBS - Rowell ';
-var bbs_version = '0.1.1';
+var bbs_version = '0.1.2';
 
