@@ -1,4 +1,4 @@
-#Rowell v0.0.4
+#Rowell v0.1.3
 
 ##Introduction
 
@@ -43,6 +43,15 @@ WE WILL NEVER BE RESPONSIBLE FOR IE USERS!!!
 * Simple ASCII art interpreter.
 
 ##Change Logs
+
+####Version 0.1.3
+Release date: 06/14/2012
+
+* A popup panel for writing and replying posts are added, UI design finished.
+
+* First/Last page buttons, prev/next buttons for same topic posts, and manage favboards button are added to UI, no actual functionals for now.
+
+* Descriptions at the footer are adjusted.
 
 ####Version 0.1.2
 Release date: 06/14/2012

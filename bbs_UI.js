@@ -54,6 +54,10 @@
 	$('#notification-close-button').live('click', function(){
 		$('#notification').fadeOut();
 	});
+	
+	$('#post-button').live('click', function(){
+		$('#write-post-window').show();
+	});
 }
 
 function UI_session_retrieved(session){
@@ -124,9 +128,13 @@ function UI_subnavbar_update(path) {
 	$('#post-nav-label').hide();
 	$('#reply-button').hide();
 	$('#post-button').hide();
+	$('#manage-fav-button').hide();
 	if (path.path_level >= 1) {
 		$('#boardlist-nav-label').html(path.boardlist.zhname);
 		$('#boardlist-nav-label').show();
+		if (path.path_level == 1 && path.boardlist.type == bbs_favboard_type) {	
+			$('#manage-fav-button').show();
+		}
 	}
 	if (path.path_level >= 2) {
 		$('#board-nav-label').html(path.board.name);

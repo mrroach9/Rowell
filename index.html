@@ -124,16 +124,19 @@
 	    					</ul>
 	    				</div>
 	    				<div class='btn-group hide' id='post-button'>
-	    					<button class='btn btn-large btn-danger unimplemented'>发帖 </button>
+	    					<button class='btn btn-large btn-danger' data-toggle='modal' href='#write-post-panel'>发帖</button>
 	    					<button class='btn btn-large btn-danger dropdown-toggle' data-toggle='dropdown'>
 	    						<span class='caret'></span>
 	    					</button>
 	    					<ul class='dropdown-menu'>
-	    						<li><a href='javascript:void(0)' class='unimplemented'>普通模式</a></li>
+	    						<li><a data-toggle='modal' href='#write-post-panel'>普通模式</a></li>
 	    						<li><a href='javascript:void(0)' class='unimplemented'>Latex模式(X)</a></li>
 	    						<li><a href='javascript:void(0)' class='unimplemented'>使用模板(T)</a></li>
 	    					</ul>
 	    				</div>
+	    				<div class='hide' id='manage-fav-button'>
+		    				<button class='btn btn-large btn-danger unimplemented'>管理收藏夹</button>
+		    			</div>
 	    			</li>
 	    		</ul>
     	</div>
@@ -167,8 +170,10 @@
     				</tbody>
     			</table>
     			<div class='bottom-button-bar' id='board-buttons'>
+    				<button class='btn btn-info unimplemented' id='first-page-button'>第一页</button>
     				<button class='btn btn-success' id='prev-page-button'>上一页</button>
     				<button class='btn btn-success' id='next-page-button'>下一页</button>
+    				<button class='btn btn-info unimplemented' id='last-page-button'>最后一页</button>
     			</div>
 	    	</div>
 	    	
@@ -176,17 +181,51 @@
 	    		<div class='post-view-area' id='post-view-area'>
 	    		</div>
 	    		<div class='bottom-button-bar' id='post-buttons'>
-    				<button class='btn btn-success' id='prev-post-button'>上一贴</button>
-    				<button class='btn btn-success' id='next-post-button'>下一贴</button>
+	    			<button class='btn btn-info unimplemented' id='sp-prev-post-button'>同主题上一篇</button>
+    				<button class='btn btn-success' id='prev-post-button'>上一篇</button>
+    				<button class='btn btn-success' id='next-post-button'>下一篇</button>
+	    			<button class='btn btn-info unimplemented' id='sp-next-post-button'>同主题下一篇</button>
     			</div>	    			
 	    	</div>
 	    	
     	</div>
     	
-    	<div class='modal hide' id='write-post'>
+    	<div class='modal hide' id='write-post-panel'>
     		<div class='modal-header'>
+    			<button type='button' class='close' data-dismiss='modal'>&times;</button>
+    			<h3 id='post-panel-title'>发表新文章</h3>
     		</div>
+    		<div class='modal-body'>
+    			<form class='form-horizontal'>
+    				<fieldset>
+    					<div class='control-group'>
+    						标题：<input type='text' class='input-xlarge' id='write-post-title'/>
+    						<br>
+    						<div class='write-post-option'>
+    							发表于<label id='write-post-board'><nobr>PC_Games</nobr></label>版
+    							<input class='unimplemented anony-checkbox' type='checkbox' name='anonymous' value='0' />匿名
+    						</div>
+    					</div>
+    					<div class='control-group'>
+    						内容：<textarea class='input-xlarge' id='write-post-content'></textarea>
+    					</div>
+    					<div class='write-post-option'>
+    							使用
+    							<input type='radio' class='radiobox' name='qmd-type' checked>随机签名档
+    							&nbsp;&nbsp;&nbsp;
+    							<input type='radio' class='radiobox' name='qmd-type'>第
+    							<input type='text' class='short-text' name='qmd-number' value=''>
+    							个签名档
+    					</div>
+    				</fieldset>
+    			</form>
+    		</div>
+    		<div class='modal-footer'>
+    			<a class='btn btn-primary' id='publish-post-button' data-dismiss='modal'>发表</a>
+    			<a class='btn' data-dismiss='modal'>取消</a>
+  			</div>
     	</div>
+    	
 	  </div>
 	  
 	  <!--Footer -->
@@ -199,7 +238,7 @@
 		  		UI powered by <a href='http://twitter.github.com/bootstrap/index.html' target='_blank'>Twitter Bootstrap</a>.
 		  	</p>
 		  	<p>
-		  		BBS Data Exchange Interface powered by <a href='https://github.com/HenryHu/pybbs' target='_blank'>pybbs</a>.
+		  		BBS data interface powered by <a href='https://github.com/HenryHu/pybbs' target='_blank'>pybbs</a>.
 		  	</p>
 		  	<p>
 		  		Rowell is designed and coded by Mr.Roach. 
