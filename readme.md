@@ -1,12 +1,22 @@
-#Rowell v0.1.3
+#Rowell v0.2.0
 
 ##Introduction
 
 Rowell is a pure front-end web UI for you-know-which bbs. The web terminal relies on pybbs developed by Henryhu as back-end data exchange interface, and
 Bootstrap from Twitter as the front-end framework. 
 
-Rowell is still being developed and has released its 0.0.4 version, which supports login/logout with session cookies, all boards listing and fav boards
-listing (sub-folders in favBoard are not supported yet), posts listing in boards, and a basic user interface. 
+Rowell is still being developed and has released its 0.2.0 version, which supports the following functionals:
+
+* Login/logout with session cookies
+
+* All boards listing and fav boards listing (sub-folders in favBoard are not supported yet)
+
+* Posts listing in boards
+
+* Post reading
+
+* Writing new posts in normal mode, reply posts in S/R/N/A modes. Anonymous posting is not supported yet, random qmd are is not supported yet.
+
 
 ##How to Use it
 
@@ -30,7 +40,7 @@ WE WILL NEVER BE RESPONSIBLE FOR IE USERS!!!
 
 * CORS support when http error occurs, remove "retry" args in current functions, use the status code to detect error instead.(done in v0.1.2)
 
-* Simple version of writing and replying posts.
+* Simple version of writing and replying posts.(done in v0.2.0)
 
 * Add Google Analysis code. (done in v0.1.2)
 
@@ -42,7 +52,22 @@ WE WILL NEVER BE RESPONSIBLE FOR IE USERS!!!
 
 * Simple ASCII art interpreter.
 
+* Random qmd and anonymous posting.
+
+* Personal information viewing, searching and editing.
+
+* Favboards management.
+
 ##Change Logs
+
+####Version 0.2.0
+Release date: 06/15/2012
+
+* Writing posts in normal mode are supported
+
+* Replying in S/N/A/R modes are supported. Anonymous posting and random qmd are not supported for writing or replying yet.
+
+* UI slightly adjusted.
 
 ####Version 0.1.3
 Release date: 06/14/2012

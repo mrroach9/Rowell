@@ -1,7 +1,7 @@
 ﻿function UI_register_func(){
 	$('#login-button').live('click',function(){
-		var auth_code = $('input#auth-code-textbox').attr('value');
-		$('#global-backdrop').show();
+		var auth_code = $('input#auth-code-textbox').val();
+		UI_show_backdrop();
 		getSession(auth_code, UI_session_retrieved);
 	});
 	    	
@@ -55,9 +55,64 @@
 		$('#notification').fadeOut();
 	});
 	
+	$('#reply-post-button').live('click', function(){
+		getQuote($(this).attr('type'), UI_prepare_reply_post_modal);
+	});
+	
 	$('#post-button').live('click', function(){
 		$('#write-post-window').show();
 	});
+	
+	$('#new-post-normal').live('click', UI_prepare_new_post_modal);
+	
+	$('#publish-post-button').live('click', UI_write_post);
+}
+
+function UI_prepare_new_post_modal(){
+	$('#write-post-panel').attr('post-type', bbs_newpost_type);
+	$('#write-post-title').val('');
+	$('#write-post-content').val('');
+	$('input:text[name=qmd-number]').val('');
+	$('input:radio[name=qmd-type]').val('number');
+	$('#write-post-board').text(bbs_current_path.board.name);
+	$('#write-post-panel').modal('toggle');
+}
+
+function UI_prepare_reply_post_modal(quote_content){
+	$('#write-post-panel').attr('post-type', bbs_replypost_type);
+	$('#write-post-title').val(quote_content.title);
+	$('#write-post-content').val(quote_content.content);
+	$('input:text[name=qmd-number]').val('');
+	$('input:radio[name=qmd-type]').val('number');
+	$('#write-post-board').text(bbs_current_path.board.name);
+	$('#write-post-panel').modal('toggle');
+}
+
+function UI_write_post(){
+	var title = $('#write-post-title').val();
+	var qmd_type = $('input:radio[name=qmd-type]:checked').val();
+	var qmd_num = $('input:text[name=qmd-number]').val();
+	if (qmd_num == '' || qmd_num == null){
+		qmd_num = 0;
+	}
+	if (qmd_type == 'random') {
+		qmd_num = -1;
+	}
+	var content = $('#write-post-content').val();
+	//TODO: Add anonymouse code when pybbs is available.
+	var anony = false;
+	var type = $('#write-post-panel').attr('post-type');
+	
+	UI_show_backdrop();
+	writePost(type, title, content, qmd_num, anony, UI_update);
+}
+
+function UI_hide_backdrop(){
+	$('#global-backdrop').hide();
+}
+	
+function UI_show_backdrop(){
+	$('#global-backdrop').show();
 }
 
 function UI_session_retrieved(session){
@@ -66,7 +121,7 @@ function UI_session_retrieved(session){
 }
     	
 function UI_init() {
-	$('#global-backdrop').show();
+	UI_show_backdrop();
     		
 	$('a#login-path').attr('href',bbs_server_addr + bbs_auth_path);
 	$(document).attr("title", bbs_title + 'v' + bbs_version);
@@ -91,7 +146,7 @@ function UI_login_finished(result){
 		$('#logged-navbar').hide();
 		$('#logged-panel').hide();
 	}
-	$('#global-backdrop').hide();
+	UI_hide_backdrop();
 }
 	    
 function UI_logout(){
@@ -105,6 +160,7 @@ function UI_logout(){
 function UI_update(path, content){
 	UI_subnavbar_update(path);
 	UI_maindiv_update(path, content);
+	UI_hide_backdrop();
 	$('#logged-panel').show();	
 }
 

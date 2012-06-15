@@ -112,24 +112,24 @@
 	    			<li><a class='hide' id='post-nav-label'></a></li>
 	    			<li class='pull-right'>
 	    				<div class='btn-group hide' id='reply-button'>
-	    					<button class='btn btn-large btn-success unimplemented'>回复 </button>
+	    					<button class='btn btn-large btn-success' href='javascript:void(0)' id='reply-post-button' type='S'>回复 </button>
 	    					<button class='btn btn-large btn-success dropdown-toggle' data-toggle='dropdown'>
 	    						<span class='caret caret-white'></span>
 	    					</button>
 	    					<ul class='dropdown-menu'>
-	    						<li><a href='javascript:void(0)' class='unimplemented'>普通模式(S)回复</a></li>
-	    						<li><a href='javascript:void(0)' class='unimplemented'>R模式回复</a></li>
-	    						<li><a href='javascript:void(0)' class='unimplemented'>A模式回复</a></li>
-	    						<li><a href='javascript:void(0)' class='unimplemented'>N模式回复</a></li>
+	    						<li><a href='javascript:void(0)' id='reply-post-button' type='S'>普通模式(S)回复</a></li>
+	    						<li><a href='javascript:void(0)' id='reply-post-button' type='R'>R模式回复</a></li>
+	    						<li><a href='javascript:void(0)' id='reply-post-button' type='A'>A模式回复</a></li>
+	    						<li><a href='javascript:void(0)' id='reply-post-button' type='N'>N模式回复</a></li>
 	    					</ul>
 	    				</div>
 	    				<div class='btn-group hide' id='post-button'>
-	    					<button class='btn btn-large btn-danger' data-toggle='modal' href='#write-post-panel'>发帖</button>
+	    					<button class='btn btn-large btn-danger' href='javascript:void(0)' id='new-post-normal'>发帖</button>
 	    					<button class='btn btn-large btn-danger dropdown-toggle' data-toggle='dropdown'>
 	    						<span class='caret'></span>
 	    					</button>
 	    					<ul class='dropdown-menu'>
-	    						<li><a data-toggle='modal' href='#write-post-panel'>普通模式</a></li>
+	    						<li><a href='javascript:void(0)' id='new-post-normal'>普通模式</a></li>
 	    						<li><a href='javascript:void(0)' class='unimplemented'>Latex模式(X)</a></li>
 	    						<li><a href='javascript:void(0)' class='unimplemented'>使用模板(T)</a></li>
 	    					</ul>
@@ -203,7 +203,7 @@
     						<br>
     						<div class='write-post-option'>
     							发表于<label id='write-post-board'><nobr>PC_Games</nobr></label>版
-    							<input class='unimplemented anony-checkbox' type='checkbox' name='anonymous' value='0' />匿名
+    							<input class='unimplemented anony-checkbox' type='checkbox' name='anonymous' value='0' disabled='disabled' />匿名
     						</div>
     					</div>
     					<div class='control-group'>
@@ -211,10 +211,11 @@
     					</div>
     					<div class='write-post-option'>
     							使用
-    							<input type='radio' class='radiobox' name='qmd-type' checked>随机签名档
-    							&nbsp;&nbsp;&nbsp;
-    							<input type='radio' class='radiobox' name='qmd-type'>第
-    							<input type='text' class='short-text' name='qmd-number' value=''>
+    							<input type='radio' class='radiobox unimplemented' name='qmd-type' value='random' disabled='disabled' />
+    							随机签名档
+    							<input type='radio' class='radiobox' name='qmd-type' value='number' checked />
+    							第
+    							<input type='text' class='short-text' name='qmd-number' value='' />
     							个签名档
     					</div>
     				</fieldset>
@@ -277,6 +278,7 @@
     <script src='bbs_login.js'></script>
     <script src='bbs_view.js'></script>
     <script src='bbs_UI.js'></script>
+    <script src='bbs_post.js'></script>
     
     <script type='text/javascript'>
 			$(document).ready(function(){

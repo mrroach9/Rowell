@@ -44,7 +44,7 @@ p#notification-content {
 }
 
 .post-view-area {
-	min-height: 480px;
+	min-height: 440px;
 }
 
 .well {
@@ -73,8 +73,6 @@ p#notification-content {
 }
 
 #write-post-panel {
-	padding-left : 8px;
-	padding-right : 8px;
 	width: 660px;
 }
 

@@ -8,9 +8,13 @@ var bbs_allboard_path = '/board/list';
 var bbs_favboard_path = '/favboard/list';
 var bbs_postlist_path = '/board/post_list';
 var bbs_viewpost_path = '/post/view';
+var bbs_getquote_path = '/post/quote';
+var bbs_writepost_path = '/post/new';
 
 var bbs_favboard_type = 'FAVBOARD';
 var bbs_allboard_type = 'ALLBOARD';
+var bbs_newpost_type  = 'NEWPOST';
+var bbs_replypost_type= 'REPLYPOST';
 var bbs_favboard_name = '收藏夹';
 var bbs_allboard_name = '所有版面';
 var bbs_error_session = 'SESSION_ERROR';
@@ -22,7 +26,8 @@ var bbs_msg = {
 		board_reach_last : '已到达本版最后一页。',
 		board_reach_first : '已到达本版第一页。',
 		post_reach_last : '已到达本版最后一贴。',
-		post_reach_first : '已到达本版第一帖。'
+		post_reach_first : '已到达本版第一帖。',
+		post_publish_success : '帖子发表成功。'
 	},
 	error : {
 		zhname : '错误：',
@@ -42,5 +47,5 @@ var bbs_max_post_count = 999;
 
 var bbs_session_cookie = 'bbs_session';
 var bbs_title = '9# BBS - Rowell ';
-var bbs_version = '0.1.3';
-
+var bbs_version = '0.2.0';
+var bbs_send_source = '[Sent from Rowell v' + bbs_version + ']';
