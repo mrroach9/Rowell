@@ -1,10 +1,18 @@
 ﻿body {
 	padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
 }
+
+.container,
+.navbar-fixed-top .container,
+.navbar-fixed-bottom .container {
+    width: 960px;
+}
+
 .right-arrow {
 	vertical-align: middle;
 	margin-top: 10px;
 }
+
 .title-label {
 	color: white;
 }
@@ -19,16 +27,18 @@
 td.board-table-center{
 	text-align: center;
 }
-.board-entry {
+
+
+tr.board-entry,
+tr.post-entry {
 	cursor: pointer;
 }
-.post-entry {
-	cursor: pointer;
+
+.table th,
+.table td {
+	padding : 6px;
 }
-.modal-backdrop.inner-backdrop {
-	opacity : 0.6;
-	position: absolute;
-}
+
 .bottom-button-bar {
 	text-align: center;
 }
@@ -36,15 +46,12 @@ td.board-table-center{
 .post-view-area {
 	margin-left: 10px;
 	margin-bottom: 10px;
-	margin-right: 10px;
+	margin-right: 10px;	
+	min-height: 440px;
 }
 
 p#notification-content {
 	margin: 0px;
-}
-
-.post-view-area {
-	min-height: 440px;
 }
 
 .well {

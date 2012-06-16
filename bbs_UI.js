@@ -1,11 +1,11 @@
 ﻿function UI_register_func(){
-	$('#login-button').live('click',function(){
+	$('#login-button').click(function(){
 		var auth_code = $('input#auth-code-textbox').val();
 		UI_show_backdrop();
 		getSession(auth_code, UI_session_retrieved);
 	});
 	    	
-	$('#logout-button').live('click', UI_logout);
+	$('#logout-button').click(UI_logout);
 	    	
 	$('#boardlist-nav-label').live('click', function(){
 		if (bbs_current_path.path_level > 1) {
@@ -35,37 +35,41 @@
 		view_post($(this).attr('post-id'), UI_update, 'click');
 	});
 		    
-	$('#next-page-button').live('click', function(){
+	$('#next-page-button').click(function(){
 		view_board_next_page(UI_update);
 	});
 		    
-	$('#prev-page-button').live('click', function(){
+	$('#prev-page-button').click(function(){
 		view_board_prev_page(UI_update);
 	});
 		    
-	$('#next-post-button').live('click', function(){
+	$('#next-post-button').click(function(){
 		view_next_post(UI_update);
 	});
 		    
-	$('#prev-post-button').live('click', function(){
+	$('#prev-post-button').click(function(){
 		view_prev_post(UI_update);
 	});
 	
-	$('#notification-close-button').live('click', function(){
+	$('#notification-close-button').click(function(){
 		$('#notification').fadeOut();
 	});
 	
-	$('#reply-post-button').live('click', function(){
+	$('#notification').click(function(){
+		$(this).fadeOut();
+	});
+	
+	$('#reply-post-button').click(function(){
 		getQuote($(this).attr('type'), UI_prepare_reply_post_modal);
 	});
 	
-	$('#post-button').live('click', function(){
+	$('#post-button').click(function(){
 		$('#write-post-window').show();
 	});
 	
-	$('#new-post-normal').live('click', UI_prepare_new_post_modal);
+	$('#new-post-normal').click(UI_prepare_new_post_modal);
 	
-	$('#publish-post-button').live('click', UI_write_post);
+	$('#publish-post-button').click(UI_write_post);
 }
 
 function UI_prepare_new_post_modal(){
@@ -173,7 +177,7 @@ function UI_notify_update(msg){
 	$('#notification').fadeIn();
 	setTimeout(function(){
 		$('#notification').fadeOut();
-	}, 3000);
+	}, 2000);
 }
 	    
 function UI_subnavbar_update(path) {
