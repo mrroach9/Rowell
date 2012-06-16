@@ -28,6 +28,11 @@ td.board-table-center{
 	text-align: center;
 }
 
+pre.post-view-area {
+	padding : 0px;
+	margin : 0px;
+	border : 0px;
+}
 
 tr.board-entry,
 tr.post-entry {
