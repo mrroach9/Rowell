@@ -47,5 +47,5 @@ var bbs_max_post_count = 999;
 
 var bbs_session_cookie = 'bbs_session';
 var bbs_title = '9# BBS - Rowell ';
-var bbs_version = '0.2.0';
+var bbs_version = '0.2.1';
 var bbs_send_source = '[Sent from Rowell v' + bbs_version + ']';

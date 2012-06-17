@@ -1,21 +1,21 @@
-#Rowell v0.2.0
+#Rowell v0.2.1
 
 ##Introduction
 
 Rowell is a pure front-end web UI for you-know-which bbs. The web terminal relies on pybbs developed by Henryhu as back-end data exchange interface, and
 Bootstrap from Twitter as the front-end framework. 
 
-Rowell is still being developed and has released its 0.2.0 version, which supports the following functionals:
+Rowell is still being developed and has released its 0.2.1 version, which supports the following functionals:
 
-* Login/logout with session cookies
+* Login/logout with session cookies.
 
-* All boards listing and fav boards listing (sub-folders in favBoard are not supported yet)
+* All boards listing and fav boards listing (sub-folders in favBoard are not supported yet).
 
-* Posts listing in boards
+* Posts listing in boards and many navigation buttons.
 
-* Post reading
+* Post reading and navigations.
 
-* Writing new posts in normal mode, reply posts in S/R/N/A modes. Anonymous posting is not supported yet, random qmd are is not supported yet.
+* Writing new posts in normal mode, reply posts in S/R/N/A modes. Anonymous posting is not supported yet, random qmd is not supported yet.
 
 
 ##How to Use it
@@ -31,6 +31,8 @@ Rowell has been tested on Firefox 8+ and Chrome 19+ browsers. However, since Row
 WE WILL NEVER BE RESPONSIBLE FOR IE USERS!!!
 
 ##Development Plan
+
+* Unread tags clearing.
 
 * Displaying posts in monospaced font. (done in v0.2.1)
 
@@ -64,6 +66,7 @@ WE WILL NEVER BE RESPONSIBLE FOR IE USERS!!!
 
 ####Version 0.2.1
 Release date: 06/16/2012
+
 Cumulative update. Various modifications and new functional on UI.
 
 * Monospaced font is now supported in reading posts.
@@ -75,6 +78,10 @@ Cumulative update. Various modifications and new functional on UI.
 * A bug from pybbs is fixed, which used to cause exceptions when reading posts containing 0x80 chars.
 
 * First page, last page, and jump to certain position in board viewing is now supported.
+
+Current Existing bug:
+
+* Monospaced font is still not perfectly performing on some ASCII arts and posts.
 
 ####Version 0.2.0
 Release date: 06/15/2012
