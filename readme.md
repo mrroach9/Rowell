@@ -32,9 +32,11 @@ WE WILL NEVER BE RESPONSIBLE FOR IE USERS!!!
 
 ##Development Plan
 
-* Displaying posts in monospaced font.
+* Displaying posts in monospaced font. (done in v0.2.1)
 
-* "First Page" and "Last Page" buttons in viewing boards. Same topic navigation buttons in viewing posts.
+* "First Page" and "Last Page" buttons in viewing boards. (done in v0.2.1)
+
+* Same topic navigation buttons in viewing posts.
 
 * Notification system for info, warning and errors.(done in v0.1.2)
 
@@ -59,6 +61,20 @@ WE WILL NEVER BE RESPONSIBLE FOR IE USERS!!!
 * Favboards management.
 
 ##Change Logs
+
+####Version 0.2.1
+Release date: 06/16/2012
+Cumulative update. Various modifications and new functional on UI.
+
+* Monospaced font is now supported in reading posts.
+
+* Notification displaying time decreases from 3s to 2s. User can click anywhere on the notif. bar besides the close button to close it immediately.
+
+* Decreased the width of entire container from >1100px downto 960px, making it looks better under low-resolutional screens.
+
+* A bug from pybbs is fixed, which used to cause exceptions when reading posts containing 0x80 chars.
+
+* First page, last page, and jump to certain position in board viewing is now supported.
 
 ####Version 0.2.0
 Release date: 06/15/2012

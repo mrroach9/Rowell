@@ -48,6 +48,10 @@ tr.post-entry {
 	text-align: center;
 }
 
+#board-buttons.bottom-button-bar {
+	margin-left : 140px;
+}
+
 .post-view-area {
 	margin-left: 10px;
 	margin-bottom: 10px;
@@ -106,6 +110,14 @@ p#notification-content {
 	display: inline;
 	vertical-align : baseline;
 	width : 30px;
+}
+
+.bottom-button-bar .short-text {
+	width : 40px;
+}
+
+.jump-to-post {
+	margin-left : 20px;
 }
 
 .radiobox {

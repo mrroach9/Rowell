@@ -34,6 +34,15 @@
 	$('.post-entry').live('click',function() {
 		view_post($(this).attr('post-id'), UI_update, 'click');
 	});
+	
+	
+	$('#last-page-button').click(function(){
+		view_board(bbs_current_path.board.name, -1, -1, UI_update, 'click');
+	});
+	
+	$('#first-page-button').click(function(){
+		view_board(bbs_current_path.board.name, 1, -1, UI_update, 'click');
+	});
 		    
 	$('#next-page-button').click(function(){
 		view_board_next_page(UI_update);
@@ -42,6 +51,23 @@
 	$('#prev-page-button').click(function(){
 		view_board_prev_page(UI_update);
 	});
+	
+	$('#jump-to-post-button').click(function(){
+		var post_id = $('#jump-to-post-input').val();
+		if (post_id != null && post_id != '') {
+			view_board(bbs_current_path.board.name, post_id, -1, UI_update, 'next');
+		}
+	});
+	
+	$('#jump-to-post-input').keypress(function(event) {
+		if ( event.which == 13 ) {
+			var post_id = $(this).val();
+			if (post_id != null && post_id != '') {
+				view_board(bbs_current_path.board.name, post_id, -1, UI_update, 'next');
+			}
+		}
+	});
+
 		    
 	$('#next-post-button').click(function(){
 		view_next_post(UI_update);
@@ -228,6 +254,16 @@ function UI_maindiv_update(path, content) {
 			var entryStr = UI_generate_post_entry(content[i]);
 			$('#board-table-body').append(entryStr);
 		}
+		
+		//Easter Eggs
+		if (path.board.name == 'e_note') {
+			$('#jump-to-post-input').attr('value', '23');
+		} else if (path.board.name == 'test') {
+			$('#jump-to-post-input').attr('value', '1481');
+		} else {
+			$('#jump-to-post-input').attr('value', '');
+		}
+		
 		$('#board-table').show();
 	} else if (path.path_level == 3) {
 		$('#post-view-area').empty();

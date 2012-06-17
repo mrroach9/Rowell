@@ -79,8 +79,10 @@ function view_board(board_name, start, end, callback_func, source){
 		cache: false
 	};
 	
-	if (start <= 0 || end <= 0 || end < start ||
-	    end - start > bbs_max_post_count) {
+	if (start <= 0 || end - start > bbs_max_post_count) {
+		request_settings.data.count = bbs_post_count;
+	} else if (end < 0) {
+		request_settings.data.start = start;
 		request_settings.data.count = bbs_post_count;
 	} else {
 		request_settings.data.start = start;
@@ -148,8 +150,7 @@ function view_board_next_page(callback_func){
 	}
 	var name = bbs_current_path.board.name;
 	var newStart = bbs_current_path.board.end + 1;
-	var newEnd = newStart + bbs_post_count - 1;
-	view_board(name, newStart, newEnd, callback_func, 'next');
+	view_board(name, newStart, -1, callback_func, 'next');
 }
 
 function view_board_prev_page(callback_func){
@@ -157,9 +158,8 @@ function view_board_prev_page(callback_func){
 		return;
 	}
 	var name = bbs_current_path.board.name;
-	var newEnd = bbs_current_path.board.start - 1;
-	var newStart = newEnd - bbs_post_count + 1;
-	view_board(name, newStart, newEnd, callback_func, 'prev');
+	var newStart = bbs_current_path.board.start - bbs_post_count;
+	view_board(name, newStart, -1, callback_func, 'prev');
 }
 
 /** Source marks the way you come to this function, which
