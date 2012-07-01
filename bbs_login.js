@@ -1,5 +1,5 @@
 ﻿function getSession(auth_code, callback_func){
-	var url = bbs_server_addr + bbs_token_path;
+	var url = bbs_query.server + bbs_query.auth.token;
 	var request_settings = {
 		url: url,
 		type: 'GET',
@@ -7,8 +7,8 @@
 			redirect_uri: 'displaycode',
 			code: auth_code,
 			grant_type: 'authorization_code',
-			client_id: bbs_client_id,
-			client_secret: bbs_client_secret
+			client_id: bbs_query.client_id,
+			client_secret: bbs_query.client_secret
 		},
 		dataType: 'text',
 		cache: false
@@ -41,7 +41,7 @@ function verifySession(session, saveSession, callback_func){
 		return;
 	}
 	
-	var url = bbs_server_addr + bbs_session_verify_path;
+	var url = bbs_query.server + bbs_query.auth.session_verify;
 	var request_settings = {
 		url: url,
 		type: 'GET',

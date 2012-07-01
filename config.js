@@ -1,24 +1,66 @@
-﻿var bbs_server_addr = 'https://bbs.net9.org:8080';
-var bbs_client_id = 0;
-var bbs_client_secret = 0;
-var bbs_auth_path = '/auth/auth?redirect_uri=displaycode&response_type=code&client_id=' + bbs_client_id;
-var bbs_token_path = '/auth/token';
-var bbs_session_verify_path = '/session/verify';
-var bbs_allboard_path = '/board/list';
-var bbs_favboard_path = '/favboard/list';
-var bbs_postlist_path = '/board/post_list';
-var bbs_viewpost_path = '/post/view';
-var bbs_getquote_path = '/post/quote';
-var bbs_writepost_path = '/post/new';
-
-var bbs_favboard_type = 'FAVBOARD';
-var bbs_allboard_type = 'ALLBOARD';
-var bbs_newpost_type  = 'NEWPOST';
-var bbs_replypost_type= 'REPLYPOST';
-var bbs_favboard_name = '收藏夹';
+﻿var bbs_favboard_name = '收藏夹';
 var bbs_allboard_name = '所有版面';
+
+var bbs_max_board_count = 9999;
+var bbs_post_count = 20;
+var bbs_max_post_count = 999;
+
+var bbs_session_cookie = 'bbs_session';
 var bbs_error_session = 'SESSION_ERROR';
 
+var bbs_info = {
+	title : '9# BBS - Rowell ',
+	version : '0.2.1',
+	send_source : '[Sent from Rowell v'
+};
+
+bbs_info.send_source += bbs_info.version + ']';
+
+var bbs_query = {
+	server 				:			'https://bbs.net9.org:8080',
+	client_id 		:			0,
+	client_secret :			0,
+	auth : {
+		auth				:			'/auth/auth?redirect_uri=displaycode&response_type=code&client_id=',
+		token				:			'/auth/token',
+		session_verify : '/session/verify'
+	},
+	view : {
+		allboard		:			'/board/list',
+		favboard		:			'/favboard/list',
+		postlist		:			'/board/post_list',
+		viewpost		:			'/post/view'
+	},
+	write_post : {
+		get_quote		:			'/post/quote',
+		write_post	:			'/post/new'
+	}
+};
+
+bbs_query.auth.auth += bbs_query.client_id;
+
+var bbs_type = {
+	path : {
+		allboard	:		'PATH_ALLBOARD',
+		favboard	:		'PATH_FAVBOARD',
+		folder		:		'PATH_FOLDER',
+		board			:		'PATH_BOARD',
+		post			:		'PATH_POST',
+		digest		:		'PATH_DIGEST'
+	},
+	entry : {
+		allboard	:		'ENTRY_ALLBOARD',
+		favboard	:		'ENTRY_FAVBOARD',
+		board			:		'ENTRY_BOARD',
+		folder		:		'ENTRY_FOLDER',
+		post			:		'ENTRY_POST'
+	},
+	write_post : {
+		new		  	: 	'POST_NEW',
+		reply			:		'POST_REPLY'
+	},
+};
+	
 var bbs_msg = {
 	info : {
 		zhname : '提示：',
@@ -27,7 +69,9 @@ var bbs_msg = {
 		board_reach_first : '已到达本版第一页。',
 		post_reach_last : '已到达本版最后一贴。',
 		post_reach_first : '已到达本版第一帖。',
-		post_publish_success : '帖子发表成功。'
+		post_publish_success : '帖子发表成功。',
+		sametopic_reach_last : '已到达本主题最后一贴。',
+		sametopic_reach_first : '已到达本主题第一帖。'
 	},
 	error : {
 		zhname : '错误：',
@@ -39,13 +83,4 @@ var bbs_msg = {
 		zhname : '警告：'
 	}
 };
-		
 
-var bbs_max_board_count = 9999;
-var bbs_post_count = 20;
-var bbs_max_post_count = 999;
-
-var bbs_session_cookie = 'bbs_session';
-var bbs_title = '9# BBS - Rowell ';
-var bbs_version = '0.2.1';
-var bbs_send_source = '[Sent from Rowell v' + bbs_version + ']';

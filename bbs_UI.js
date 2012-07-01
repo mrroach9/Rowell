@@ -7,24 +7,12 @@
 	    	
 	$('#logout-button').click(UI_logout);
 	    	
-	$('#boardlist-nav-label').live('click', function(){
-		if (bbs_current_path.path_level > 1) {
-			view_boardlist(bbs_current_path.boardlist.type, UI_update);
-		}
-	});
-	    	
-	$('#board-nav-label').live('click', function(){
-		if (bbs_current_path.path_level > 2) {
-			view_board(bbs_current_path.board.name, -1, -1, UI_update, true);
-		}
-	});
-	    	
 	$('#favboard-nav-label').live('click', function(){
-		view_boardlist(bbs_favboard_type, UI_update);
+		view_boardlist(bbs_type.entry.favboard, UI_update, 0);
 	});
 	    	
 	$('#allboard-nav-label').live('click', function(){
-		view_boardlist(bbs_allboard_type, UI_update);
+		view_boardlist(bbs_type.entry.allboard, UI_update, 0);
 	});
 	    				
 	$('.board-entry').live('click', function(){
@@ -35,13 +23,16 @@
 		view_post($(this).attr('post-id'), UI_update, 'click');
 	});
 	
+	$('#path-term').live('click', UI_path_click);
 	
 	$('#last-page-button').click(function(){
-		view_board(bbs_current_path.board.name, -1, -1, UI_update, 'click');
+		var pathTerm = bbs_path.getLastTermWithType(bbs_type.path.board);
+		view_board(pathTerm.name, -1, -1, UI_update, 'click', -1);
 	});
 	
 	$('#first-page-button').click(function(){
-		view_board(bbs_current_path.board.name, 1, -1, UI_update, 'click');
+		var pathTerm = bbs_path.getLastTermWithType(bbs_type.path.board);
+		view_board(pathTerm.name, 1, -1, UI_update, 'click', -1);
 	});
 		    
 	$('#next-page-button').click(function(){
@@ -54,21 +45,16 @@
 	
 	$('#jump-to-post-button').click(function(){
 		var post_id = $('#jump-to-post-input').val();
-		if (post_id != null && post_id != '') {
-			view_board(bbs_current_path.board.name, post_id, -1, UI_update, 'next');
-		}
+		view_board_jumpto(post_id);
 	});
 	
 	$('#jump-to-post-input').keypress(function(event) {
 		if ( event.which == 13 ) {
 			var post_id = $(this).val();
-			if (post_id != null && post_id != '') {
-				view_board(bbs_current_path.board.name, post_id, -1, UI_update, 'next');
-			}
+			view_board_jumpto(post_id);
 		}
 	});
 
-		    
 	$('#next-post-button').click(function(){
 		view_next_post(UI_update);
 	});
@@ -85,36 +71,32 @@
 		$(this).fadeOut();
 	});
 	
-	$('#reply-post-button').click(function(){
+	$('#reply-post-button').live('click', function(){
 		getQuote($(this).attr('type'), UI_prepare_reply_post_modal);
 	});
 	
-	$('#post-button').click(function(){
-		$('#write-post-window').show();
-	});
-	
-	$('#new-post-normal').click(UI_prepare_new_post_modal);
+	$('#new-post-normal').live('click', UI_prepare_new_post_modal);
 	
 	$('#publish-post-button').click(UI_write_post);
 }
 
 function UI_prepare_new_post_modal(){
-	$('#write-post-panel').attr('post-type', bbs_newpost_type);
+	$('#write-post-panel').attr('post-type', bbs_type.write_post.new);
 	$('#write-post-title').val('');
 	$('#write-post-content').val('');
 	$('input:text[name=qmd-number]').val('');
 	$('input:radio[name=qmd-type]').val('number');
-	$('#write-post-board').text(bbs_current_path.board.name);
+	$('#write-post-board').text(bbs_path.getBoard());
 	$('#write-post-panel').modal('toggle');
 }
 
 function UI_prepare_reply_post_modal(quote_content){
-	$('#write-post-panel').attr('post-type', bbs_replypost_type);
+	$('#write-post-panel').attr('post-type', bbs_type.write_post.reply);
 	$('#write-post-title').val(quote_content.title);
 	$('#write-post-content').val(quote_content.content);
 	$('input:text[name=qmd-number]').val('');
 	$('input:radio[name=qmd-type]').val('number');
-	$('#write-post-board').text(bbs_current_path.board.name);
+	$('#write-post-board').text(bbs_path.getBoard());
 	$('#write-post-panel').modal('toggle');
 }
 
@@ -153,8 +135,8 @@ function UI_session_retrieved(session){
 function UI_init() {
 	UI_show_backdrop();
     		
-	$('a#login-path').attr('href',bbs_server_addr + bbs_auth_path);
-	$(document).attr("title", bbs_title + 'v' + bbs_version);
+	$('a#login-path').attr('href',bbs_query.server + bbs_query.auth.auth);
+	$(document).attr("title", bbs_info.title + 'v' + bbs_info.version);
     		
 	$('.unimplemented').popover({
 		trigger: 'hover',
@@ -169,7 +151,7 @@ function UI_login_finished(result){
 		$('#unlogged-navbar').hide();
 		$('#unlogged-panel').hide();
 		$('#logged-navbar').show();
-		view_boardlist(bbs_favboard_type, UI_update);
+		view_boardlist(bbs_type.entry.favboard, UI_update);
 	} else {
 		$('#unlogged-navbar').show();
 		$('#unlogged-panel').show();
@@ -187,9 +169,21 @@ function UI_logout(){
 	$('#logged-panel').hide();
 }
 
-function UI_update(path, content){
-	UI_subnavbar_update(path);
-	UI_maindiv_update(path, content);
+function UI_path_click(){
+	var id = $(this).attr('path-id');
+	var pathTerm = bbs_path.get(id);
+	if (pathTerm.type == bbs_type.path.allboard){
+		view_boardlist(bbs_type.entry.allboard, UI_update, id);
+	} else if (pathTerm.type == bbs_type.path.favboard){
+		view_boardlist(bbs_type.entry.favboard, UI_update, id);
+	} else if (pathTerm.type == bbs_type.path.board){
+		view_board(pathTerm.name, -1, -1, UI_update, 'click', id);
+	}
+}
+
+function UI_update(){
+	UI_subnavbar_update(bbs_path);
+	UI_maindiv_update(bbs_path.getLastTerm());
 	UI_hide_backdrop();
 	$('#logged-panel').show();	
 }
@@ -207,82 +201,104 @@ function UI_notify_update(msg){
 }
 	    
 function UI_subnavbar_update(path) {
-	$('#boardlist-nav-label').hide();
-	$('#boardlist-board-nav-arrow').hide();
-	$('#board-nav-label').hide();
-	$('#board-post-nav-arrow').hide();
-	$('#post-nav-label').hide();
+	$('.path').empty();
 	$('#reply-button').hide();
 	$('#post-button').hide();
 	$('#manage-fav-button').hide();
-	if (path.path_level >= 1) {
-		$('#boardlist-nav-label').html(path.boardlist.zhname);
-		$('#boardlist-nav-label').show();
-		if (path.path_level == 1 && path.boardlist.type == bbs_favboard_type) {	
-			$('#manage-fav-button').show();
+	
+	var arrow = '<li><i class=\'icon-chevron-right right-arrow\' id=\'boardlist-board-nav-arrow\'></i></li>';
+	var d = path.depth();
+	for (var i = 0; i < d; ++i) {	
+		var term = '<li><a href=\'javascript:void(0)\' id=\'path-term\' path-id=' + i + '>'
+						 + path.pathList[i].name
+						 + '</a></li>';
+		if (i != 0) {
+			$('.path').append(arrow);
 		}
+		$('.path').append(term);
 	}
-	if (path.path_level >= 2) {
-		$('#board-nav-label').html(path.board.name);
-		$('#boardlist-board-nav-arrow').show();
-		$('#board-nav-label').show();
+	var type = path.getLastTerm().type;
+	if (type == bbs_type.path.favboard){
+		$('#manage-fav-button').show();
+	} else if (type == bbs_type.path.board) {
 		$('#post-button').show();
-	}
-	if (path.path_level >= 3) {
-		$('#post-nav-label').html(path.post.title);
-		$('#board-post-nav-arrow').show();
-		$('#post-nav-label').show();
-		$('#post-button').hide();
+	} else if (type == bbs_type.path.post) {
 		$('#reply-button').show();
 	}
 }
 	    
-function UI_maindiv_update(path, content) {
+function UI_maindiv_update(pathTerm) {
 	$('#boardlist-table').hide();
 	$('#board-table').hide();
 	$('#post-view').hide();
-	if (path.path_level == 1) {
+	if (pathTerm.type == bbs_type.path.allboard ||
+	    pathTerm.type == bbs_type.path.favboard) {
 		$('#boardlist-table-body').empty();
-		for (var i = 0; i < content.length; ++i) {
-			var entryStr = UI_generate_board_entry(content[i]);
+		for (var i = 0; i < pathTerm.data.length; ++i) {
+			var entryStr = UI_generate_board_entry(pathTerm.data[i], pathTerm.type);
 			$('#boardlist-table-body').append(entryStr);
 		}
 		$('#boardlist-table').show();
-	} else if (path.path_level == 2) {			
+	} else if (pathTerm.type == bbs_type.path.board) {			
 		$('#board-table-body').empty();
-		for (var i = 0; i < content.length; ++i) {
-			var entryStr = UI_generate_post_entry(content[i]);
+		for (var i = 0; i < pathTerm.data.length; ++i) {
+			var entryStr = UI_generate_post_entry(pathTerm.data[i]);
 			$('#board-table-body').append(entryStr);
 		}
 		
 		//Easter Eggs
-		if (path.board.name == 'e_note') {
+		if (pathTerm.name == 'e_note') {
 			$('#jump-to-post-input').attr('value', '23');
-		} else if (path.board.name == 'test') {
+		} else if (pathTerm.name == 'test') {
 			$('#jump-to-post-input').attr('value', '1481');
 		} else {
 			$('#jump-to-post-input').attr('value', '');
 		}
 		
 		$('#board-table').show();
-	} else if (path.path_level == 3) {
+	} else if (pathTerm.type == bbs_type.path.post) {
 		$('#post-view-area').empty();
-		$('#post-view-area').html(content.content);
+		$('#post-view-area').html(pathTerm.data.content);
 		$('#post-view').show();
 	}
 }
 	    
-function UI_generate_board_entry(entry){
-	var entryStr =  	  '<tr href=\'\' class=\'board-entry\' board-name=\'' + entry.name + '\'>'
-								 + 		'<td>' + entry.total + '</td>'
-								 +		'<td class=\'board-table-center\'>' 
-								 + 				(entry.read ? '' : '<span class="badge badge-important">new</span>') 
-								 + 		'</td>'
-								 +		'<td>' + entry.name + '</td>'
-								 +		'<td>' + entry.zhname + '</td>'
-								 +		'<td>' + entry.currentusers + '</td>'
-								 +		'<td>' + entry.BM + '</td>'
-								 + '</tr>';
+function UI_generate_board_entry(entry, type){
+	var entryStr = '';
+	if (type == bbs_type.path.allboard) {
+		entryStr = '<tr href=\'\' class=\'board-entry\' board-name=\'' + entry.name + '\'>'
+						 + 		'<td>' + entry.total + '</td>'
+						 +		'<td class=\'board-table-center\'>' 
+						 + 				(entry.read ? '' : '<span class="badge badge-important">new</span>') 
+						 + 		'</td>'
+						 +		'<td>' + entry.name + '</td>'
+						 +		'<td>' + entry.desc + '</td>'
+						 +		'<td>' + entry.currentusers + '</td>'
+						 +		'<td>' + entry.BM + '</td>'
+						 + '</tr>';		
+	} else if (entry.type == bbs_type.entry.folder) {
+		entryStr = '<tr href=\'\' class=\'folder-entry unimplemented\' folder-name=\'' + entry.name + '\'>'
+						 + 		'<td></td>'
+						 +		'<td class=\'board-table-center\'></td>'
+						 +		'<td>[目录]</td>'
+						 +		'<td>' + entry.name + '</td>'
+						 +		'<td></td>'
+						 +		'<td></td>'
+						 + '</tr>';
+	} else if (entry.type == bbs_type.entry.board) {	
+		entryStr = '<tr href=\'\' class=\'board-entry\' board-name=\'' + entry.binfo.name + '\'>'
+						 + 		'<td>' + entry.binfo.total + '</td>'
+						 +		'<td class=\'board-table-center\'>' 
+						 + 				(entry.binfo.read ? '' : '<span class="badge badge-important">new</span>') 
+						 + 		'</td>'
+						 +		'<td>' + entry.binfo.name + '</td>'
+						 +		'<td>' + entry.binfo.desc + '</td>'
+						 +		'<td>' + entry.binfo.currentusers + '</td>'
+						 +		'<td>' + entry.binfo.BM + '</td>'
+						 + '</tr>';
+	} else {
+		return '';
+	}
 	return entryStr;
 }
 	  	

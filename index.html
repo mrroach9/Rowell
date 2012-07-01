@@ -105,11 +105,7 @@
     <div class='container hide' id='logged-panel'>
     	<div class='subnav'>
 	    		<ul class='nav nav-pills'>
-	    			<li><a class='hide' href='javascript:void(0)' id='boardlist-nav-label'></a></li>
-	    			<li><i class='icon-chevron-right right-arrow' id='boardlist-board-nav-arrow'></i></li>
-	    			<li><a class='hide' href='javascript:void(0)' id='board-nav-label'></a></li>
-	    			<li><i class='icon-chevron-right right-arrow' id='board-post-nav-arrow'></i></li>
-	    			<li><a class='hide' id='post-nav-label'></a></li>
+	    			<li><ul class='nav nav-pills path'></ul></li>
 	    			<li class='pull-right'>
 	    				<div class='btn-group hide' id='reply-button'>
 	    					<button class='btn btn-large btn-success' href='javascript:void(0)' id='reply-post-button' type='S'>回复 </button>
@@ -146,7 +142,7 @@
     			<table class='table table-striped table-bordered'>
     				<thead class='board-table-head'>
     					<th width='60px'>帖数</th>
-    					<th width='30px'>未读</th>
+    					<th width='40px'>未读</th>
     					<th width='160px'>版名</th>
     					<th>版面中文名</th>
     					<th width='30px'>在线</th>
@@ -161,7 +157,7 @@
 	    		<table class='table table-striped table-bordered'>
     				<thead class='board-table-head'>
     					<th width='60px'>编号</th>
-    					<th width='30px'>未读</th>
+    					<th width='40px'>未读</th>
     					<th width='100px'>作者</th>
     					<th width='60px'>日期</th>
     					<th>文章标题</th>
@@ -280,11 +276,11 @@
     
     <script src='config.js'></script>
     <script src='common.js'></script>
-    <script src='board_names.js'></script>
     <script src='bbs_login.js'></script>
     <script src='bbs_view.js'></script>
     <script src='bbs_UI.js'></script>
     <script src='bbs_post.js'></script>
+    <script src='bbs_path.js'></script>
     
     <script type='text/javascript'>
 			$(document).ready(function(){

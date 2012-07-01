@@ -1,27 +1,6 @@
-﻿var bbs_current_path = {
-	boardlist : {
-		type : '',
-		zhname : ''
-	},
-	
-	board : {
-		name : '',
-		zhname : '',
-		start : -1,
-		end : -1
-	},
-	
-	post : {
-		id : -1,
-		xid : -1,
-		title : ''
-	},
-	path_level: -1
-};
+﻿var bbs_session = '';
 
-var bbs_session = '';
-
-function view_boardlist(type, callback_func){
+function view_boardlist(type, callback_func, popNum){
 	var request_settings = {
 		url : '',
 		type: 'GET',
@@ -35,41 +14,31 @@ function view_boardlist(type, callback_func){
 	};
 	
 	var name = '';
-	if (type == bbs_favboard_type) {
-		request_settings.url = bbs_server_addr + bbs_favboard_path;
+	var pathType = '';
+	if (type == bbs_type.entry.favboard) {
+		request_settings.url = bbs_query.server + bbs_query.view.favboard;
 		name = bbs_favboard_name;
-	} else if (type == bbs_allboard_type) {
-		request_settings.url = bbs_server_addr + bbs_allboard_path;
+		pathType = bbs_type.path.favboard;
+	} else if (type == bbs_type.entry.allboard) {
+		request_settings.url = bbs_query.server + bbs_query.view.allboard;
 		name = bbs_allboard_name;
+		pathType = bbs_type.path.allboard;
 	}
 	
 	var resp = $.ajax(request_settings);
 	
 	resp.success(function(response){
-		var boardlist = extractBoardInfo(response, type);
-		bbs_current_path.boardlist = {
-			type : type,
-			zhname : name
-		};
-		bbs_current_path.board = {
-			name : '',
-			zhname : '',
-			start : -1,
-			end : -1
-		};
-		bbs_current_path.post = {
-			id : -1,
-			xid : -1,
-			title : ''
-		};
-		bbs_current_path.path_level = 1;
-		callback_func(bbs_current_path, boardlist);
+		bbs_path.popTo(popNum);
+		var boardlist = extractBoardInfo(response);
+		var pathTerm = new PathTerm(pathType, name, boardlist);
+	  bbs_path.push(pathTerm);
+		callback_func();
 	});
 }
 
-function view_board(board_name, start, end, callback_func, source){
+function view_board(board_name, start, end, callback_func, source, popNum){
 	var request_settings = {
-		url : bbs_server_addr + bbs_postlist_path,
+		url : bbs_query.server + bbs_query.view.postlist,
 		type: 'GET',
 		data: {
 			session: bbs_session,
@@ -103,20 +72,12 @@ function view_board(board_name, start, end, callback_func, source){
 				iEnd = postlist[i].id;
 			}
 		}
-		bbs_current_path.board = {
-			name : board_name,
-			zhname : board_names[board_name],
-			start : iStart,
-			end : iEnd
-		};
-		bbs_current_path.post = {
-			id : -1,
-			xid : -1,
-			title : ''
-		};
-		bbs_current_path.path_level = 2;
-		
-		callback_func(bbs_current_path, postlist);
+		var pathTerm = new PathTerm(bbs_type.path.board, board_name, postlist);
+		pathTerm.start = iStart;
+		pathTerm.end = iEnd;
+		bbs_path.popTo(popNum);
+		bbs_path.push(pathTerm);
+		callback_func();
 	});
 	
 	resp.fail(function(jqXHR, textStatus){
@@ -145,21 +106,34 @@ function view_board(board_name, start, end, callback_func, source){
 }
 
 function view_board_next_page(callback_func){
-	if (bbs_current_path.path_level != 2) {
+	var pathTerm = bbs_path.getLast();
+	if (pathTerm.type != bbs_type.path.board) {
 		return;
 	}
-	var name = bbs_current_path.board.name;
-	var newStart = bbs_current_path.board.end + 1;
-	view_board(name, newStart, -1, callback_func, 'next');
+	var name = pathTerm.name;
+	var newStart = pathTerm.end + 1;
+	view_board(name, newStart, -1, callback_func, 'next', -1);
 }
 
 function view_board_prev_page(callback_func){
-	if (bbs_current_path.path_level != 2) {
+	var pathTerm = bbs_path.getLast();
+	if (pathTerm.type != bbs_type.path.board) {
 		return;
 	}
-	var name = bbs_current_path.board.name;
-	var newStart = bbs_current_path.board.start - bbs_post_count;
-	view_board(name, newStart, -1, callback_func, 'prev');
+	var name = pathTerm.name;
+	var newStart = pathTerm.start - bbs_post_count;
+	view_board(name, newStart, -1, callback_func, 'prev', -1);
+}
+
+function view_board_jumpto(post_id, callback_func){
+	var pathTerm = bbs_path.getLast();
+	if (pathTerm.type != bbs_type.path.board) {
+		return;
+	}
+	var name = pathTerm.name;
+	if (post_id != null && post_id != '') {
+		view_board(name, post_id, -1, UI_update, 'next', -1);
+	}
 }
 
 /** Source marks the way you come to this function, which
@@ -171,13 +145,14 @@ function view_board_prev_page(callback_func){
  *  'post-reach-end' notification will be issued.
  *  Similar case for source == 'prev'.
  */
-function view_post(post_id, callback_func, source) {
+function view_post(post_id, callback_func, source, popNum) {
+	var pathTerm = bbs_path.getLastTermWithType(bbs_type.path.board);
 	var request_settings = {
-		url : bbs_server_addr + bbs_viewpost_path,
+		url : bbs_query.server + bbs_query.view.viewpost,
 		type: 'GET',
 		data: {
 			session : bbs_session,
-			board : bbs_current_path.board.name,
+			board : pathTerm.name,
 			id : post_id
 		},
 		dataType: 'text',
@@ -186,14 +161,11 @@ function view_post(post_id, callback_func, source) {
 	
 	var resp = $.ajax(request_settings);
 	resp.success(function(response){
-		post = extractPostContent(response);
-		bbs_current_path.post = {
-			id : post.id,
-			xid : post.xid,
-			title : post.title
-		};
-		bbs_current_path.path_level = 3;
-		callback_func(bbs_current_path, post);
+		var post = extractPostContent(response);
+		var pathTerm = new PathTerm(bbs_type.path.post, post.title, post);
+		bbs_path.popTo(popNum);
+		bbs_path.push(pathTerm);
+		callback_func();
 	});
 	
 	resp.fail(function(jqXHR, textStatus) {
@@ -221,17 +193,32 @@ function view_post(post_id, callback_func, source) {
 }	
 
 function view_next_post(callback_func) {
-	if (bbs_current_path.path_level != 3) {
+	var pathTerm = bbs_path.getLast();
+	if (pathTerm.type != bbs_type.path.post) {
 		return;
 	}
-	view_post(bbs_current_path.post.id + 1, callback_func, 'next');
+	view_post(pathTerm.data.id + 1, callback_func, 'next', -1);
 }
 
 function view_prev_post(callback_func) {
-	if (bbs_current_path.path_level != 3) {
+	var pathTerm = bbs_path.getLast();
+	if (pathTerm.type != bbs_type.path.post) {
 		return;
 	}
-	view_post(bbs_current_path.post.id - 1, callback_func, 'prev');
+	view_post(pathTerm.data.id - 1, callback_func, 'prev', -1);
+}
+
+function extractBoardInfo(contentStr) {
+	contentStr = html_encode(contentStr);
+	var boardlist = JSON.parse(contentStr);
+	for (var i = 0; i < boardlist.length; ++i) {
+		if (boardlist[i].type == 'dir') {
+			boardlist[i].type = bbs_type.entry.folder;
+		} else if (boardlist[i].type == 'board') {
+			boardlist[i].type = bbs_type.entry.board;
+		}
+	}
+	return boardlist;
 }
 
 function extractPostInfo(contentStr) {
@@ -251,29 +238,6 @@ function extractPostInfo(contentStr) {
 	return postlist;
 }
 
-function extractBoardInfo(contentStr, type){
-	var boardlist = [];
-	if (type == bbs_allboard_type) {
-		boardlist = JSON.parse(contentStr);
-	} else if (type == bbs_favboard_type) {
-		var content = JSON.parse(contentStr);
-		for (var i = 0; i < content.length; ++i) {
-			boardlist.push(content[i].binfo);
-		}
-	}
-	for (var i = 0; i < boardlist.length; ++i) {
-		var zhname = board_names[boardlist[i].name];
-		if (zhname == null) {
-			zhname = '';
-		}
-		boardlist[i].zhname = zhname;
-		
-		boardlist[i].zhname = html_encode(boardlist[i].zhname);
-		boardlist[i].name = html_encode(boardlist[i].name);
-	}
-	return boardlist;
-}
-		
 function extractPostContent(contentStr) {
 	post = JSON.parse(contentStr);
 	post.title = html_encode(post.title);
@@ -288,4 +252,3 @@ function extractPostContent(contentStr) {
 	
 	return post;
 }
-	

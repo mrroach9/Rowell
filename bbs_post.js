@@ -1,16 +1,18 @@
 ﻿function getQuote(mode, callback_func){
-	if (bbs_current_path.path_level < 3) {
-		return null;
+	var boardPathTerm = bbs_path.getLastTermWithType(bbs_type.path.board);
+	var postPathTerm = bbs_path.getLastTermWithType(bbs_type.path.post);
+	if (boardPathTerm == null || postPathTerm == null){
+		return;
 	}
 	var data = {
 		session : bbs_session,
-		board : bbs_current_path.board.name,
-		id : bbs_current_path.post.id,
-		xid : bbs_current_path.post.xid,
+		board : boardPathTerm.name,
+		id : postPathTerm.data.id,
+		xid : postPathTerm.data.xid,
 		mode : mode
 	};
 	var request_settings = {
-		url : bbs_server_addr + bbs_getquote_path,
+		url : bbs_query.server + bbs_query.write_post.get_quote,
 		type: 'GET',
 		data: data,
 		dataType: 'text',
@@ -35,25 +37,30 @@ function writePost(type, title, content, qmd_id, anonym, callback_func){
 	var data = {
 		session : bbs_session,
 		title : title,
-		content: content + '\n\n' + bbs_send_source,
+		content: content + '\n\n' + bbs_info.send_source,
 		signature_id : qmd_id,
 		anonymous: (anonym ? 1 : 0)
 	};
-	if (type == bbs_newpost_type) {
-		if (bbs_current_path.path_level != 2){
+	var popNum = -1;
+	var boardPathTerm = bbs_path.getLastTermWithType(bbs_type.path.board);
+	var postPathTerm = bbs_path.getLastTermWithType(bbs_type.path.post);
+	if (type == bbs_type.write_post.new) {
+		popNum = -1;
+		if (boardPathTerm == null || postPathTerm != null){
 			return;
 		}
-		data.board = bbs_current_path.board.name;
-	} else if (type == bbs_replypost_type) {
-		if (bbs_current_path.path_level != 3){
+		data.board = boardPathTerm.name;
+	} else if (type == bbs_type.write_post.reply) {
+		popNum = -2;
+		if (boardPathTerm == null || postPathTerm == null){
 			return;
 		}
-		data.board = bbs_current_path.board.name;
-		data.re_id = bbs_current_path.post.id;
-		data.re_xid = bbs_current_path.post.xid;
+		data.board = boardPathTerm.name;
+		data.re_id = postPathTerm.data.id;
+		data.re_xid = postPathTerm.data.xid;
 	}
 	var request_settings = {
-		url : bbs_server_addr + bbs_writepost_path,
+		url : bbs_query.server + bbs_query.write_post.write_post,
 		type: 'POST',
 		data: data,
 		dataType: 'text',
@@ -67,7 +74,7 @@ function writePost(type, title, content, qmd_id, anonym, callback_func){
 			content : 'post_publish_success'
 		};
 		UI_hide_backdrop();
-		view_board(bbs_current_path.board.name, -1, -1, callback_func, 'click');
+		view_board(boardPathTerm.name, -1, -1, callback_func, 'click', popNum);
 		UI_notify_update(msg);
 	});
 	
@@ -77,7 +84,7 @@ function writePost(type, title, content, qmd_id, anonym, callback_func){
 				content : 'network_error'
 		};
 		UI_hide_backdrop();
-		view_board(bbs_current_path.board.name, -1, -1, callback_func, 'click');
+		view_board(boardPathTerm.name, -1, -1, callback_func, 'click', popNum);
 		UI_notify_update(msg);
 	});
 }
