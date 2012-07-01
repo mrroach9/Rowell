@@ -78,6 +78,12 @@
 	$('#new-post-normal').live('click', UI_prepare_new_post_modal);
 	
 	$('#publish-post-button').click(UI_write_post);
+	
+	$('#write-post-panel .cancel-button').live('click', function(){
+		if (confirm('确定舍弃当前未发布文章吗？')) {
+			$('#write-post-panel').modal('hide');
+		}
+	});
 }
 
 function UI_prepare_new_post_modal(){
@@ -86,7 +92,13 @@ function UI_prepare_new_post_modal(){
 	$('#write-post-content').val('');
 	$('input:text[name=qmd-number]').val('');
 	$('input:radio[name=qmd-type]').val('number');
-	$('#write-post-board').text(bbs_path.getBoard());
+	$('#write-post-board').text(bbs_path.getBoard().name);
+	$('#write-post-panel').modal({
+		 keyboard: false,
+		 backdrop: 'static',
+		 show: false
+	});
+		 
 	$('#write-post-panel').modal('toggle');
 }
 
@@ -96,7 +108,12 @@ function UI_prepare_reply_post_modal(quote_content){
 	$('#write-post-content').val(quote_content.content);
 	$('input:text[name=qmd-number]').val('');
 	$('input:radio[name=qmd-type]').val('number');
-	$('#write-post-board').text(bbs_path.getBoard());
+	$('#write-post-board').text(bbs_path.getBoard().name);
+	$('#write-post-panel').modal({
+		 keyboard: false,
+		 backdrop: 'static',
+		 show: false
+	});
 	$('#write-post-panel').modal('toggle');
 }
 
