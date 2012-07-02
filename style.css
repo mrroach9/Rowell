@@ -22,10 +22,36 @@
 	padding: 35px 0 36px;
 	border-top: 1px solid #E5E5E5;
 }
-.board-table-center th{
-	text-align: center;
+
+.loading {
+	position: fixed;
+	top: 45%;
+	left: 48%;
+	width: 120px;
+	height: 120px;
+	margin: -60px 0 0 -60px;
+	border-radius: 5px;
+	z-index: 2010;
+	background-color: black;
 }
-td.board-table-center{
+
+.blocker {
+	opacity: 0;
+	z-index: 2000;
+}
+
+.loading-logo {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin: -20px 0 0 -20px;
+	width: 40px;
+	height: 40px;
+	opacity: 0.35;
+}
+
+.board-table-center th,
+td.board-table-center {
 	text-align: center;
 }
 

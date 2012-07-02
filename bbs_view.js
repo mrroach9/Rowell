@@ -94,7 +94,7 @@ function view_board(board_name, start, end, callback_func, source, popNum){
 					content : 'board_reach_first'
 				};
 			}
-			view_board(board_name, -1, -1, callback_func);
+			view_board(board_name, -1, -1, callback_func, 'click', popNum);
 		} else {
 			var msg = {
 				type : 'error',
