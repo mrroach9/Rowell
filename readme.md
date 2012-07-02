@@ -1,17 +1,17 @@
-#Rowell v0.2.1
+#Rowell
 
 ##Introduction
 
 Rowell is a pure front-end web UI for you-know-which bbs. The web terminal relies on pybbs developed by Henryhu as back-end data exchange interface, and
 Bootstrap from Twitter as the front-end framework. 
 
-Rowell is still being developed and has released its 0.2.1 version, which supports the following functionals:
+Rowell is still being developed and has released its 0.2.2 version, which supports the following functionals:
 
 * Login/logout with session cookies.
 
-* All boards listing and fav boards listing (sub-folders in favBoard are not supported yet).
+* All boards listing and fav boards listing, including subfolders.
 
-* Posts listing in boards and many navigation buttons.
+* Posts listing in boards and various navigations.
 
 * Post reading and navigations.
 
@@ -34,24 +34,6 @@ WE WILL NEVER BE RESPONSIBLE FOR IE USERS!!!
 
 * Unread tags clearing.
 
-* Displaying posts in monospaced font. (done in v0.2.1)
-
-* "First Page" and "Last Page" buttons in viewing boards. (done in v0.2.1)
-
-* Same topic navigation buttons in viewing posts.
-
-* Notification system for info, warning and errors.(done in v0.1.2)
-
-* CORS support when http error occurs, remove "retry" args in current functions, use the status code to detect error instead.(done in v0.1.2)
-
-* Simple version of writing and replying posts.(done in v0.2.0)
-
-* Add Google Analysis code. (done in v0.1.2)
-
-* Use a minimum height for post-displaying area, so that the next and prev button stay at a fixed position for most of the short articles. (done in v0.1.2)
-
-* Subfolder support in favBoard list. Path structure needs to be rewritten.
-
 * Configuration system.
 
 * Simple ASCII art interpreter.
@@ -63,6 +45,21 @@ WE WILL NEVER BE RESPONSIBLE FOR IE USERS!!!
 * Favboards management.
 
 ##Change Logs
+
+####Version 0.2.2
+Release date: 07/02/2012
+
+Cumulative update. Various modifications and new functional on UI.
+
+* A completely new, robust and easy-expandible path structure is now working, with subfolder displaying and visiting supported.
+
+* Four types of same-topic navigating are supported: prev, next, head and latest posts in threads.
+
+* Loading logo is added when a request hangs over 500ms.
+
+* A confirm window will popup when user tries to close the posting window in any way.
+
+* Other minor modifications including bug fixing, modification for consistence to pybbs (Chinese board names), and UI adjustments (unread column is now widened).
 
 ####Version 0.2.1
 Release date: 06/16/2012
