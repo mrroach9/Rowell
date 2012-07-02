@@ -11,17 +11,22 @@ function UI_register_func(){
 	    	
 	$('#favboard-nav-label').live('click', function(){
 		UI_set_loading();
-		view_boardlist(bbs_type.entry.favboard, UI_update, 0);
+		view_boardlist(bbs_type.entry.favboard, -1, '', UI_update, 0);
 	});
 	    	
 	$('#allboard-nav-label').live('click', function(){
 		UI_set_loading();
-		view_boardlist(bbs_type.entry.allboard, UI_update, 0);
+		view_boardlist(bbs_type.entry.allboard, -1, '', UI_update, 0);
 	});
 	    				
 	$('.board-entry').live('click', function(){
 		UI_set_loading();
 		view_board($(this).attr('board-name'), -1, -1, UI_update, 'click');
+	});
+	
+	$('.folder-entry').live('click', function(){
+		UI_set_loading();
+		view_boardlist(bbs_type.entry.folder, $(this).attr('index'), $(this).attr('folder-name'), UI_update);
 	});
 	   
 	$('.post-entry').live('click',function() {
@@ -107,6 +112,7 @@ function UI_set_loading(){
 			$('#loading-area').show();
 		}
 	}, 500);
+	setTimeout(UI_hide_loading, 5000);
 }
 
 function UI_hide_loading(){
@@ -196,7 +202,7 @@ function UI_login_finished(result){
 		$('#unlogged-navbar').hide();
 		$('#unlogged-panel').hide();
 		$('#logged-navbar').show();
-		view_boardlist(bbs_type.entry.favboard, UI_update);
+		view_boardlist(bbs_type.entry.favboard, -1, '', UI_update, 0);
 	} else {
 		$('#unlogged-navbar').show();
 		$('#unlogged-panel').show();
@@ -219,11 +225,13 @@ function UI_path_click(){
 	var id = $(this).attr('path-id');
 	var pathTerm = bbs_path.get(id);
 	if (pathTerm.type == bbs_type.path.allboard){
-		view_boardlist(bbs_type.entry.allboard, UI_update, id);
+		view_boardlist(bbs_type.entry.allboard, -1, '', UI_update, id);
 	} else if (pathTerm.type == bbs_type.path.favboard){
-		view_boardlist(bbs_type.entry.favboard, UI_update, id);
+		view_boardlist(bbs_type.entry.favboard, -1, '', UI_update, id);
 	} else if (pathTerm.type == bbs_type.path.board){
 		view_board(pathTerm.name, -1, -1, UI_update, 'click', id);
+	} else if (pathTerm.type == bbs_type.path.folder) {
+		view_boardlist(bbs_type.entry.folder, pathTerm.index, pathTerm.name, UI_update, id);
 	}
 }
 
@@ -280,7 +288,8 @@ function UI_maindiv_update(pathTerm) {
 	$('#board-table').hide();
 	$('#post-view').hide();
 	if (pathTerm.type == bbs_type.path.allboard ||
-	    pathTerm.type == bbs_type.path.favboard) {
+	    pathTerm.type == bbs_type.path.favboard ||
+	    pathTerm.type == bbs_type.path.folder) {
 		$('#boardlist-table-body').empty();
 		for (var i = 0; i < pathTerm.data.length; ++i) {
 			var entryStr = UI_generate_board_entry(pathTerm.data[i], pathTerm.type);
@@ -325,7 +334,8 @@ function UI_generate_board_entry(entry, type){
 						 +		'<td>' + entry.BM + '</td>'
 						 + '</tr>';		
 	} else if (entry.type == bbs_type.entry.folder) {
-		entryStr = '<tr href=\'\' class=\'folder-entry unimplemented\' folder-name=\'' + entry.name + '\'>'
+		entryStr = '<tr href=\'\' class=\'folder-entry\' folder-name=\''
+						 + entry.name + '\' index=\'' + entry.index + '\'>'
 						 + 		'<td></td>'
 						 +		'<td class=\'board-table-center\'></td>'
 						 +		'<td>[目录]</td>'

@@ -62,7 +62,8 @@ pre.post-view-area {
 }
 
 tr.board-entry,
-tr.post-entry {
+tr.post-entry,
+tr.folder-entry {
 	cursor: pointer;
 }
 

@@ -1,12 +1,13 @@
 ﻿var bbs_session = '';
 
-function view_boardlist(type, callback_func, popNum){
+function view_boardlist(type, index, folder_name, callback_func, popNum){
 	var request_settings = {
 		url : '',
 		type: 'GET',
 		data: {
 			session: bbs_session,
 			start: 1,
+			father: index,
 			count: bbs_max_board_count,
 		},
 		dataType: 'text',
@@ -23,6 +24,10 @@ function view_boardlist(type, callback_func, popNum){
 		request_settings.url = bbs_query.server + bbs_query.view.allboard;
 		name = bbs_allboard_name;
 		pathType = bbs_type.path.allboard;
+	} else if (type == bbs_type.entry.folder) {
+		request_settings.url = bbs_query.server + bbs_query.view.favboard;
+		pathType = bbs_type.path.folder;
+		name = folder_name;
 	}
 	
 	var resp = $.ajax(request_settings);
@@ -31,6 +36,9 @@ function view_boardlist(type, callback_func, popNum){
 		bbs_path.popTo(popNum);
 		var boardlist = extractBoardInfo(response);
 		var pathTerm = new PathTerm(pathType, name, boardlist);
+		if (pathType == bbs_type.path.folder){
+			pathTerm.index = index;
+		}
 	  bbs_path.push(pathTerm);
 		callback_func();
 	});
