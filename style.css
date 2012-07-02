@@ -77,7 +77,27 @@ tr.folder-entry {
 }
 
 #board-buttons.bottom-button-bar {
-	margin-left : 140px;
+	margin-left : 100px;
+}
+
+#post-buttons.bottom-button-bar {
+	margin-left : 40px;
+}
+
+.bottom-button-bar .short-text {
+	width : 40px;
+}
+
+.jump-to-post {
+	margin-left : 20px;
+}
+
+.st-nav-menu {
+	margin-left : 30px;
+}
+
+.st-nav-menu .dropdown-menu {
+	min-width : 100px;
 }
 
 .post-view-area {
@@ -138,14 +158,6 @@ p#notification-content {
 	display: inline;
 	vertical-align : baseline;
 	width : 30px;
-}
-
-.bottom-button-bar .short-text {
-	width : 40px;
-}
-
-.jump-to-post {
-	margin-left : 20px;
 }
 
 .radiobox {

@@ -10,7 +10,7 @@ var bbs_error_session = 'SESSION_ERROR';
 
 var bbs_info = {
 	title : '9# BBS - Rowell ',
-	version : '0.2.1',
+	version : '0.2.2',
 	send_source : '[Sent from Rowell v'
 };
 
@@ -29,7 +29,8 @@ var bbs_query = {
 		allboard		:			'/board/list',
 		favboard		:			'/favboard/list',
 		postlist		:			'/board/post_list',
-		viewpost		:			'/post/view'
+		viewpost		:			'/post/view',
+		sametopic		:			'/post/nextid'
 	},
 	write_post : {
 		get_quote		:			'/post/quote',
@@ -71,12 +72,14 @@ var bbs_msg = {
 		post_reach_first : '已到达本版第一帖。',
 		post_publish_success : '帖子发表成功。',
 		sametopic_reach_last : '已到达本主题最后一贴。',
-		sametopic_reach_first : '已到达本主题第一帖。'
+		sametopic_reach_first : '已到达本主题第一帖。',
+		sametopic_head_not_exist : '主题贴不存在或已被删除。'
 	},
 	error : {
 		zhname : '错误：',
 		class_name : 'alert alert-error',
-		network_error : '网络连接异常，无法完成您的请求。'
+		network_error : '网络连接异常，无法完成您的请求。',
+		unknown_error : '出现未知错误，请重新请求或联系开发者。'
 	},
 	warning : {
 		class_name : 'alert alert-block',

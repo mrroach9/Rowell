@@ -82,6 +82,26 @@ function UI_register_func(){
 		view_prev_post(UI_update);
 	});
 	
+	$('#st-prev-button').click(function(){
+		UI_set_loading();
+		view_post_sametopic(UI_update, 'prev');
+	});
+	
+	$('#st-next-button').click(function(){
+		UI_set_loading();
+		view_post_sametopic(UI_update, 'next');
+	});
+	
+	$('#st-head-button').click(function(){
+		UI_set_loading();
+		view_post_sametopic(UI_update, 'head');
+	});
+	
+	$('#st-latest-button').click(function(){
+		UI_set_loading();
+		view_post_sametopic(UI_update, 'latest');
+	});
+	
 	$('#notification-close-button').click(function(){
 		$('#notification').fadeOut();
 	});

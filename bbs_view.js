@@ -216,6 +216,78 @@ function view_prev_post(callback_func) {
 	view_post(pathTerm.data.id - 1, callback_func, 'prev', -1);
 }
 
+function view_post_sametopic(callback_func, source){
+	var pathTerm = bbs_path.getLastTermWithType(bbs_type.path.board);
+	var postTerm = bbs_path.getLast();
+	if (pathTerm == null || postTerm.type != bbs_type.path.post) {
+		return;
+	}
+	var request_settings = {
+		url : bbs_query.server + bbs_query.view.sametopic,
+		type: 'GET',
+		data: {
+			session : bbs_session,
+			board : pathTerm.name,
+			id : postTerm.data.id
+		},
+		dataType: 'text',
+		cache: false
+	};
+	
+	if (source == 'head') {
+		request_settings.data.direction = 'backward';
+		request_settings.data.last_one = 1;
+	} else if (source == 'next') {
+		request_settings.data.direction = 'forward';
+	} else if (source == 'prev') {
+		request_settings.data.direction = 'backward';
+	} else if (source == 'latest') {
+		request_settings.data.direction = 'forward';
+		request_settings.data.last_one = 1;
+	}
+	
+	var resp = $.ajax(request_settings);
+	resp.success(function(response){
+		var res = JSON.parse(response);
+		var id = res.nextid;
+		view_post(id, callback_func, 'click', -1);
+	});
+	
+	resp.fail(function(jqXHR, textStatus) {
+		var msg = null;
+		if (jqXHR.status == 404) {
+			if (source == 'next') {
+				msg = {
+					type : 'info',
+					content : 'sametopic_reach_last'
+				};
+			} else if (source == 'prev') {
+				msg = {
+					type : 'info',
+					content : 'sametopic_reach_first'
+				};
+			} else if (source == 'head') {
+				msg = {
+					type : 'info',
+					content : 'sametopic_head_not_exist'
+				};
+			} else {
+				msg = {
+					type : 'error',
+					content : 'unknown_error'
+				};
+			}
+		} else {
+			var msg = {
+				type : 'error',
+				content : 'network_error'
+			};
+		}
+		UI_notify_update(msg);
+	});
+}
+
+
 function extractBoardInfo(contentStr) {
 	contentStr = html_encode(contentStr);
 	var boardlist = JSON.parse(contentStr);
