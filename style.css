@@ -8,6 +8,10 @@
     width: 960px;
 }
 
+.subnav .nav {
+	margin-bottom : 5px;
+}
+
 .right-arrow {
 	vertical-align: middle;
 	margin-top: 10px;

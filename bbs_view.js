@@ -327,7 +327,7 @@ function extractPostContent(contentStr) {
 	post.content = post.content.replace(reg, '<br>');
 	
 	//Eliminate all ASCII control characters
-	reg = new RegExp("\\[[0-9;]*m", "g");
+	reg = new RegExp("\\[[0-9;]*[A-Za-z]", "g");
 	post.content = post.content.replace(reg, '');
 	
 	return post;
