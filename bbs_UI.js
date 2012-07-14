@@ -36,35 +36,35 @@ function UI_register_func(){
 	
 	$('#path-term').live('click', UI_path_click);
 	
-	$('#last-page-button').click(function(){
+	$('.last-page-button').click(function(){
 		UI_set_loading();
 		var pathTerm = bbs_path.getLastTermWithType(bbs_type.path.board);
 		view_board(pathTerm.name, -1, -1, UI_update, 'click', -1);
 	});
 	
-	$('#first-page-button').click(function(){
+	$('.first-page-button').click(function(){
 		UI_set_loading();
 		var pathTerm = bbs_path.getLastTermWithType(bbs_type.path.board);
 		view_board(pathTerm.name, 1, -1, UI_update, 'click', -1);
 	});
 		    
-	$('#next-page-button').click(function(){
+	$('.next-page-button').click(function(){
 		UI_set_loading();
 		view_board_next_page(UI_update);
 	});
 		    
-	$('#prev-page-button').click(function(){
+	$('.prev-page-button').click(function(){
 		UI_set_loading();
 		view_board_prev_page(UI_update);
 	});
 	
-	$('#jump-to-post-button').click(function(){
+	$('.jump-to-post-button').click(function(){
 		UI_set_loading();
-		var post_id = $('#jump-to-post-input').val();
+		var post_id = $('.jump-to-post-input').val();
 		view_board_jumpto(post_id);
 	});
 	
-	$('#jump-to-post-input').keypress(function(event) {
+	$('.jump-to-post-input').keypress(function(event) {
 		if ( event.which == 13 ) {
 			UI_set_loading();
 			var post_id = $(this).val();
@@ -72,32 +72,32 @@ function UI_register_func(){
 		}
 	});
 
-	$('#next-post-button').click(function(){
+	$('.next-post-button').click(function(){
 		UI_set_loading();
 		view_next_post(UI_update);
 	});
 		    
-	$('#prev-post-button').click(function(){
+	$('.prev-post-button').click(function(){
 		UI_set_loading();
 		view_prev_post(UI_update);
 	});
 	
-	$('#st-prev-button').click(function(){
+	$('.st-prev-button').click(function(){
 		UI_set_loading();
 		view_post_sametopic(UI_update, 'prev');
 	});
 	
-	$('#st-next-button').click(function(){
+	$('.st-next-button').click(function(){
 		UI_set_loading();
 		view_post_sametopic(UI_update, 'next');
 	});
 	
-	$('#st-head-button').click(function(){
+	$('.st-head-button').click(function(){
 		UI_set_loading();
 		view_post_sametopic(UI_update, 'head');
 	});
 	
-	$('#st-latest-button').click(function(){
+	$('.st-latest-button').click(function(){
 		UI_set_loading();
 		view_post_sametopic(UI_update, 'latest');
 	});
@@ -111,10 +111,12 @@ function UI_register_func(){
 	});
 	
 	$('#reply-post-button').live('click', function(){
-		getQuote($(this).attr('type'), UI_prepare_reply_post_modal);
+		postPrepare(bbs_type.write_post.reply, UI_prepare_getQuote);
 	});
 	
-	$('#new-post-normal').live('click', UI_prepare_new_post_modal);
+	$('#new-post-normal').live('click', function(){
+		postPrepare(bbs_type.write_post.new, UI_prepare_post_modal);
+	});
 	
 	$('#publish-post-button').click(UI_write_post);
 	
@@ -123,6 +125,19 @@ function UI_register_func(){
 			$('#write-post-panel').modal('hide');
 		}
 	});
+	
+	$('input:radio[name=qmd-type]').change(function(){
+		if ($('input:radio[name=qmd-type]:checked').val() == 'random') {
+			$('input:text[name=qmd-number]').attr('disabled', true);
+		} else {
+			$('input:text[name=qmd-number]').attr('disabled', false);
+		}
+	});
+	
+}
+
+function UI_prepare_getQuote() {
+	getQuote($(this).attr('type'), UI_prepare_post_modal);
 }
 
 function UI_set_loading(){
@@ -140,28 +155,32 @@ function UI_hide_loading(){
 	$('#loading-area').hide();
 }
 
-function UI_prepare_new_post_modal(){
-	$('#write-post-panel').attr('post-type', bbs_type.write_post.new);
-	$('#write-post-title').val('');
-	$('#write-post-content').val('');
-	$('input:text[name=qmd-number]').val('');
-	$('input:radio[name=qmd-type]').val('number');
-	$('#write-post-board').text(bbs_path.getBoard().name);
-	$('#write-post-panel').modal({
-		 keyboard: false,
-		 backdrop: 'static',
-		 show: false
-	});
-		 
-	$('#write-post-panel').modal('toggle');
-}
-
-function UI_prepare_reply_post_modal(quote_content){
-	$('#write-post-panel').attr('post-type', bbs_type.write_post.reply);
-	$('#write-post-title').val(quote_content.title);
-	$('#write-post-content').val(quote_content.content);
-	$('input:text[name=qmd-number]').val('');
-	$('input:radio[name=qmd-type]').val('number');
+function UI_prepare_post_modal(){
+	$('#write-post-panel').attr('post-type', bbs_post_info.type);
+	if (bbs_post_info.type == bbs_type.write_post.new) {
+		$('#write-post-title').val('');
+		$('#write-post-content').val('');
+	} else if (bbs_post_info.type == bbs_type.write_post.reply){
+		$('#write-post-title').val(bbs_post_info.quote.title);
+		$('#write-post-content').val(bbs_post_info.quote.content);
+	}
+	if (bbs_post_info.sig_id >= 0) {
+		$('input:text[name=qmd-number]').val(bbs_post_info.sig_id);
+		$('input:text[name=qmd-number]').attr('disabled', false);
+		$('input:radio[name=qmd-type][value=number]').attr('checked', true);
+	} else {
+		$('input:text[name=qmd-number]').val('');
+		$('input:text[name=qmd-number]').attr('disabled', true);
+		$('input:radio[name=qmd-type][value=random]').attr('checked', true);
+	}
+	if (bbs_post_info.can_anony) {
+		$('.no-anonymous-area').hide();
+		$('.anonymous-area').show();
+	} else {
+		$('.no-anonymous-area').show();
+		$('.anonymous-area').hide();
+	}
+	$('.anony-checkbox').attr('checked', false);
 	$('#write-post-board').text(bbs_path.getBoard().name);
 	$('#write-post-panel').modal({
 		 keyboard: false,
@@ -182,8 +201,11 @@ function UI_write_post(){
 		qmd_num = -1;
 	}
 	var content = $('#write-post-content').val();
-	//TODO: Add anonymouse code when pybbs is available.
+	
 	var anony = false;
+	if (bbs_post_info.can_anony && $('.anony-checkbox').attr('checked')){
+		anony = true;
+	}
 	var type = $('#write-post-panel').attr('post-type');
 	
 	UI_show_backdrop();
@@ -325,11 +347,11 @@ function UI_maindiv_update(pathTerm) {
 		
 		//Easter Eggs
 		if (pathTerm.name == 'e_note') {
-			$('#jump-to-post-input').attr('value', '23');
+			$('.jump-to-post-input').attr('value', '23');
 		} else if (pathTerm.name == 'test') {
-			$('#jump-to-post-input').attr('value', '1481');
+			$('.jump-to-post-input').attr('value', '1481');
 		} else {
-			$('#jump-to-post-input').attr('value', '');
+			$('.jump-to-post-input').attr('value', '');
 		}
 		
 		$('#board-table').show();

@@ -1,4 +1,6 @@
-﻿body {
+﻿/* Main area sizes */
+
+body {
 	padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
 }
 
@@ -9,8 +11,14 @@
 }
 
 .subnav .nav {
-	margin-bottom : 5px;
+	margin-bottom : 10px;
 }
+
+.well {
+	margin : 10px;
+}
+
+/* Headers, navbars and footers */
 
 .right-arrow {
 	vertical-align: middle;
@@ -26,6 +34,8 @@
 	padding: 35px 0 36px;
 	border-top: 1px solid #E5E5E5;
 }
+
+/* Loading logos */
 
 .loading {
 	position: fixed;
@@ -54,6 +64,8 @@
 	opacity: 0.35;
 }
 
+/* Tables and post areas */
+
 .board-table-center th,
 td.board-table-center {
 	text-align: center;
@@ -63,6 +75,13 @@ pre.post-view-area {
 	padding : 0px;
 	margin : 0px;
 	border : 0px;
+}
+
+.post-view-area {
+	margin-left: 10px;
+	margin-bottom: 10px;
+	margin-right: 10px;	
+	min-height: 440px;
 }
 
 tr.board-entry,
@@ -76,19 +95,26 @@ tr.folder-entry {
 	padding : 6px;
 }
 
-.bottom-button-bar {
+/* Bottom button bars */
+
+.button-bar {
 	text-align: center;
+	margin-bottom : 15px;
 }
 
-#board-buttons.bottom-button-bar {
-	margin-left : 100px;
+.top-button-bar {
+	margin-top : -5px;
 }
 
-#post-buttons.bottom-button-bar {
-	margin-left : 40px;
+#board-buttons.button-bar {
+	margin-left : 120px;
 }
 
-.bottom-button-bar .short-text {
+#post-buttons.button-bar {
+	margin-left : 60px;
+}
+
+.button-bar .short-text {
 	width : 40px;
 }
 
@@ -104,20 +130,13 @@ tr.folder-entry {
 	min-width : 100px;
 }
 
-.post-view-area {
-	margin-left: 10px;
-	margin-bottom: 10px;
-	margin-right: 10px;	
-	min-height: 440px;
-}
+/* Notification bar */
 
 p#notification-content {
 	margin: 0px;
 }
 
-.well {
-	margin : 10px;
-}
+/* Write post window */
 
 #write-post-title {
 	width : 560px;
@@ -149,8 +168,7 @@ p#notification-content {
 	max-height : 408px;
 }
 
-#write-post-panel .anony-checkbox {
-	margin-left : 30px;
+.anony-checkbox {
 	vertical-align : baseline;
 }
 
@@ -168,4 +186,13 @@ p#notification-content {
 	display: inline;
 	margin-left : 10px;
 	vertical-align : baseline;
+}
+
+.no-anonymous-area {
+	color	: red;
+}
+
+.anonymous-area,
+.no-anonymous-area {
+	margin-left : 30px;
 }

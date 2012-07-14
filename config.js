@@ -34,7 +34,8 @@ var bbs_query = {
 	},
 	write_post : {
 		get_quote		:			'/post/quote',
-		write_post	:			'/post/new'
+		write_post	:			'/post/new',
+		prepare			:			'/post/prepare'
 	}
 };
 
@@ -79,7 +80,9 @@ var bbs_msg = {
 		zhname : '错误：',
 		class_name : 'alert alert-error',
 		network_error : '网络连接异常，无法完成您的请求。',
-		unknown_error : '出现未知错误，请重新请求或联系开发者。'
+		unknown_error : '出现未知错误，请重新请求或联系开发者。',
+		cannot_reply	:	'此帖已被设置为不可回复。',
+		cannot_post		:	'本版已被设置为只读。'
 	},
 	warning : {
 		class_name : 'alert alert-block',

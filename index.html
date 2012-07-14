@@ -154,6 +154,16 @@
 	    	</div>  					
 	    	
 	    	<div id='board-table' class='hide'>
+    			<div class='button-bar board-buttons top-button-bar'>
+    				<button class='btn btn-info first-page-button'>第一页</button>
+    				<button class='btn btn-success prev-page-button'>上一页</button>
+    				<button class='btn btn-success next-page-button'>下一页</button>
+    				<button class='btn btn-info last-page-button'>最后一页</button>
+    				<span class='jump-to-post'>
+	    				跳转至<input class='short-text jump-to-post-input' />贴
+	    				<button class='btn btn-success jump-to-post-button'>跳转</button>
+	    			</span>
+    			</div>
 	    		<table class='table table-striped table-bordered'>
     				<thead class='board-table-head'>
     					<th width='60px'>编号</th>
@@ -165,28 +175,24 @@
     				<tbody id='board-table-body'>
     				</tbody>
     			</table>
-    			<div class='bottom-button-bar' id='board-buttons'>
-    				<button class='btn btn-info' id='first-page-button'>第一页</button>
-    				<button class='btn btn-success' id='prev-page-button'>上一页</button>
-    				<button class='btn btn-success' id='next-page-button'>下一页</button>
-    				<button class='btn btn-info' id='last-page-button'>最后一页</button>
+    			<div class='button-bar board-buttons bottom-button-bar'>
+    				<button class='btn btn-info first-page-button'>第一页</button>
+    				<button class='btn btn-success prev-page-button'>上一页</button>
+    				<button class='btn btn-success next-page-button'>下一页</button>
+    				<button class='btn btn-info last-page-button'>最后一页</button>
     				<span class='jump-to-post'>
-	    				跳转至<input class='short-text' id='jump-to-post-input' />贴
-	    				<button class='btn btn-success' id='jump-to-post-button'>跳转</button>
+	    				跳转至<input class='short-text jump-to-post-input' />贴
+	    				<button class='btn btn-success jump-to-post-button'>跳转</button>
 	    			</span>
     			</div>
 	    	</div>
 	    	
 	    	<div id='post-view' class='hide'>
-	    		<div>
-	    			<pre class='post-view-area' id='post-view-area'>
-	    			</pre>
-	    		</div>
-	    		<div class='bottom-button-bar' id='post-buttons'>
-	    			<button class='btn btn-info' id='st-prev-button'>同主题上一篇</button>
-    				<button class='btn btn-success' id='prev-post-button'>上一篇</button>
-    				<button class='btn btn-success' id='next-post-button'>下一篇</button>
-	    			<button class='btn btn-info' id='st-next-button'>同主题下一篇</button>
+	    		<div class='button-bar post-buttons top-button-bar'>
+	    			<button class='btn btn-info st-prev-button'>同主题上一篇</button>
+    				<button class='btn btn-success prev-post-button'>上一篇</button>
+    				<button class='btn btn-success next-post-button'>下一篇</button>
+	    			<button class='btn btn-info st-next-button'>同主题下一篇</button>
 	    			<span class='dropdown st-nav-menu'>
 	    				<a class='dropdown-toggle' data-toggle='dropdown' href='javascript:void(0)'>
 	    					更多选项
@@ -194,10 +200,34 @@
 	    				</a>
     					<ul class="dropdown-menu">
     						<li>
-    							<a href='javascript:void(0)' id='st-head-button'>阅读主题贴</a>
+    							<a href='javascript:void(0)' class='st-head-button'>阅读主题贴</a>
     						</li>
     						<li>
-    							<a href='javascript:void(0)' id='st-latest-button'>同主题最新</a>
+    							<a href='javascript:void(0)' class='st-latest-button'>同主题最新</a>
+    						</li>
+    					</ul>
+	    			</span>
+    			</div>	 	
+	    		<div>
+	    			<pre class='post-view-area' id='post-view-area'>
+	    			</pre>
+	    		</div>
+	    		<div class='button-bar post-buttons bottom-button-bar'>
+	    			<button class='btn btn-info st-prev-button'>同主题上一篇</button>
+    				<button class='btn btn-success prev-post-button'>上一篇</button>
+    				<button class='btn btn-success next-post-button'>下一篇</button>
+	    			<button class='btn btn-info st-next-button'>同主题下一篇</button>
+	    			<span class='dropdown st-nav-menu'>
+	    				<a class='dropdown-toggle' data-toggle='dropdown' href='javascript:void(0)'>
+	    					更多选项
+	    					<b class="caret"></b>
+	    				</a>
+    					<ul class="dropdown-menu">
+    						<li>
+    							<a href='javascript:void(0)' class='st-head-button'>阅读主题贴</a>
+    						</li>
+    						<li>
+    							<a href='javascript:void(0)' class='st-latest-button'>同主题最新</a>
     						</li>
     					</ul>
 	    			</span>
@@ -219,7 +249,12 @@
     						<br>
     						<div class='write-post-option'>
     							发表于<label id='write-post-board'><nobr></nobr></label>版
-    							<input class='unimplemented anony-checkbox' type='checkbox' name='anonymous' value='0' disabled='disabled' />匿名
+    							<span class='anonymous-area hide'>
+	    							<input class='anony-checkbox' type='checkbox' name='anonymous'/>匿名
+	    						</span>
+	    						<span class='no-anonymous-area hide'>
+	    							不支持匿名发帖
+	    						</span>
     						</div>
     					</div>
     					<div class='control-group'>
@@ -227,9 +262,9 @@
     					</div>
     					<div class='write-post-option'>
     							使用
-    							<input type='radio' class='radiobox unimplemented' name='qmd-type' value='random' disabled='disabled' />
+    							<input type='radio' class='radiobox' name='qmd-type' value='random'/>
     							随机签名档
-    							<input type='radio' class='radiobox' name='qmd-type' value='number' checked />
+    							<input type='radio' class='radiobox' name='qmd-type' value='number'/>
     							第
     							<input type='text' class='short-text' name='qmd-number' value='' />
     							个签名档
