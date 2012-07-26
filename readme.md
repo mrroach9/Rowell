@@ -5,7 +5,7 @@
 Rowell is a pure front-end web UI for you-know-which bbs. The web terminal relies on pybbs developed by Henryhu as back-end data exchange interface, and
 Bootstrap from Twitter as the front-end framework. 
 
-Rowell is still being developed and has released its 0.2.2 version, which supports the following functionals:
+Rowell is still being developed and has released its 0.2.3 version, which supports the following functionals:
 
 * Login/logout with session cookies.
 
@@ -15,7 +15,7 @@ Rowell is still being developed and has released its 0.2.2 version, which suppor
 
 * Post reading and navigations.
 
-* Writing new posts in normal mode, reply posts in S/R/N/A modes. Anonymous posting is not supported yet, random qmd is not supported yet.
+* Writing new posts in normal mode, reply posts in S/R/N/A modes. Anonymous posting and random qmd are supported.
 
 
 ##How to Use it
@@ -26,9 +26,7 @@ You can now try our alpha version at:
 
 Later we will try to set a build on the department internal servers. However since it is pure front-end, you can simply checkout all codes, and open index.html as a local webpage in your browser, or build it anywhere that supports HTTP service. Note that if Rowell is opened locally, it will be unable to save cookies and therefore cannot hold your login informations.
 
-Rowell has been tested on Firefox 8+ and Chrome 19+ browsers. However, since Rowell greatly uses CORS, ajax and other techniques in developing, it may fail on elder versions of Firefox and Chrome, and may fail for unknown problem on IE. We will keep improving your experience on all browsers by efforts on compatibility, but we claim that 
-
-WE WILL NEVER BE RESPONSIBLE FOR IE USERS!!!
+Rowell has been tested on Firefox 8+ and Chrome 19+ browsers. IE is not recommended for browsing, and we are sorry for this incompatibility.
 
 ##Development Plan
 
@@ -38,13 +36,25 @@ WE WILL NEVER BE RESPONSIBLE FOR IE USERS!!!
 
 * Simple ASCII art interpreter.
 
-* Random qmd and anonymous posting.
-
 * Personal information viewing, searching and editing.
 
 * Favboards management.
 
 ##Change Logs
+####Version 0.2.3
+Release date: 07/26/2012
+
+Cumulative update. Various modifications and new functions.
+
+* A expandible hotkey management system is added to Rowell, with several hotkeys added: left and right arrow keys for prev/next, p and r for writing and replying posts, ctrl+Enter and esc for quick publishing and cancelling posts being written.
+
+* Anonymous posting is now supported on anonymous-available boards. It will automatically detects the availability of anonymous posting.
+
+* Random qmd is now supported, Default qmd settings(number or random) will be stored.
+
+* Several UI adjustments: top sub-navigation bars are added. Margins and positions are adjusted.
+
+* A rare bug on ASCII control chars is fixed.
 
 ####Version 0.2.2
 Release date: 07/02/2012

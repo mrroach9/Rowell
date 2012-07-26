@@ -10,7 +10,7 @@ var bbs_error_session = 'SESSION_ERROR';
 
 var bbs_info = {
 	title : '9# BBS - Rowell ',
-	version : '0.2.2',
+	version : '0.2.3',
 	send_source : '[Sent from Rowell v'
 };
 

@@ -110,11 +110,11 @@ function UI_register_func(){
 		$(this).fadeOut();
 	});
 	
-	$('#reply-post-button').live('click', function(){
+	$('.reply-post-button').live('click', function(){
 		postPrepare(bbs_type.write_post.reply, UI_prepare_getQuote);
 	});
 	
-	$('#new-post-normal').live('click', function(){
+	$('.new-post-normal').live('click', function(){
 		postPrepare(bbs_type.write_post.new, UI_prepare_post_modal);
 	});
 	
@@ -123,6 +123,7 @@ function UI_register_func(){
 	$('#write-post-panel .cancel-button').live('click', function(){
 		if (confirm('确定舍弃当前未发布文章吗？')) {
 			$('#write-post-panel').modal('hide');
+			bbs_topmost_stack.pop();
 		}
 	});
 	
@@ -188,6 +189,7 @@ function UI_prepare_post_modal(){
 		 show: false
 	});
 	$('#write-post-panel').modal('toggle');
+	bbs_topmost_stack.push('#write-post-panel');
 }
 
 function UI_write_post(){
@@ -208,7 +210,10 @@ function UI_write_post(){
 	}
 	var type = $('#write-post-panel').attr('post-type');
 	
+	$('#write-post-panel').modal('hide');
+	bbs_topmost_stack.pop();
 	UI_show_backdrop();
+	
 	writePost(type, title, content, qmd_num, anony, UI_update);
 }
 
@@ -237,6 +242,8 @@ function UI_init() {
 		title: '矮油',
 		content: '此功能尚未实现，我们将在后续版本中添加，敬请谅解。'
 	});
+	
+	bbs_topmost_stack.splice(0);
 }
     	
 function UI_login_finished(result){
@@ -256,6 +263,7 @@ function UI_login_finished(result){
 	    
 function UI_logout(){
 	removeSessionCookie();
+	bbs_topmost_stack.splice(0);
 	$('#unlogged-navbar').show();
 	$('#unlogged-panel').show();
 	$('#logged-navbar').hide();
@@ -329,6 +337,7 @@ function UI_maindiv_update(pathTerm) {
 	$('#boardlist-table').hide();
 	$('#board-table').hide();
 	$('#post-view').hide();
+	bbs_topmost_stack.splice(0);
 	if (pathTerm.type == bbs_type.path.allboard ||
 	    pathTerm.type == bbs_type.path.favboard ||
 	    pathTerm.type == bbs_type.path.folder) {
@@ -338,6 +347,7 @@ function UI_maindiv_update(pathTerm) {
 			$('#boardlist-table-body').append(entryStr);
 		}
 		$('#boardlist-table').show();
+		bbs_topmost_stack.push('#boardlist-table');
 	} else if (pathTerm.type == bbs_type.path.board) {			
 		$('#board-table-body').empty();
 		for (var i = 0; i < pathTerm.data.length; ++i) {
@@ -355,10 +365,12 @@ function UI_maindiv_update(pathTerm) {
 		}
 		
 		$('#board-table').show();
+		bbs_topmost_stack.push('#board-table');
 	} else if (pathTerm.type == bbs_type.path.post) {
 		$('#post-view-area').empty();
 		$('#post-view-area').html(pathTerm.data.content);
 		$('#post-view').show();
+		bbs_topmost_stack.push('#post-view');
 	}
 }
 	    
@@ -413,4 +425,54 @@ function UI_generate_post_entry(entry){
 								 +		'<td>' + entry.title + '</td>'
 								 + '</tr>';
 	return entryStr;
+}
+
+
+function UI_register_hotkeys(){
+	//Ctrl + Enter(13) on #write-post-panel: Publish post;
+	var publishPostHotkey = new Hotkey(13, true, false, 
+		'#write-post-panel', '#publish-post-button', 'click');
+		
+	//Esc(27) on #write-post-panel: Cancel posting;
+	var cancelPostHotkey = new Hotkey(27, false, false, 
+		'#write-post-panel', '#cancel-post-button', 'click');
+		
+	//Left(37) and Right(39) on #post-view: next post and prev post;
+	var prevPostHotkey = new Hotkey(37, false, false,
+		'#post-view', '.prev-post-button', 'click');
+	var nextPostHotkey = new Hotkey(39, false, false,
+		'#post-view', '.next-post-button', 'click');
+		
+	//Ctrl + Left/Right on #post-view: Same topic next/prev post;
+	var SpPrevPostHotkey = new Hotkey(37, true, false,
+		'#post-view', '.st-prev-button', 'click');
+	var SpNextPostHotkey = new Hotkey(39, true, false,
+		'#post-view', '.st-next-button', 'click');
+	
+	//Left and Right on #board-table: next and prev page of posts;
+	var prevPageHotkey = new Hotkey(37, false, false,
+		'#board-table', '.prev-page-button', 'click');
+	var nextPageHotkey = new Hotkey(39, false, false,
+		'#board-table', '.next-page-button', 'click');
+		
+	//r on #post-view: reply in normal mode;
+	var replyHotkey = new Hotkey(82, false, false,
+		'#post-view', '.reply-post-button[type=S]', 'click');
+	
+	//p on #board-table: write a new post in normal mode;
+	var writePostHotkey = new Hotkey(80, false, false,
+		'#board-table', '.new-post-normal', 'click');
+		
+	bbs_hotkey_manager.untriggerAll();
+	bbs_hotkey_manager.add(publishPostHotkey);
+	bbs_hotkey_manager.add(cancelPostHotkey);
+	bbs_hotkey_manager.add(prevPostHotkey);
+	bbs_hotkey_manager.add(nextPostHotkey);
+	bbs_hotkey_manager.add(SpPrevPostHotkey);
+	bbs_hotkey_manager.add(SpNextPostHotkey);
+	bbs_hotkey_manager.add(prevPageHotkey);
+	bbs_hotkey_manager.add(nextPageHotkey);
+	bbs_hotkey_manager.add(replyHotkey);
+	bbs_hotkey_manager.add(writePostHotkey);
+	bbs_hotkey_manager.triggerAll();
 }

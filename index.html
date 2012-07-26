@@ -108,24 +108,24 @@
 	    			<li><ul class='nav nav-pills path'></ul></li>
 	    			<li class='pull-right'>
 	    				<div class='btn-group hide' id='reply-button'>
-	    					<button class='btn btn-large btn-success' href='javascript:void(0)' id='reply-post-button' type='S'>回复 </button>
+	    					<button class='btn btn-large btn-success reply-post-button' href='javascript:void(0)' type='S'>回复 </button>
 	    					<button class='btn btn-large btn-success dropdown-toggle' data-toggle='dropdown'>
 	    						<span class='caret caret-white'></span>
 	    					</button>
 	    					<ul class='dropdown-menu'>
-	    						<li><a href='javascript:void(0)' id='reply-post-button' type='S'>普通模式(S)回复</a></li>
-	    						<li><a href='javascript:void(0)' id='reply-post-button' type='R'>R模式回复</a></li>
-	    						<li><a href='javascript:void(0)' id='reply-post-button' type='A'>A模式回复</a></li>
-	    						<li><a href='javascript:void(0)' id='reply-post-button' type='N'>N模式回复</a></li>
+	    						<li><a href='javascript:void(0)' class='reply-post-button' type='S'>普通模式(S)回复</a></li>
+	    						<li><a href='javascript:void(0)' class='reply-post-button' type='R'>R模式回复</a></li>
+	    						<li><a href='javascript:void(0)' class='reply-post-button' type='A'>A模式回复</a></li>
+	    						<li><a href='javascript:void(0)' class='reply-post-button' type='N'>N模式回复</a></li>
 	    					</ul>
 	    				</div>
 	    				<div class='btn-group hide' id='post-button'>
-	    					<button class='btn btn-large btn-danger' href='javascript:void(0)' id='new-post-normal'>发帖</button>
+	    					<button class='btn btn-large btn-danger new-post-normal' href='javascript:void(0)'>发帖</button>
 	    					<button class='btn btn-large btn-danger dropdown-toggle' data-toggle='dropdown'>
 	    						<span class='caret'></span>
 	    					</button>
 	    					<ul class='dropdown-menu'>
-	    						<li><a href='javascript:void(0)' id='new-post-normal'>普通模式</a></li>
+	    						<li><a href='javascript:void(0)' class='new-post-normal'>普通模式</a></li>
 	    						<li><a href='javascript:void(0)' class='unimplemented'>Latex模式(X)</a></li>
 	    						<li><a href='javascript:void(0)' class='unimplemented'>使用模板(T)</a></li>
 	    					</ul>
@@ -273,8 +273,8 @@
     			</form>
     		</div>
     		<div class='modal-footer'>
-    			<a class='btn btn-primary' id='publish-post-button' data-dismiss='modal'>发表</a>
-    			<a class='btn cancel-button'>取消</a>
+    			<a class='btn btn-primary' id='publish-post-button'>发表</a>
+    			<a class='btn cancel-button' id='cancel-post-button'>取消</a>
   			</div>
     	</div>
     	
@@ -336,10 +336,12 @@
     <script src='bbs_UI.js'></script>
     <script src='bbs_post.js'></script>
     <script src='bbs_path.js'></script>
+    <script src='bbs_hotkey.js'></script>
     
     <script type='text/javascript'>
 			$(document).ready(function(){
 				UI_register_func();
+				UI_register_hotkeys();
 				UI_init();
 				UI_session_retrieved($.cookie(bbs_session_cookie));
 			});							
