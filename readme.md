@@ -1,176 +1,172 @@
 #Rowell
 
-##Introduction
+##简介
 
-Rowell is a pure front-end web UI for you-know-which bbs. The web terminal relies on pybbs developed by Henryhu as back-end data exchange interface, and
-Bootstrap from Twitter as the front-end framework. 
+Rowell是为某井开发的一个纯前端的网络界面。Rowell的后台基于刚爷开发的pybbs数据接口，前端界面基于Bootstrap开发。目前的最新版本为0.2.3，支持以下功能：
 
-Rowell is still being developed and has released its 0.2.3 version, which supports the following functionals:
+* 带有session cookie的登入/登出功能。
 
-* Login/logout with session cookies.
+* 版面列表，收藏夹列表功能，支持收藏夹中的多级子目录。
 
-* All boards listing and fav boards listing, including subfolders.
+* 版内帖子列表及多种相关导航功能（上下页/首页/末页/跳转）
 
-* Posts listing in boards and various navigations.
+* 帖子阅读及导航（上下贴/同主题上下贴/主题贴及最新）
 
-* Post reading and navigations.
-
-* Writing new posts in normal mode, reply posts in S/R/N/A modes. Anonymous posting and random qmd are supported.
+* 普通模式发表新文章，及R/N/S/A模式回复文章，支持随机qmd，默认qmd及匿名发帖。
 
 
-##How to Use it
+##如何使用
 
-You can now try our alpha version at:
+您可以在下面的网址试用我们的内测版：
 
     http://bbs9.roach-works.com
 
-Later we will try to set a build on the department internal servers. However since it is pure front-end, you can simply checkout all codes, and open index.html as a local webpage in your browser, or build it anywhere that supports HTTP service. Note that if Rowell is opened locally, it will be unable to save cookies and therefore cannot hold your login informations.
+我们将在今后尝试将其搭建在某井内部服务器上以方便访问。事实上由于Rowell是纯前端的界面，您可下载全部代码，并在本地打开index.html进行访问，或将其搭建于任何支持HTTP服务的服务器上。注意：若您以本地文件形式访问，将无法使用cookie相关的功能。
 
-Rowell has been tested on Firefox 8+ and Chrome 19+ browsers. IE is not recommended for browsing, and we are sorry for this incompatibility.
+Rowell已在Firefox 8.0及以上版本，Chrome 16及以上版本，以及Safari上通过测试。由于一些技术及兼容性问题，我们不推荐您使用IE浏览器进行访问，由此导致的不便请您谅解。
 
-##Development Plan
+##开发计划
 
-* Unread tags clearing.
+* 未读标记清理
 
-* Configuration system.
+* 用户自定义设置系统
 
-* Simple ASCII art interpreter.
+* 简单的彩色ASCII控制字符解释器
 
-* Personal information viewing, searching and editing.
+* 个人信息查看，查询及修改
 
-* Favboards management.
+* 收藏夹管理
 
-##Change Logs
+##更新日志
 ####Version 0.2.3
-Release date: 07/26/2012
+发布日期: 07/26/2012
 
-Cumulative update. Various modifications and new functions.
+累积更新。大量改动与新功能上线。
 
-* A expandible hotkey management system is added to Rowell, with several hotkeys added: left and right arrow keys for prev/next, p and r for writing and replying posts, ctrl+Enter and esc for quick publishing and cancelling posts being written.
+* 增加了一个易扩展的快捷键系统，并添加了一系列快捷键: 使用左右箭头可访问前一页（前一贴）/后一页（后一贴）, 使用p与r快速发帖和回复, 使用ctrl+Enter及Esc快速发布或取消当前贴子。
 
-* Anonymous posting is now supported on anonymous-available boards. It will automatically detects the availability of anonymous posting.
+* 支持匿名发帖。发帖或回帖时将自动检测是否支持匿名。
 
-* Random qmd is now supported, Default qmd settings(number or random) will be stored.
+* 支持随机签名档，系统将读取默认签名档设置（随机或固定编号）。
 
-* Several UI adjustments: top sub-navigation bars are added. Margins and positions are adjusted.
+* 一些UI调整：包括增加了上部的子导航栏，及部分边距的调整。
 
-* A rare bug on ASCII control chars is fixed.
+* 修复了一个ASCII控制字符可能导致的罕见bug。
 
 ####Version 0.2.2
-Release date: 07/02/2012
+发布日期: 07/02/2012
 
-Cumulative update. Various modifications and new functional on UI.
+累积更新。大量改动与新功能上线。
 
-* A completely new, robust and easy-expandible path structure is now working, with subfolder displaying and visiting supported.
+* 增加了一个稳定且易于扩展的路径管理系统，并支持访问收藏夹中的子目录。
 
-* Four types of same-topic navigating are supported: prev, next, head and latest posts in threads.
+* 增加了四种同主题导航方式：同主题上一帖/下一贴，查看主题贴及查看同主题最新。
 
-* Loading logo is added when a request hangs over 500ms.
+* 在请求超过500ms时，增加了loading图标。
 
-* A confirm window will popup when user tries to close the posting window in any way.
+* 用户尝试关闭发帖窗口时，将弹出确认框防止意外丢失文章。
 
-* Other minor modifications including bug fixing, modification for consistence to pybbs (Chinese board names), and UI adjustments (unread column is now widened).
+* 其他微小的改动。包括一些bug的修复，对pybbs最新接口的兼容性修复，及一些UI调整（帖子列表中的未读标记栏变宽了）
 
 ####Version 0.2.1
-Release date: 06/16/2012
+发布日期: 06/16/2012
 
-Cumulative update. Various modifications and new functional on UI.
+累积更新。大量改动、UI调整与新功能上线。
 
-* Monospaced font is now supported in reading posts.
+* 阅读帖子时将以等宽字体显示。
 
-* Notification displaying time decreases from 3s to 2s. User can click anywhere on the notif. bar besides the close button to close it immediately.
+* 通知消息的显示时间从3秒缩短为2秒，用户可点击通知栏任意部位立刻将其关闭。
 
-* Decreased the width of entire container from >1100px downto 960px, making it looks better under low-resolutional screens.
+* 减小了界面整体宽度，从1100px降低为960px，以适应低分辨率显示器。
 
-* A bug from pybbs is fixed, which used to cause exceptions when reading posts containing 0x80 chars.
+* 来自pybbs的一个bug得到修复，目前包含0x80的字符将不再导致请求错误。
 
-* First page, last page, and jump to certain position in board viewing is now supported.
+* 版内帖子列表支持首页、末页及跳转功能。
 
-Current Existing bug:
+目前已知Bug：
 
-* Monospaced font is still not perfectly performing on some ASCII arts and posts.
+* 等宽字体目前仍无法完美显示Term界面下的所有ASCII Arts和排版。
 
 ####Version 0.2.0
-Release date: 06/15/2012
+发布日期: 06/15/2012
 
-* Writing posts in normal mode are supported
+* 支持在普通模式下发布新帖。
 
-* Replying in S/N/A/R modes are supported. Anonymous posting and random qmd are not supported for writing or replying yet.
+* 支持S/R/N/A模式的帖子回复。目前暂不支持匿名及随机qmd。
 
-* UI slightly adjusted.
+* UI上的细节调整。
 
 ####Version 0.1.3
-Release date: 06/14/2012
+发布日期: 06/14/2012
 
-* A popup panel for writing and replying posts are added, UI design finished.
+* 发布新帖及回帖时弹出的窗口面板UI设计完毕。
 
-* First/Last page buttons, prev/next buttons for same topic posts, and manage favboards button are added to UI, no actual functionals for now.
+* 首页/末页/同主题上一帖/下一贴/管理收藏夹按钮被加入UI，暂无具体功能实现。
 
-* Descriptions at the footer are adjusted.
+* 调整了底部介绍文字。
 
 ####Version 0.1.2
-Release date: 06/14/2012
+发布日期: 06/14/2012
 
-*  Notification system is added, an alert info box will popup at the top when a notification arrives. Currently post/boards out of range info and network error are supported. The notifications can be easily expanded for future usage.
+* 增加了提示信息系统，新的通知将在页面上方弹出。目前支持到达最后一页/第一页/异常网络错误信息。此信息系统易于扩展，可轻松添加其他信息。
 
-* CORS is supported when error occurs. Correspondingly, "retry" args are removed from several functions in bbs_view.js. The error type detection now purely depends on the http status code.
+* 来自pybbs的改动：返回错误信息时也已支持CORS。相应地，"retry"参数已从bbs_view.js设计中移除。错误检测将完全依赖状态码及状态文字。
 
-* UI improvements: the post area now has a minimum height of 480px, giving the next and prev button a fixed position for most of the short
-posts. 
-Contents in footer is slightly modified. Unread posts and boards now have a new icon.
+* UI上的改进：帖子阅读区增加480px的最小高度，方便短文章的快速阅读。底部介绍文字进行了改动。未读标记更改为一个新的图标。
 
-* Google Analysis code is added for stats.
+* 增加了用于统计信息的Google Analysis代码。
 
 ####Version 0.1.1
-Release date: 06/10/2012
+发布日期: 06/10/2012
 
-* Bug fixed: A previous bug that appears in newer version of firefox may receive ajax response as XML as default settings, which cause a XML parsing error. It has been fixed by setting the response to plain text in order to be compatible to both Chrome and Firefox.
+* 修复了一个之前可能导致最新版Firefox访问失败的Bug，这是由于firefox将ajax返回数据默认作为XML，从而导致XML解析失败。目前设置格式为plain text，以保证各浏览器行为一致。
 
 ####Version 0.1
-Release date: 06/10/2012
+发布日期: 06/10/2012
 
-* Post viewing is now supported with html encoded, ASCII control characters eliminated, displaying in plain texts. Prev and next post button are also provided for navigation.
+* 增加了帖子阅读功能，去掉了所有ASCII控制字符，将帖子文本HTML encode后以普通文本显示。同时增加了通过上一帖/下一贴按钮进行导航的功能。
 
-* Several bugs are fixed, including tags that are not hided when loading the UI and other minor bugs.
+* 修正了一系列bug。
 
-* Refinements on UI design.
+* UI设计的一系列优化。
 
-Current existing bug:
+目前存在的Bug：
 
-* Due to the same CORS error in v0.0.4, the browser may report an error in console when user tries to read next post if it already reaches the end of the board.(This bug has been fixed in v0.1.2.)
+* 由于v0.0.4中存在的CORS错误，当用户在最后一贴尝试访问下一贴时将导致错误。(此bug已在v0.1.2得到修复)
 
 ####Version 0.0.4
-Release date: 06/06/2012
+发布日期: 06/06/2012
 
-* Board viewing with next/prev button is supported, with all posts listed in tables.
+* 支持版内帖子列表，可通过上一页/下一页按钮进行导航。所有帖子将显示在表格中。
 
-* Several bug fixed, including html encoding problem that may cause injection, and incomplete board and post listing bug.
+* 修正了一系列bug：包括未进行html encoding导致的注入漏洞，导致版面列表和帖子列表显示不完整的bug等。
 
-* Some refinement on the UI design.
+* UI设计的一系列优化。
 
-Current existing bug:
+目前存在的Bug:
 
-* When reaching the bottom of a board, next button will lead to an error since incomplete CORS support. (This bug has been fixed in v0.1.2.)
+* 当用户在最后一贴尝试访问下一贴时将导致错误。(此bug已在v0.1.2得到修复)
 
 ####Version 0.0.3
-Release date: 06/06/2012
+发布日期: 06/06/2012
 
-* Board list viewing is supported, all boards(or favourite boards) are displayed in tables.
+* 支持访问版面列表，“所有版面”和“收藏夹”列表将在表格中显示。
 
-* Secondary navigation bar now works, displaying the current path of user's location.
+* 增加了次级导航栏，显示用户当前所在位置及路径。
 
 ####Version 0.0.2
-Release date: 06/05/2012
+发布日期: 06/05/2012
 
-* Login and logout functional added, with CORS newly supported from pybbs. Users will be redirected to default pybbs login page, then input authorization code back. 
+* pybbs支持CORS功能。通过此功能实现了登入/登出功能。用户将被跳转至官方登录页面，登录后返回填写授权码进行登录。
 
-* Session cookie is stored. When user logs out, the session cookie will be removed.
+* 支持Session cookie以实现自动登录。当用户主动登出时，session cookie也将被移除。
 
-* Footers and "unimplemented" popup are added to UI. Several other minor improvement on UI design.
+* UI设计增加了页脚介绍及“未实现”标签，以及一系列其他微小改动。
 
 
 ####Version 0.0.1
-Release date: 06/04/2012
+发布日期: 06/04/2012
 
-First build. Basic UI framework built based on Twitter Bootstrap. No actural functions supported.
+首次提交，仅包括Bootstrap设计的基础UI界面，无任何实际功能实现。
+
 
