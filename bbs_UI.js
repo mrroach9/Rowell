@@ -279,7 +279,17 @@ function UI_path_click(){
 	} else if (pathTerm.type == bbs_type.path.favboard){
 		view_boardlist(bbs_type.entry.favboard, -1, '', UI_update, id);
 	} else if (pathTerm.type == bbs_type.path.board){
-		view_board(pathTerm.name, -1, -1, UI_update, 'click', id);
+		var postPathTerm = bbs_path.getLast();
+		if (postPathTerm.type == bbs_type.path.post) {
+			var currentId = postPathTerm.data.id;
+			if (currentId + 1 < bbs_post_count) {
+				view_board(pathTerm.name, 1, -1, UI_update, 'click', id);
+			} else {
+				view_board(pathTerm.name, -1, currentId + 1, UI_update, 'click', id);
+			}
+		} else {
+			view_board(pathTerm.name, -1, -1, UI_update, 'click', id);
+		}
 	} else if (pathTerm.type == bbs_type.path.folder) {
 		view_boardlist(bbs_type.entry.folder, pathTerm.index, pathTerm.name, UI_update, id);
 	}

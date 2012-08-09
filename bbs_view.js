@@ -56,10 +56,17 @@ function view_board(board_name, start, end, callback_func, source, popNum){
 		cache: false
 	};
 	
-	if (start <= 0 || end - start > bbs_max_post_count) {
-		request_settings.data.count = bbs_post_count;
-	} else if (end < 0) {
+	if (start <= 0){
+		if (end <= 0) {
+			request_settings.data.count = bbs_post_count;
+		} else {
+			request_settings.data.end = end;
+			request_settings.data.count = bbs_post_count;
+		}
+	} else if (end <= 0) {
 		request_settings.data.start = start;
+		request_settings.data.count = bbs_post_count;
+	} else if (end - start > bbs_max_post_count) {
 		request_settings.data.count = bbs_post_count;
 	} else {
 		request_settings.data.start = start;
