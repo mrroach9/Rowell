@@ -31,7 +31,6 @@ function postPrepare(mode, callback_func){
 		dateType	:	'text',
 		cache	: false
 	};
-	
 	var resp = $.ajax(request_settings);
 	resp.success(function(response){
 		var res = JSON.parse(response)

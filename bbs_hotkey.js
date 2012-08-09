@@ -73,7 +73,27 @@ function HotkeyManager() {
 			if (hotkey.selector != selector) {
 				return;
 			}
-			$(hotkey.target).trigger(hotkey.trigger);	
+			$(hotkey.target).first().trigger(hotkey.trigger);	
+			return false;
+		});
+		$(document).keydown(function(event) {
+				var keycode = event.keyCode;
+				var mask = 0;
+				mask += event.ctrlKey ? 1 : 0;
+				mask += event.altKey ? 2 : 0;
+				var selector = bbs_topmost_stack[bbs_topmost_stack.length - 1];
+				var list = manager.hotkeyMap[selector];
+				if (list == null) {
+					return;
+				}
+				var list = list[keycode];
+				if (list == null) return;
+				var hotkey = list[mask];
+				if (hotkey == null) return;
+				if (hotkey.selector != selector) {
+					return;
+				}
+				return false;
 		});
 	};
 	
@@ -86,3 +106,60 @@ function HotkeyManager() {
 
 var bbs_hotkey_manager = new HotkeyManager();
 var bbs_topmost_stack = new Array();
+
+function register_default_hotkeys(){
+	//Ctrl + Enter(13) on #write-post-panel: Publish post;
+	var publishPostHotkey = new Hotkey(13, true, false, 
+		'#write-post-panel', '#publish-post-button', 'click');
+		
+	//Esc(27) on #write-post-panel: Cancel posting;
+	var cancelPostHotkey = new Hotkey(27, false, false, 
+		'#write-post-panel', '#cancel-post-button', 'click');
+		
+	//Left(37) and Right(39) on #post-view: next post and prev post;
+	var prevPostHotkey = new Hotkey(37, false, false,
+		'#post-view', '.prev-post-button', 'click');
+	var nextPostHotkey = new Hotkey(39, false, false,
+		'#post-view', '.next-post-button', 'click');
+		
+	//Ctrl + Left/Right on #post-view: Same topic next/prev post;
+	var SpPrevPostHotkey = new Hotkey(37, true, false,
+		'#post-view', '.st-prev-button', 'click');
+	var SpNextPostHotkey = new Hotkey(39, true, false,
+		'#post-view', '.st-next-button', 'click');
+		
+	//p and l on #post-view: Same topic next/prev post;
+	var SpPrevPostHotkeyL = new Hotkey(76, false, false,
+		'#post-view', '.st-prev-button', 'click');
+	var SpNextPostHotkeyP = new Hotkey(80, false, false,
+		'#post-view', '.st-next-button', 'click');
+	
+	//Left and Right on #board-table: next and prev page of posts;
+	var prevPageHotkey = new Hotkey(37, false, false,
+		'#board-table', '.prev-page-button', 'click');
+	var nextPageHotkey = new Hotkey(39, false, false,
+		'#board-table', '.next-page-button', 'click');
+		
+	//r on #post-view: reply in normal mode;
+	var replyHotkey = new Hotkey(82, false, false,
+		'#post-view', '.reply-post-button[type=S]', 'click');
+	
+	//Ctrl + p on #board-table: write a new post in normal mode;
+	var writePostHotkey = new Hotkey(80, true, false,
+		'#board-table', '.new-post-normal', 'click');
+		
+	bbs_hotkey_manager.untriggerAll();
+	bbs_hotkey_manager.add(publishPostHotkey);
+	bbs_hotkey_manager.add(cancelPostHotkey);
+	bbs_hotkey_manager.add(prevPostHotkey);
+	bbs_hotkey_manager.add(nextPostHotkey);
+	bbs_hotkey_manager.add(SpPrevPostHotkey);
+	bbs_hotkey_manager.add(SpNextPostHotkey);
+	bbs_hotkey_manager.add(SpPrevPostHotkeyL);
+	bbs_hotkey_manager.add(SpNextPostHotkeyP);
+	bbs_hotkey_manager.add(prevPageHotkey);
+	bbs_hotkey_manager.add(nextPageHotkey);
+	bbs_hotkey_manager.add(replyHotkey);
+	bbs_hotkey_manager.add(writePostHotkey);
+	bbs_hotkey_manager.triggerAll();
+}
