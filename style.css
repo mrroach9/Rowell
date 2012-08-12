@@ -115,6 +115,18 @@ img.attach-logo {
 	height : 15px;
 }
 
+.pic-attach-area,
+.other-attach-area {
+	margin-top : 40px;
+}
+
+.other-attach-area > div.well {
+	width : 30%;
+	padding-top : 10px;
+	padding-bottom : 10px; 
+	background-color : #E3E3E3;
+}
+
 /* Bottom button bars */
 
 .button-bar {

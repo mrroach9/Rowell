@@ -334,10 +334,10 @@ function UI_subnavbar_update(path) {
 	$('.favboard-btns').hide();
 	$('.allboard-btns').hide();
 	
-	var arrow = '<li><i class=\'icon-chevron-right right-arrow\' id=\'boardlist-board-nav-arrow\'></i></li>';
+	var arrow = '<li><i class="icon-chevron-right right-arrow" id="boardlist-board-nav-arrow"></i></li>';
 	var d = path.depth();
 	for (var i = 0; i < d; ++i) {	
-		var term = '<li><a href=\'javascript:void(0)\' id=\'path-term\' path-id=' + i + '>'
+		var term = '<li><a href="javascript:void(0)" id="path-term" path-id=' + i + '>'
 						 + path.pathList[i].name
 						 + '</a></li>';
 		if (i != 0) {
@@ -392,7 +392,10 @@ function UI_maindiv_update(pathTerm) {
 		bbs_topmost_stack.push('#board-table');
 	} else if (pathTerm.type == bbs_type.path.post) {
 		$('#post-view-area').empty();
-		$('#post-view-area').html(linkify(pathTerm.data.content));
+		var content = linkify(pathTerm.data.content)
+								+ UI_generate_pic_attach_code(pathTerm.data)
+								+ UI_generate_other_attach_code(pathTerm.data);
+		$('#post-view-area').html(content);
 		$('#post-view').show();
 		bbs_topmost_stack.push('#post-view');
 	}
@@ -455,6 +458,45 @@ function UI_generate_post_entry(entry){
 	return entryStr;
 }
 
+function UI_generate_pic_attach_code(data) {
+	if (data.picattach.length <= 0) return '';
+	var attach_code = '<div class="pic-attach-area">'
+									+		'本帖附带图片如下：'
+									+		'<ul class="thumbnails">';
+	var attach_link = data.attachlink + '&a=';
+	for (var id in data.picattach) {
+		var attach = data.picattach[id];
+		attach_code += '<li class="span2">'
+								+	 	'<a href="' + attach_link + attach.offset + '"'
+								+		' title="' + attach.name + '\n点击查看大图"'
+								+		' target="_blank" class="thumbnail">'
+								+			'<img src="' + attach_link + attach.offset + '"'
+								+			'alt="' + attach.name + '" />'
+								+		'</a>'
+								+	 '</li>';
+	}
+	attach_code += '</ul></div>';
+	return attach_code;
+}
+
+function UI_generate_other_attach_code(data) {
+	if (data.otherattach.length <= 0) return '';
+	var attach_code = '<div class="other-attach-area">'
+									+		'本帖附带文件如下：'
+	var attach_link = data.attachlink + '&a=';
+	for (var id in data.otherattach) {
+		var attach = data.otherattach[id];
+		attach_code += '<div class="well">'
+								+		'<i class="icon-file" />'
+								+		attach.name
+								+		'<br>'
+								+	 	'<a href="' + attach_link + attach.offset + '"'
+								+		' target="_blank">下载文件</a>'
+								+	'</div>';
+	}
+	attach_code += '</ul></div>';
+	return attach_code;
+}
 
 function UI_register_hotkeys(){
 	register_default_hotkeys();
