@@ -111,7 +111,7 @@
 	    					<!-- Reply Button Group -->
 		    				<div class='btn-group subnav-right-btn' id='reply-button'>
 		    					<button class='btn btn-large btn-success reply-post-button' href='javascript:void(0)' type='S'>回复</button>
-		    					<button class='btn btn-large btn-success dropdown-toggle' data-toggle='dropdown'>
+		    					<button class='btn btn-large btn-success dropdown-toggle dropdown-caret' data-toggle='dropdown'>
 		    						<span class='caret caret-white'></span>
 		    					</button>
 		    					<ul class='dropdown-menu'>
@@ -121,12 +121,27 @@
 		    						<li><a href='javascript:void(0)' class='reply-post-button' type='N'>N模式回复</a></li>
 		    					</ul>
 		    				</div>
+		    				<!-- Settings Button Group -->
+		    				<div class='btn-group subnav-right-btn'>
+		    					<button class='btn btn-info btn-large dropdown-toggle' data-toggle='dropdown'>
+		    						&nbsp;选项&nbsp;&nbsp;&nbsp;
+		    						<span class='caret'></span>
+		    					</button>
+		    					<ul class='dropdown-menu'>
+		    						<li>
+		    							<a href='javascript:void(0)' class='edit-post unimplemented'>修改本帖 (E)</a>
+		    						</li>
+		    						<li>
+		    							<a href='javascript:void(0)' class='delete-post unimplemented'>删除本帖 (d)</a>
+		    						</li>
+		    					</ul>
+		    				</div>
 		    			</div>
 		    			<div class='board-btns hide'>
 		    				<!-- Write Post Button Group -->
 		    				<div class='btn-group subnav-right-btn' id='post-button'>
 		    					<button class='btn btn-large btn-danger new-post-normal' href='javascript:void(0)'>发帖</button>
-		    					<button class='btn btn-large btn-danger dropdown-toggle' data-toggle='dropdown'>
+		    					<button class='btn btn-large btn-danger dropdown-toggle dropdown-caret' data-toggle='dropdown'>
 		    						<span class='caret'></span>
 		    					</button>
 		    					<ul class='dropdown-menu'>
@@ -145,14 +160,28 @@
 		    						<li>
 		    							<a href='javascript:void(0)' class='clear-board-unread'>清除未读标记 (f)</a>
 		    						</li>
+		    						<li>
+		    							<a href='javascript:void(0)' class='view-board-note unimplemented'>查看本版备忘录 (z)</a>
+		    						</li>
+		    						<li>
+		    							<a href='javascript:void(0)' class='view-board-secnote unimplemented'>查看本版秘密备忘录 (Tab)</a>
+		    						</li>
 		    					</ul>
 		    				</div>
 	    				</div>
 	    				<div class='favboard-btns hide'>
-	    					<!-- Manage Favarite Board Button -->
-		    				<div id='manage-fav-button subnav-right-btn'>
-			    				<button class='btn btn-large btn-danger unimplemented'>管理收藏夹</button>
-			    			</div>
+	    					<!-- Settings Button Group -->
+		    				<div class='btn-group subnav-right-btn'>
+		    					<button class='btn btn-info btn-large dropdown-toggle' data-toggle='dropdown'>
+		    						&nbsp;选项&nbsp;&nbsp;&nbsp;
+		    						<span class='caret'></span>
+		    					</button>
+		    					<ul class='dropdown-menu'>
+		    						<li>
+		    							<a href='javascript:void(0)' class='manage-favboards unimplemented'>管理收藏夹</a>
+		    						</li>
+		    					</ul>
+		    				</div>
 			    		</div>
 			    		<div class='allboard-btns hide'>
 			    			<!-- Settings Button Group -->
