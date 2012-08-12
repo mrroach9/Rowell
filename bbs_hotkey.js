@@ -148,6 +148,10 @@ function register_default_hotkeys(){
 	var writePostHotkey = new Hotkey(80, true, false,
 		'#board-table', '.new-post-normal', 'click');
 		
+	//f on #board-table: clear unread tags;
+	var clearUnreadHotkey = new Hotkey(70, false, false,
+		'#board-table', '.clear-board-unread', 'click');
+		
 	bbs_hotkey_manager.untriggerAll();
 	bbs_hotkey_manager.add(publishPostHotkey);
 	bbs_hotkey_manager.add(cancelPostHotkey);
@@ -161,5 +165,6 @@ function register_default_hotkeys(){
 	bbs_hotkey_manager.add(nextPageHotkey);
 	bbs_hotkey_manager.add(replyHotkey);
 	bbs_hotkey_manager.add(writePostHotkey);
+	bbs_hotkey_manager.add(clearUnreadHotkey);
 	bbs_hotkey_manager.triggerAll();
 }

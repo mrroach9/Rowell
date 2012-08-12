@@ -124,10 +124,12 @@ function UI_register_func(){
 		clear_unread(pathTerm.name, UI_update);
 	});
 	
+	/*
 	$('.clear-all-unread').live('click', function(){
 		UI_set_loading();
 		clear_unread('', UI_update);
 	});
+	*/
 	
 	$('#publish-post-button').click(UI_write_post);
 	
