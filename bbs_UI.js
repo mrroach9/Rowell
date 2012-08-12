@@ -439,14 +439,18 @@ function UI_generate_board_entry(entry, type){
 }
 	  	
 function UI_generate_post_entry(entry){
-	var entryStr =  	  '<tr href=\'\' class=\'post-entry unimplemented\' post-id=\'' + entry.id + '\'>'
+	var attach_logo_str = '<img src="./img/attach-small.png" class="attach-logo"/>';
+	var entryStr =  	  '<tr href="" class="post-entry unimplemented" post-id="' + entry.id + '">'
 								 + 		'<td>' + entry.id + '</td>'
-								 +		'<td class=\'board-table-center\'>' 
+								 +		'<td class="board-table-center">' 
 								 + 				(entry.read ? '' : '<span class="badge badge-important">new</span>') 
 								 +		'</td>'
 								 +		'<td>' + entry.owner + '</td>'
 								 +		'<td>' + entry.posttime + '</td>'
-								 +		'<td>' + entry.title + '</td>'
+								 +		'<td>' 
+								 +			entry.title 
+								 +			((entry.attachment > 0) ? attach_logo_str : '')
+								 + 		'</td>'
 								 + '</tr>';
 	return entryStr;
 }

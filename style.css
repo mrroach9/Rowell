@@ -109,6 +109,12 @@ tr.folder-entry {
 	padding : 6px;
 }
 
+img.attach-logo {
+	margin-left : 15px;
+	width : 15px;
+	height : 15px;
+}
+
 /* Bottom button bars */
 
 .button-bar {
