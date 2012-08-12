@@ -392,7 +392,7 @@ function UI_maindiv_update(pathTerm) {
 		bbs_topmost_stack.push('#board-table');
 	} else if (pathTerm.type == bbs_type.path.post) {
 		$('#post-view-area').empty();
-		$('#post-view-area').html(pathTerm.data.content);
+		$('#post-view-area').html(linkify(pathTerm.data.content));
 		$('#post-view').show();
 		bbs_topmost_stack.push('#post-view');
 	}
