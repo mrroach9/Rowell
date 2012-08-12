@@ -35,6 +35,20 @@ body {
 	border-top: 1px solid #E5E5E5;
 }
 
+.subnav-right-btn {
+	float: left;
+}
+
+.btn-group.subnav-right-btn > .btn-large.dropdown-toggle {
+	padding-right : 12px;
+	padding-left : 12px;
+}
+
+.btn-group > .btn-large.dropdown-toggle {
+  padding-right: 8px;
+  padding-left: 8px;
+}
+
 /* Loading logos */
 
 .loading {

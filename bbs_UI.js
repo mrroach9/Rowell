@@ -118,6 +118,17 @@ function UI_register_func(){
 		postPrepare(bbs_type.write_post.new, UI_prepare_post_modal);
 	});
 	
+	$('.clear-board-unread').live('click', function(){
+		UI_set_loading();
+		var pathTerm = bbs_path.getLastTermWithType(bbs_type.path.board);
+		clear_unread(pathTerm.name, UI_update);
+	});
+	
+	$('.clear-all-unread').live('click', function(){
+		UI_set_loading();
+		clear_unread('', UI_update);
+	});
+	
 	$('#publish-post-button').click(UI_write_post);
 	
 	$('#write-post-panel .cancel-button').live('click', function(){
@@ -318,9 +329,10 @@ function UI_notify_update(msg){
 	    
 function UI_subnavbar_update(path) {
 	$('.path').empty();
-	$('#reply-button').hide();
-	$('#post-button').hide();
-	$('#manage-fav-button').hide();
+	$('.post-view-btns').hide();
+	$('.board-btns').hide();
+	$('.favboard-btns').hide();
+	$('.allboard-btns').hide();
 	
 	var arrow = '<li><i class=\'icon-chevron-right right-arrow\' id=\'boardlist-board-nav-arrow\'></i></li>';
 	var d = path.depth();
@@ -335,11 +347,13 @@ function UI_subnavbar_update(path) {
 	}
 	var type = path.getLastTerm().type;
 	if (type == bbs_type.path.favboard){
-		$('#manage-fav-button').show();
+		$('.favboard-btns').show();
 	} else if (type == bbs_type.path.board) {
-		$('#post-button').show();
+		$('.board-btns').show();
 	} else if (type == bbs_type.path.post) {
-		$('#reply-button').show();
+		$('.post-view-btns').show();
+	} else if (type == bbs_type.path.allboard) {
+		$('.allboard-btns').show();
 	}
 }
 	    

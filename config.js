@@ -10,7 +10,7 @@ var bbs_error_session = 'SESSION_ERROR';
 
 var bbs_info = {
 	title : '9# BBS - Rowell ',
-	version : '0.2.3',
+	version : '0.2.4',
 	send_source : '[Sent from Rowell v'
 };
 
@@ -36,6 +36,9 @@ var bbs_query = {
 		get_quote		:			'/post/quote',
 		write_post	:			'/post/new',
 		prepare			:			'/post/prepare'
+	},
+	utility : {
+		clear_unread:			'/board/clear_unread'
 	}
 };
 
@@ -74,7 +77,9 @@ var bbs_msg = {
 		post_publish_success : '帖子发表成功。',
 		sametopic_reach_last : '已到达本主题最后一贴。',
 		sametopic_reach_first : '已到达本主题第一帖。',
-		sametopic_head_not_exist : '主题贴不存在或已被删除。'
+		sametopic_head_not_exist : '主题贴不存在或已被删除。',
+		board_unread_cleared : '本版未读标记已清除。',
+		all_unread_cleared : '全站未读标记已清除。'
 	},
 	error : {
 		zhname : '错误：',

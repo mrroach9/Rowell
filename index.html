@@ -107,31 +107,66 @@
 	    		<ul class='nav nav-pills'>
 	    			<li><ul class='nav nav-pills path'></ul></li>
 	    			<li class='pull-right'>
-	    				<div class='btn-group hide' id='reply-button'>
-	    					<button class='btn btn-large btn-success reply-post-button' href='javascript:void(0)' type='S'>回复 </button>
-	    					<button class='btn btn-large btn-success dropdown-toggle' data-toggle='dropdown'>
-	    						<span class='caret caret-white'></span>
-	    					</button>
-	    					<ul class='dropdown-menu'>
-	    						<li><a href='javascript:void(0)' class='reply-post-button' type='S'>普通模式(S)回复</a></li>
-	    						<li><a href='javascript:void(0)' class='reply-post-button' type='R'>R模式回复</a></li>
-	    						<li><a href='javascript:void(0)' class='reply-post-button' type='A'>A模式回复</a></li>
-	    						<li><a href='javascript:void(0)' class='reply-post-button' type='N'>N模式回复</a></li>
-	    					</ul>
+	    				<div class='post-view-btns hide'>
+	    					<!-- Reply Button Group -->
+		    				<div class='btn-group subnav-right-btn' id='reply-button'>
+		    					<button class='btn btn-large btn-success reply-post-button' href='javascript:void(0)' type='S'>回复</button>
+		    					<button class='btn btn-large btn-success dropdown-toggle' data-toggle='dropdown'>
+		    						<span class='caret caret-white'></span>
+		    					</button>
+		    					<ul class='dropdown-menu'>
+		    						<li><a href='javascript:void(0)' class='reply-post-button' type='S'>普通模式(S)回复</a></li>
+		    						<li><a href='javascript:void(0)' class='reply-post-button' type='R'>R模式回复</a></li>
+		    						<li><a href='javascript:void(0)' class='reply-post-button' type='A'>A模式回复</a></li>
+		    						<li><a href='javascript:void(0)' class='reply-post-button' type='N'>N模式回复</a></li>
+		    					</ul>
+		    				</div>
+		    			</div>
+		    			<div class='board-btns hide'>
+		    				<!-- Write Post Button Group -->
+		    				<div class='btn-group subnav-right-btn' id='post-button'>
+		    					<button class='btn btn-large btn-danger new-post-normal' href='javascript:void(0)'>发帖</button>
+		    					<button class='btn btn-large btn-danger dropdown-toggle' data-toggle='dropdown'>
+		    						<span class='caret'></span>
+		    					</button>
+		    					<ul class='dropdown-menu'>
+		    						<li><a href='javascript:void(0)' class='new-post-normal'>普通模式</a></li>
+		    						<li><a href='javascript:void(0)' class='unimplemented'>Latex模式(X)</a></li>
+		    						<li><a href='javascript:void(0)' class='unimplemented'>使用模板(T)</a></li>
+		    					</ul>
+		    				</div>
+		    				<!-- Settings Button Group -->
+		    				<div class='btn-group subnav-right-btn'>
+		    					<button class='btn btn-info btn-large dropdown-toggle' data-toggle='dropdown'>
+		    						&nbsp;选项&nbsp;&nbsp;&nbsp;
+		    						<span class='caret'></span>
+		    					</button>
+		    					<ul class='dropdown-menu'>
+		    						<li>
+		    							<a href='javascript:void(0)' class='clear-board-unread'>清除未读标记(f)</a>
+		    						</li>
+		    					</ul>
+		    				</div>
 	    				</div>
-	    				<div class='btn-group hide' id='post-button'>
-	    					<button class='btn btn-large btn-danger new-post-normal' href='javascript:void(0)'>发帖</button>
-	    					<button class='btn btn-large btn-danger dropdown-toggle' data-toggle='dropdown'>
-	    						<span class='caret'></span>
-	    					</button>
-	    					<ul class='dropdown-menu'>
-	    						<li><a href='javascript:void(0)' class='new-post-normal'>普通模式</a></li>
-	    						<li><a href='javascript:void(0)' class='unimplemented'>Latex模式(X)</a></li>
-	    						<li><a href='javascript:void(0)' class='unimplemented'>使用模板(T)</a></li>
-	    					</ul>
-	    				</div>
-	    				<div class='hide' id='manage-fav-button'>
-		    				<button class='btn btn-large btn-danger unimplemented'>管理收藏夹</button>
+	    				<div class='favboard-btns hide'>
+	    					<!-- Manage Favarite Board Button -->
+		    				<div id='manage-fav-button subnav-right-btn'>
+			    				<button class='btn btn-large btn-danger unimplemented'>管理收藏夹</button>
+			    			</div>
+			    		</div>
+			    		<div class='allboard-btns hide'>
+			    			<!-- Settings Button Group -->
+		    				<div class='btn-group subnav-right-btn'>
+		    					<button class='btn btn-info btn-large dropdown-toggle' data-toggle='dropdown'>
+		    						&nbsp;选项&nbsp;&nbsp;&nbsp;
+		    						<span class='caret'></span>
+		    					</button>
+		    					<ul class='dropdown-menu'>
+		    						<li>
+		    							<a href='javascript:void(0)' class='clear-all-unread unimplemented'>清除全站未读标记(f)</a>
+		    						</li>
+		    					</ul>
+		    				</div>
 		    			</div>
 	    			</li>
 	    		</ul>
@@ -337,6 +372,7 @@
     <script src='bbs_post.js'></script>
     <script src='bbs_path.js'></script>
     <script src='bbs_hotkey.js'></script>
+    <script src='bbs_utility.js'></script>
     
     <script type='text/javascript'>
 			$(document).ready(function(){
