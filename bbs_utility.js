@@ -3,12 +3,15 @@ function clear_unread(board_name, callback_func) {
 		url : bbs_query.server + bbs_query.utility.clear_unread,
 		type: 'POST',
 		data: {
-			session: bbs_session,
-			name: board_name
+			session: bbs_session
 		},
 		dataType: 'text',
 		cache: false
 	};
+	
+	if (board_name != '') {
+		request_settings.data.name = board_name;
+	}
 	
 	var resp = $.ajax(request_settings);
 	

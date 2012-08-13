@@ -124,12 +124,10 @@ function UI_register_func(){
 		clear_unread(pathTerm.name, UI_update);
 	});
 	
-	/*
 	$('.clear-all-unread').live('click', function(){
 		UI_set_loading();
 		clear_unread('', UI_update);
 	});
-	*/
 	
 	$('#publish-post-button').click(UI_write_post);
 	
@@ -472,7 +470,7 @@ function UI_generate_pic_attach_code(data) {
 								+	 	'<a href="' + attach_link + attach.offset + '"'
 								+		' title="' + attach.name + '\n点击查看大图"'
 								+		' target="_blank" class="thumbnail">'
-								+			'<img src="' + attach_link + attach.offset + '"'
+								+			'<img src="' + attach_link + attach.offset + '&thumbnail=160x1000"'
 								+			'alt="' + attach.name + '" />'
 								+		'</a>'
 								+	 '</li>';
