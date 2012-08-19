@@ -337,7 +337,7 @@ function UI_subnavbar_update(path) {
 	var arrow = '<li><i class="icon-chevron-right right-arrow" id="boardlist-board-nav-arrow"></i></li>';
 	var d = path.depth();
 	for (var i = 0; i < d; ++i) {	
-		var term = '<li><a href="javascript:void(0)" id="path-term" path-id=' + i + '>'
+		var term = '<li><a href="#" id="path-term" path-id=' + i + '>'
 						 + path.pathList[i].name
 						 + '</a></li>';
 		if (i != 0) {
@@ -443,7 +443,7 @@ function UI_generate_board_entry(entry, type){
 	  	
 function UI_generate_post_entry(entry){
 	var attach_logo_str = '<img src="./img/attach-small.png" class="attach-logo"/>';
-	var entryStr =  	  '<tr href="" class="post-entry unimplemented" post-id="' + entry.id + '">'
+	var entryStr =  	  '<tr href="#" class="post-entry unimplemented" post-id="' + entry.id + '">'
 								 + 		'<td>' + entry.id + '</td>'
 								 +		'<td class="board-table-center">' 
 								 + 				(entry.read ? '' : '<span class="badge badge-important">new</span>') 

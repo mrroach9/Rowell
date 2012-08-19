@@ -315,8 +315,7 @@ function extractPostInfo(contentStr) {
 		if (postlist[i].title.substr(0,4) != 'Re: ') {
 			postlist[i].title = '● ' + postlist[i].title;
 		}
-		var date = new Date();
-		date.setMilliseconds(postlist[i].posttime);
+		var date = convertTime(postlist[i].posttime * 1000, 8);
 		var dateStr = date.toDateString();
 		var strArr = dateStr.split(' ');
 		dateStr = strArr[1] + ' ' + strArr[2];
