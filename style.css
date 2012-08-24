@@ -88,6 +88,11 @@ td.board-table-center {
 	text-align: center;
 }
 
+.display-area {
+	width: 100%;
+}
+
+
 pre.post-view-area {
 	padding : 0px;
 	margin : 0px;
