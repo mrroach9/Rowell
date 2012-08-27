@@ -108,8 +108,14 @@ var bbs_hotkey_manager = new HotkeyManager();
 var bbs_topmost_stack = new Array();
 
 function register_default_hotkeys(){
-	//Ctrl + Enter(13) on #write-post-panel: Publish post;
-	var publishPostHotkey = new Hotkey(13, true, false, 
+	//Ctrl + Enter(13)/w(87)/x(88) on #write-post-panel: Publish post;
+	var publishPostHotkeyEnter = new Hotkey(13, true, false, 
+		'#write-post-panel', '#publish-post-button', 'click');
+	/*
+	var publishPostHotkeyW = new Hotkey(87, true, false, 
+		'#write-post-panel', '#publish-post-button', 'click');
+  */
+	var publishPostHotkeyX = new Hotkey(88, true, false, 
 		'#write-post-panel', '#publish-post-button', 'click');
 		
 	//Esc(27) on #write-post-panel: Cancel posting;
@@ -153,7 +159,9 @@ function register_default_hotkeys(){
 		'#board-table', '.clear-board-unread', 'click');
 		
 	bbs_hotkey_manager.untriggerAll();
-	bbs_hotkey_manager.add(publishPostHotkey);
+	bbs_hotkey_manager.add(publishPostHotkeyEnter);
+//	bbs_hotkey_manager.add(publishPostHotkeyW);
+	bbs_hotkey_manager.add(publishPostHotkeyX);
 	bbs_hotkey_manager.add(cancelPostHotkey);
 	bbs_hotkey_manager.add(prevPostHotkey);
 	bbs_hotkey_manager.add(nextPostHotkey);

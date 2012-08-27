@@ -259,7 +259,7 @@
     				<button class='btn btn-success next-post-button'>下一篇</button>
 	    			<button class='btn btn-info st-next-button'>同主题下一篇</button>
 	    			<span class='dropdown st-nav-menu'>
-	    				<a class='dropdown-toggle' data-toggle='dropdown' href='javascript:void(0)'>
+	    				<a class='dropdown-toggle' data-toggle='dropdown' href='#'>
 	    					更多选项
 	    					<b class="caret"></b>
 	    				</a>
@@ -314,13 +314,35 @@
     						<br>
     						<div class='write-post-option'>
     							发表于<label id='write-post-board'><nobr></nobr></label>版
-    							<span class='anonymous-area hide'>
+    							<span class='left-pad-text anonymous-area hide'>
 	    							<input class='anony-checkbox' type='checkbox' name='anonymous'/>匿名
 	    						</span>
-	    						<span class='no-anonymous-area hide'>
+	    						<span class='left-pad-text no-anonymous-area hide'>
 	    							不支持匿名发帖
 	    						</span>
+	    						<span class='left-pad-text add-attach-area hide'>
+	    							<a href='javascript:void(0)' id='add-attachment-link'>
+	    								添加附件
+	    							</a>
+	    						</span>
+	    						<span class='left-pad-text no-add-attach-area hide'>
+	    							不支持附件
+	    						</span>
     						</div>
+    					</div>
+    					<div class='attach-area hide' id='fileupload'>
+    						<div>
+    							<span>
+	    							拖拽文件至此处开始上传，或点击按钮添加文件。
+	    						</span>
+	    						<div class='pull-right'>
+	    							<span class="btn btn-success fileinput-button">
+                    	<i class="icon-plus icon-white"></i>
+                    	<span>添加文件...</span>
+	                    <input class='fileuploadbox' type="file" name="files[]" multiple="">
+		                </span>
+	    						</div>
+	    					</div>
     					</div>
     					<div class='control-group'>
     						内容：<textarea class='input-xlarge' id='write-post-content'></textarea>
@@ -380,7 +402,9 @@
 	  
     <!-- Placed at the end of the document so the pages load faster -->
     <script src='./js/jquery/jquery.min.js'></script>
+    <script src='./js/jquery/jquery.ui.widget.js'></script>
     <script src='./js/jquery/jquery.cookie.js'></script>
+    <script src='./js/jquery/jquery.fileupload.js'></script>
     <script src='./js/bootstrap/bootstrap.min.js'></script>
     
     <script src='./js/bbs/config.js'></script>
@@ -397,6 +421,7 @@
 			$(document).ready(function(){
 				UI_register_func();
 				UI_register_hotkeys();
+				UI_set_fileupload();
 				UI_init();
 				UI_session_retrieved($.cookie(bbs_session_cookie));
 			});							

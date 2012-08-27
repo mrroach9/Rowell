@@ -8,33 +8,33 @@ function UI_register_func(){
 	});
 	    	
 	$('#logout-button').click(UI_logout);
-	    	
-	$('#favboard-nav-label').live('click', function(){
+	
+	$(document).on('click', '#favboard-nav-label', function(){
 		UI_set_loading();
 		view_boardlist(bbs_type.entry.favboard, -1, '', UI_update, 0);
 	});
 	    	
-	$('#allboard-nav-label').live('click', function(){
+	$(document).on('click', '#allboard-nav-label', function(){
 		UI_set_loading();
 		view_boardlist(bbs_type.entry.allboard, -1, '', UI_update, 0);
 	});
-	    				
-	$('.board-entry').live('click', function(){
+
+	$(document).on('click', '.board-entry', function(){
 		UI_set_loading();
 		view_board($(this).attr('board-name'), -1, -1, UI_update, 'click');
 	});
 	
-	$('.folder-entry').live('click', function(){
+	$(document).on('click', '.folder-entry', function(){
 		UI_set_loading();
 		view_boardlist(bbs_type.entry.folder, $(this).attr('index'), $(this).attr('folder-name'), UI_update);
 	});
-	   
-	$('.post-entry').live('click',function() {
+	  
+	$(document).on('click', '.post-entry', function() {
 		UI_set_loading();
 		view_post($(this).attr('post-id'), UI_update, 'click');
 	});
 	
-	$('#path-term').live('click', UI_path_click);
+	$(document).on('click', '#path-term', UI_path_click);
 	
 	$('.last-page-button').click(function(){
 		UI_set_loading();
@@ -110,31 +110,34 @@ function UI_register_func(){
 		$(this).fadeOut();
 	});
 	
-	$('.reply-post-button').live('click', function(){
+	$(document).on('click', '.reply-post-button', function(){
 		postPrepare(bbs_type.write_post.reply, UI_prepare_getQuote);
 	});
 	
-	$('.new-post-normal').live('click', function(){
+	$(document).on('click', '.new-post-normal', function(){
 		postPrepare(bbs_type.write_post.new, UI_prepare_post_modal);
 	});
 	
-	$('.clear-board-unread').live('click', function(){
+	$(document).on('click', '.clear-board-unread', function(){
 		UI_set_loading();
 		var pathTerm = bbs_path.getLastTermWithType(bbs_type.path.board);
 		clear_unread(pathTerm.name, UI_update);
 	});
 	
-	$('.clear-all-unread').live('click', function(){
+	$(document).on('click', '.clear-all-unread', function(){
 		UI_set_loading();
 		clear_unread('', UI_update);
 	});
 	
+	$(document).on('click', '#add-attachment-link', function(){
+		$('div.attach-area').show();
+	});
+	
 	$('#publish-post-button').click(UI_write_post);
 	
-	$('#write-post-panel .cancel-button').live('click', function(){
+	$(document).on('click', '#write-post-panel .cancel-button', function(){
 		if (confirm('确定舍弃当前未发布文章吗？')) {
-			$('#write-post-panel').modal('hide');
-			bbs_topmost_stack.pop();
+			UI_hide_write_post();
 		}
 	});
 	
@@ -147,6 +150,31 @@ function UI_register_func(){
 	});
 	
 }
+
+function UI_set_fileupload() {
+	$('#fileupload').fileupload({
+		dropZone : $('#fileupload'),
+		type : 'POST',
+		url : bbs_query.server + bbs_query.write_post.attach,
+		dataType : 'json',
+		paramName : 'content',
+		formData : {
+			session : bbs_session,
+			item : 'attachment'
+		},
+		add : function(e, data) {
+			alert('here');
+			data.submit();
+		}
+	});
+}
+
+function UI_hide_write_post(){
+	$('#write-post-panel').modal('hide');
+	$('.attach-area').hide();
+	bbs_topmost_stack.pop();
+}
+	
 
 function UI_prepare_getQuote() {
 	getQuote($(this).attr('type'), UI_prepare_post_modal);
@@ -192,6 +220,13 @@ function UI_prepare_post_modal(){
 		$('.no-anonymous-area').show();
 		$('.anonymous-area').hide();
 	}
+	if (bbs_post_info.can_attach) {
+		$('.no-add-attach-area').hide();
+		$('.add-attach-area').show();
+	} else {
+		$('.no-add-attach-area').show();
+		$('.add-attach-area').hide();
+	}
 	$('.anony-checkbox').attr('checked', false);
 	$('#write-post-board').text(bbs_path.getBoard().name);
 	$('#write-post-panel').modal({
@@ -221,8 +256,7 @@ function UI_write_post(){
 	}
 	var type = $('#write-post-panel').attr('post-type');
 	
-	$('#write-post-panel').modal('hide');
-	bbs_topmost_stack.pop();
+	UI_hide_write_post();
 	UI_show_backdrop();
 	
 	writePost(type, title, content, qmd_num, anony, UI_update);

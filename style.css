@@ -199,13 +199,26 @@ p#notification-content {
 	width : 30px;
 }
 
+
 #write-post-panel {
-	width: 660px;
+	width: 668px;
 }
 
 #write-post-panel .modal-body {
 	height : 408px;
 	max-height : 408px;
+	width : 638px;
+}
+
+.attach-area {
+	background-color : #F5F5F5;
+	border-radius: 5px;
+	border: thin dashed #999999;
+	width : 553px;
+	margin-top : -3px;
+	margin-left : 50px;
+	margin-bottom : 15px;
+	padding: 10px 5px 50px 10px;
 }
 
 .anony-checkbox {
@@ -228,11 +241,27 @@ p#notification-content {
 	vertical-align : baseline;
 }
 
+input[type="file"].fileuploadbox {
+	position: absolute;
+	top: 0;
+	right: 0;
+	border: solid transparent;
+	width : 100px;
+	opacity: 0;
+	direction: ltr;
+	cursor: pointer;
+}
+
+.fileinput-button {
+	position : relative;
+	cursor: pointer;
+}
+
+.no-add-attach-area,
 .no-anonymous-area {
 	color	: red;
 }
 
-.anonymous-area,
-.no-anonymous-area {
+.left-pad-text {
 	margin-left : 30px;
 }

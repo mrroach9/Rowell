@@ -14,7 +14,8 @@ function postPrepare(mode, callback_func){
 		session	: bbs_session,
 		board : boardPathTerm.name,
 		for		: 'new',
-		anonymous	:	1
+		anonymous	:	1,
+		attachments : '[{"name":"test","store_id":"test"}]'
 	};
 	if (mode == bbs_type.write_post.reply) {	
 		var postPathTerm = bbs_path.getLastTermWithType(bbs_type.path.post);
@@ -35,12 +36,9 @@ function postPrepare(mode, callback_func){
 	resp.success(function(response){
 		var res = JSON.parse(response)
 		var sig_id = res.signature_id;
-		var can_anony = true;
-		if (res.error.anonymous == 1) {
-			can_anony = false;
-		}
 		bbs_post_info.sig_id = sig_id;
-		bbs_post_info.can_anony = (can_anony == 1) ? true : false;
+		bbs_post_info.can_anony = (res.error.anonymous == 1) ? false : true;
+		bbs_post_info.can_attach = (res.error.attachment == 1) ? false : true;
 		bbs_post_info.type = mode;
 		callback_func();
 	});
