@@ -17,7 +17,7 @@ function postPrepare(mode, callback_func){
 		anonymous	:	1,
 		attachments : '[{"name":"test","store_id":"test"}]'
 	};
-	if (mode == bbs_type.write_post.reply) {	
+	if (mode == bbs_type.write_post.reply) {
 		var postPathTerm = bbs_path.getLastTermWithType(bbs_type.path.post);
 		if (postPathTerm == null) {
 			return;
@@ -86,13 +86,13 @@ function getQuote(mode, callback_func){
 		dataType: 'text',
 		cache: false
 	};
-	
+
 	var resp = $.ajax(request_settings);
 	resp.success(function(response){
 		bbs_post_info.quote = JSON.parse(response);
 		callback_func();
 	});
-	
+
 	resp.fail(function(jqXHR, textStatus){
 		var msg = {
 				type : 'error',
@@ -135,7 +135,7 @@ function writePost(type, title, content, qmd_id, anonym, callback_func){
 		dataType: 'text',
 		cache: false
 	};
-	
+
 	var resp = $.ajax(request_settings);
 	resp.success(function(response){
 		var msg = {
@@ -155,7 +155,7 @@ function writePost(type, title, content, qmd_id, anonym, callback_func){
 		}
 		UI_notify_update(msg);
 	});
-	
+
 	resp.fail(function(jqXHR, textStatus){
 		var msg = {
 				type : 'error',
@@ -166,4 +166,3 @@ function writePost(type, title, content, qmd_id, anonym, callback_func){
 		UI_notify_update(msg);
 	});
 }
-		

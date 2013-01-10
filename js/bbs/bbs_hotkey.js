@@ -5,7 +5,7 @@ function Hotkey(keyCode, ctrl, alt, selector, target, trigger){
 	this.selector = selector;
 	this.trigger = trigger;
 	this.target = target;
-	
+
 	this.getMask = function() {
 		var code = 0;
 		code += this.ctrlPressed ? 1 : 0;
@@ -17,7 +17,7 @@ function Hotkey(keyCode, ctrl, alt, selector, target, trigger){
 
 function HotkeyManager() {
 	this.hotkeyMap = new Array();
-	
+
 	this.add = function(hotkey) {
 		var code = hotkey.getMask();
 		var list = this.hotkeyMap[hotkey.selector];
@@ -36,7 +36,7 @@ function HotkeyManager() {
 		}
 		return true;
 	};
-	
+
 	this.get = function(hotkey) {
 		var list = this.hotkeyMap[hotkey.selector];
 		if (list == null) return null;
@@ -44,7 +44,7 @@ function HotkeyManager() {
 		if (list == null) return null;
 		return list[hotkey.getMask()];
 	};
-	
+
 	this.remove = function(hotkey) {
 		var list = this.hotkeyMap[hotkey.selector];
 		if (list == null) return false;
@@ -53,7 +53,7 @@ function HotkeyManager() {
 		this.hotkeyMap[hotkey.selector][hotkey.keyCode][hotkey.getMask()] = null;
 		return true;
 	};
-	
+
 	this.triggerAll = function() {
 		var manager = this;
 		$(document).keyup(function(event) {
@@ -73,7 +73,7 @@ function HotkeyManager() {
 			if (hotkey.selector != selector) {
 				return;
 			}
-			$(hotkey.target).first().trigger(hotkey.trigger);	
+			$(hotkey.target).first().trigger(hotkey.trigger);
 			return false;
 		});
 		$(document).keydown(function(event) {
@@ -96,7 +96,7 @@ function HotkeyManager() {
 				return false;
 		});
 	};
-	
+
 	this.untriggerAll = function() {
 		$(document).unbind('keypress');
 		$(document).unbind('keydown');
@@ -109,55 +109,55 @@ var bbs_topmost_stack = new Array();
 
 function register_default_hotkeys(){
 	//Ctrl + Enter(13)/w(87)/x(88) on #write-post-panel: Publish post;
-	var publishPostHotkeyEnter = new Hotkey(13, true, false, 
+	var publishPostHotkeyEnter = new Hotkey(13, true, false,
 		'#write-post-panel', '#publish-post-button', 'click');
 	/*
-	var publishPostHotkeyW = new Hotkey(87, true, false, 
+	var publishPostHotkeyW = new Hotkey(87, true, false,
 		'#write-post-panel', '#publish-post-button', 'click');
   */
-	var publishPostHotkeyX = new Hotkey(88, true, false, 
+	var publishPostHotkeyX = new Hotkey(88, true, false,
 		'#write-post-panel', '#publish-post-button', 'click');
-		
+
 	//Esc(27) on #write-post-panel: Cancel posting;
-	var cancelPostHotkey = new Hotkey(27, false, false, 
+	var cancelPostHotkey = new Hotkey(27, false, false,
 		'#write-post-panel', '#cancel-post-button', 'click');
-		
+
 	//Left(37) and Right(39) on #post-view: next post and prev post;
 	var prevPostHotkey = new Hotkey(37, false, false,
 		'#post-view', '.prev-post-button', 'click');
 	var nextPostHotkey = new Hotkey(39, false, false,
 		'#post-view', '.next-post-button', 'click');
-		
+
 	//Ctrl + Left/Right on #post-view: Same topic next/prev post;
 	var SpPrevPostHotkey = new Hotkey(37, true, false,
 		'#post-view', '.st-prev-button', 'click');
 	var SpNextPostHotkey = new Hotkey(39, true, false,
 		'#post-view', '.st-next-button', 'click');
-		
+
 	//p and l on #post-view: Same topic next/prev post;
 	var SpPrevPostHotkeyL = new Hotkey(76, false, false,
 		'#post-view', '.st-prev-button', 'click');
 	var SpNextPostHotkeyP = new Hotkey(80, false, false,
 		'#post-view', '.st-next-button', 'click');
-	
+
 	//Left and Right on #board-table: next and prev page of posts;
 	var prevPageHotkey = new Hotkey(37, false, false,
 		'#board-table', '.prev-page-button', 'click');
 	var nextPageHotkey = new Hotkey(39, false, false,
 		'#board-table', '.next-page-button', 'click');
-		
+
 	//r on #post-view: reply in normal mode;
 	var replyHotkey = new Hotkey(82, false, false,
 		'#post-view', '.reply-post-button[type=S]', 'click');
-	
+
 	//Ctrl + p on #board-table: write a new post in normal mode;
 	var writePostHotkey = new Hotkey(80, true, false,
 		'#board-table', '.new-post-normal', 'click');
-		
+
 	//f on #board-table: clear unread tags;
 	var clearUnreadHotkey = new Hotkey(70, false, false,
 		'#board-table', '.clear-board-unread', 'click');
-		
+
 	bbs_hotkey_manager.untriggerAll();
 	bbs_hotkey_manager.add(publishPostHotkeyEnter);
 //	bbs_hotkey_manager.add(publishPostHotkeyW);

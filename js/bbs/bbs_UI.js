@@ -6,14 +6,14 @@ function UI_register_func(){
 		UI_show_backdrop();
 		getSession(auth_code, UI_session_retrieved);
 	});
-	    	
+
 	$('#logout-button').click(UI_logout);
-	
+
 	$(document).on('click', '#favboard-nav-label', function(){
 		UI_set_loading();
 		view_boardlist(bbs_type.entry.favboard, -1, '', UI_update, 0);
 	});
-	    	
+
 	$(document).on('click', '#allboard-nav-label', function(){
 		UI_set_loading();
 		view_boardlist(bbs_type.entry.allboard, -1, '', UI_update, 0);
@@ -23,47 +23,47 @@ function UI_register_func(){
 		UI_set_loading();
 		view_board($(this).attr('board-name'), -1, -1, UI_update, 'click');
 	});
-	
+
 	$(document).on('click', '.folder-entry', function(){
 		UI_set_loading();
 		view_boardlist(bbs_type.entry.folder, $(this).attr('index'), $(this).attr('folder-name'), UI_update);
 	});
-	  
+
 	$(document).on('click', '.post-entry', function() {
 		UI_set_loading();
 		view_post($(this).attr('post-id'), UI_update, 'click');
 	});
-	
+
 	$(document).on('click', '#path-term', UI_path_click);
-	
+
 	$('.last-page-button').click(function(){
 		UI_set_loading();
 		var pathTerm = bbs_path.getLastTermWithType(bbs_type.path.board);
 		view_board(pathTerm.name, -1, -1, UI_update, 'click', -1);
 	});
-	
+
 	$('.first-page-button').click(function(){
 		UI_set_loading();
 		var pathTerm = bbs_path.getLastTermWithType(bbs_type.path.board);
 		view_board(pathTerm.name, 1, -1, UI_update, 'click', -1);
 	});
-		    
+
 	$('.next-page-button').click(function(){
 		UI_set_loading();
 		view_board_next_page(UI_update);
 	});
-		    
+
 	$('.prev-page-button').click(function(){
 		UI_set_loading();
 		view_board_prev_page(UI_update);
 	});
-	
+
 	$('.jump-to-post-button').click(function(){
 		UI_set_loading();
 		var post_id = $('.jump-to-post-input').val();
 		view_board_jumpto(post_id);
 	});
-	
+
 	$('.jump-to-post-input').keypress(function(event) {
 		if ( event.which == 13 ) {
 			UI_set_loading();
@@ -76,71 +76,71 @@ function UI_register_func(){
 		UI_set_loading();
 		view_next_post(UI_update);
 	});
-		    
+
 	$('.prev-post-button').click(function(){
 		UI_set_loading();
 		view_prev_post(UI_update);
 	});
-	
+
 	$('.st-prev-button').click(function(){
 		UI_set_loading();
 		view_post_sametopic(UI_update, 'prev');
 	});
-	
+
 	$('.st-next-button').click(function(){
 		UI_set_loading();
 		view_post_sametopic(UI_update, 'next');
 	});
-	
+
 	$('.st-head-button').click(function(){
 		UI_set_loading();
 		view_post_sametopic(UI_update, 'head');
 	});
-	
+
 	$('.st-latest-button').click(function(){
 		UI_set_loading();
 		view_post_sametopic(UI_update, 'latest');
 	});
-	
+
 	$('#notification-close-button').click(function(){
 		$('#notification').fadeOut();
 	});
-	
+
 	$('#notification').click(function(){
 		$(this).fadeOut();
 	});
-	
+
 	$(document).on('click', '.reply-post-button', function(){
 		postPrepare(bbs_type.write_post.reply, UI_prepare_getQuote);
 	});
-	
+
 	$(document).on('click', '.new-post-normal', function(){
 		postPrepare(bbs_type.write_post.new, UI_prepare_post_modal);
 	});
-	
+
 	$(document).on('click', '.clear-board-unread', function(){
 		UI_set_loading();
 		var pathTerm = bbs_path.getLastTermWithType(bbs_type.path.board);
 		clear_unread(pathTerm.name, UI_update);
 	});
-	
+
 	$(document).on('click', '.clear-all-unread', function(){
 		UI_set_loading();
 		clear_unread('', UI_update);
 	});
-	
+
 	$(document).on('click', '#add-attachment-link', function(){
 		$('div.attach-area').show();
 	});
-	
+
 	$('#publish-post-button').click(UI_write_post);
-	
+
 	$(document).on('click', '#write-post-panel .cancel-button', function(){
 		if (confirm('确定舍弃当前未发布文章吗？')) {
 			UI_hide_write_post();
 		}
 	});
-	
+
 	$('input:radio[name=qmd-type]').change(function(){
 		if ($('input:radio[name=qmd-type]:checked').val() == 'random') {
 			$('input:text[name=qmd-number]').attr('disabled', true);
@@ -148,7 +148,7 @@ function UI_register_func(){
 			$('input:text[name=qmd-number]').attr('disabled', false);
 		}
 	});
-	
+
 }
 
 function UI_set_fileupload() {
@@ -174,7 +174,7 @@ function UI_hide_write_post(){
 	$('.attach-area').hide();
 	bbs_topmost_stack.pop();
 }
-	
+
 
 function UI_prepare_getQuote() {
 	getQuote($(this).attr('type'), UI_prepare_post_modal);
@@ -249,23 +249,23 @@ function UI_write_post(){
 		qmd_num = -1;
 	}
 	var content = $('#write-post-content').val();
-	
+
 	var anony = false;
 	if (bbs_post_info.can_anony && $('.anony-checkbox').attr('checked')){
 		anony = true;
 	}
 	var type = $('#write-post-panel').attr('post-type');
-	
+
 	UI_hide_write_post();
 	UI_show_backdrop();
-	
+
 	writePost(type, title, content, qmd_num, anony, UI_update);
 }
 
 function UI_hide_backdrop(){
 	$('#global-backdrop').hide();
 }
-	
+
 function UI_show_backdrop(){
 	$('#global-backdrop').show();
 }
@@ -274,23 +274,23 @@ function UI_session_retrieved(session){
 	bbs_session = session;
 	verifySession(session, true, UI_login_finished);
 }
-    	
+
 function UI_init() {
 	UI_show_backdrop();
-    		
+
 	$('a#login-path').attr('href',bbs_query.server + bbs_query.auth.auth);
 	$(document).attr("title", bbs_info.title + 'v' + bbs_info.version);
-    		
+
 	$('.unimplemented').popover({
 		trigger: 'hover',
 		placement: 'bottom',
 		title: '矮油',
 		content: '此功能尚未实现，我们将在后续版本中添加，敬请谅解。'
 	});
-	
+
 	bbs_topmost_stack.splice(0);
 }
-    	
+
 function UI_login_finished(result){
 	if (result) {
 		$('#unlogged-navbar').hide();
@@ -305,7 +305,7 @@ function UI_login_finished(result){
 	}
 	UI_hide_backdrop();
 }
-	    
+
 function UI_logout(){
 	removeSessionCookie();
 	bbs_topmost_stack.splice(0);
@@ -360,17 +360,17 @@ function UI_notify_update(msg){
 	}, 2000);
 	UI_hide_loading();
 }
-	    
+
 function UI_subnavbar_update(path) {
 	$('.path').empty();
 	$('.post-view-btns').hide();
 	$('.board-btns').hide();
 	$('.favboard-btns').hide();
 	$('.allboard-btns').hide();
-	
+
 	var arrow = '<li><i class="icon-chevron-right right-arrow" id="boardlist-board-nav-arrow"></i></li>';
 	var d = path.depth();
-	for (var i = 0; i < d; ++i) {	
+	for (var i = 0; i < d; ++i) {
 		var term = '<li><a href="#" id="path-term" path-id=' + i + '>'
 						 + path.pathList[i].name
 						 + '</a></li>';
@@ -390,7 +390,7 @@ function UI_subnavbar_update(path) {
 		$('.allboard-btns').show();
 	}
 }
-	    
+
 function UI_maindiv_update(pathTerm) {
 	$('#boardlist-table').hide();
 	$('#board-table').hide();
@@ -406,13 +406,13 @@ function UI_maindiv_update(pathTerm) {
 		}
 		$('#boardlist-table').show();
 		bbs_topmost_stack.push('#boardlist-table');
-	} else if (pathTerm.type == bbs_type.path.board) {			
+	} else if (pathTerm.type == bbs_type.path.board) {
 		$('#board-table-body').empty();
 		for (var i = 0; i < pathTerm.data.length; ++i) {
 			var entryStr = UI_generate_post_entry(pathTerm.data[i]);
 			$('#board-table-body').append(entryStr);
 		}
-		
+
 		//Easter Eggs
 		if (pathTerm.name == 'e_note') {
 			$('.jump-to-post-input').attr('value', '23');
@@ -421,7 +421,7 @@ function UI_maindiv_update(pathTerm) {
 		} else {
 			$('.jump-to-post-input').attr('value', '');
 		}
-		
+
 		$('#board-table').show();
 		bbs_topmost_stack.push('#board-table');
 	} else if (pathTerm.type == bbs_type.path.post) {
@@ -434,20 +434,20 @@ function UI_maindiv_update(pathTerm) {
 		bbs_topmost_stack.push('#post-view');
 	}
 }
-	    
+
 function UI_generate_board_entry(entry, type){
 	var entryStr = '';
 	if (type == bbs_type.path.allboard) {
 		entryStr = '<tr href=\'\' class=\'board-entry\' board-name=\'' + entry.name + '\'>'
 						 + 		'<td>' + entry.total + '</td>'
-						 +		'<td class=\'board-table-center\'>' 
-						 + 				(entry.read ? '' : '<span class="badge badge-important">new</span>') 
+						 +		'<td class=\'board-table-center\'>'
+						 + 				(entry.read ? '' : '<span class="badge badge-important">new</span>')
 						 + 		'</td>'
 						 +		'<td>' + entry.name + '</td>'
 						 +		'<td>' + entry.desc + '</td>'
 						 +		'<td>' + entry.currentusers + '</td>'
 						 +		'<td>' + entry.BM + '</td>'
-						 + '</tr>';		
+						 + '</tr>';
 	} else if (entry.type == bbs_type.entry.folder) {
 		entryStr = '<tr href=\'\' class=\'folder-entry\' folder-name=\''
 						 + entry.name + '\' index=\'' + entry.index + '\'>'
@@ -458,11 +458,11 @@ function UI_generate_board_entry(entry, type){
 						 +		'<td></td>'
 						 +		'<td></td>'
 						 + '</tr>';
-	} else if (entry.type == bbs_type.entry.board) {	
+	} else if (entry.type == bbs_type.entry.board) {
 		entryStr = '<tr href=\'\' class=\'board-entry\' board-name=\'' + entry.binfo.name + '\'>'
 						 + 		'<td>' + entry.binfo.total + '</td>'
-						 +		'<td class=\'board-table-center\'>' 
-						 + 				(entry.binfo.read ? '' : '<span class="badge badge-important">new</span>') 
+						 +		'<td class=\'board-table-center\'>'
+						 + 				(entry.binfo.read ? '' : '<span class="badge badge-important">new</span>')
 						 + 		'</td>'
 						 +		'<td>' + entry.binfo.name + '</td>'
 						 +		'<td>' + entry.binfo.desc + '</td>'
@@ -474,18 +474,18 @@ function UI_generate_board_entry(entry, type){
 	}
 	return entryStr;
 }
-	  	
+
 function UI_generate_post_entry(entry){
 	var attach_logo_str = '<img src="./img/attach-small.png" class="attach-logo"/>';
 	var entryStr =  	  '<tr href="#" class="post-entry unimplemented" post-id="' + entry.id + '">'
 								 + 		'<td>' + entry.id + '</td>'
-								 +		'<td class="board-table-center">' 
-								 + 				(entry.read ? '' : '<span class="badge badge-important">new</span>') 
+								 +		'<td class="board-table-center">'
+								 + 				(entry.read ? '' : '<span class="badge badge-important">new</span>')
 								 +		'</td>'
 								 +		'<td>' + entry.owner + '</td>'
 								 +		'<td>' + entry.posttime + '</td>'
-								 +		'<td>' 
-								 +			entry.title 
+								 +		'<td>'
+								 +			entry.title
 								 +			((entry.attachment > 0) ? attach_logo_str : '')
 								 + 		'</td>'
 								 + '</tr>';

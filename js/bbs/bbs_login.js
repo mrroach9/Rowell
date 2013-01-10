@@ -15,7 +15,7 @@
 	};
 
 	var resp = $.ajax(request_settings);
-	
+
 	resp.success(function(response){
 		res = JSON.parse(response);
 		var session = '';
@@ -26,7 +26,7 @@
 		}
 		callback_func(session);
 	});
-	
+
 	resp.fail(function(jqXHR, textStatus){
 		callback_func(bbs_error_session);
 	});
@@ -40,7 +40,7 @@ function verifySession(session, saveSession, callback_func){
 		callback_func(false);
 		return;
 	}
-	
+
 	var url = bbs_query.server + bbs_query.auth.session_verify;
 	var request_settings = {
 		url: url,
@@ -51,9 +51,9 @@ function verifySession(session, saveSession, callback_func){
 		dataType: 'text',
 		cache: false
 	};
-	
+
 	var resp = $.ajax(request_settings);
-	
+
 	resp.success(function(response){
 		res = JSON.parse(response);
 		if (res.status == 'ok') {
@@ -65,14 +65,14 @@ function verifySession(session, saveSession, callback_func){
 			callback_func(false);
 		}
 	});
-	
+
 	resp.fail(function(jqXHR, textStatus){
 		callback_func(false);
 	});
 }
 
 /** Set a bbs_session cookie to browser with value
- *  session and expire time of 14 days. If update 
+ *  session and expire time of 14 days. If update
  *  is true, the function will force the cookie be
  *  updated, otherwise it will only update when the
  *  cookie does not exist.
