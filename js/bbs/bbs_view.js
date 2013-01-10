@@ -338,8 +338,10 @@ function extractPostContent(contentStr) {
 	post.content = post.content.replace(reg, '<br>');
 
 	//Eliminate all ASCII control characters
-	reg = new RegExp("\u001B\\[[0-9;]*[A-Za-z]", "g");
-	post.content = post.content.replace(reg, '');
+	//reg = new RegExp("\u001B\\[[0-9;]*[A-Za-z]", "g");
+	//post.content = post.content.replace(reg, '');
+	var filter = new Filter();
+	post.content = filter.toHtml(post.content);
 
 	return post;
 }
