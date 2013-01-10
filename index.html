@@ -13,13 +13,13 @@
     <link href='style.css' rel='stylesheet'>
 
     <link rel='shortcut icon' href='favicon.ico'>
-    
+
     <script type="text/javascript">
 		  var _gaq = _gaq || [];
 		  _gaq.push(['_setAccount', 'UA-27374551-1']);
 		  _gaq.push(['_setDomainName', 'roach-works.com']);
 		  _gaq.push(['_trackPageview']);
-		
+
 		  (function() {
 		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
 		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
@@ -44,7 +44,7 @@
         </div>
       </div>
     </div>
-    
+
     <div class='navbar navbar-fixed-top hide' id='logged-navbar'>
       <div class='navbar-inner'>
         <div class='container'>
@@ -77,7 +77,7 @@
 	      </div>
 	    </div>
     </div>
-    
+
     <!-- Login window -->
     <div class='modal hide' id='login-panel'>
     	<div class='modal-header'>
@@ -95,13 +95,13 @@
     		<a class='btn' data-dismiss='modal'>关闭</a>
   		</div>
   	</div>
-    
+
     <!-- Main part of unlogged-in panel -->
     <div class='container' id='unlogged-panel'>
     	<h1>您尚未登录</h1>
     	登录后方可浏览及发表文章。
     </div>
-    
+
     <!-- Main part of logged-in panel -->
     <div class='container hide' id='logged-panel'>
     	<div class='subnav'>
@@ -201,7 +201,7 @@
 	    			</li>
 	    		</ul>
     	</div>
-    	
+
     	<div class='well' id='display-area'>
     		<div id='boardlist-table' class='hide display-area'>
     			<table class='table table-striped table-bordered'>
@@ -216,8 +216,8 @@
     				<tbody id='boardlist-table-body'>
     				</tbody>
     			</table>
-	    	</div>  					
-	    	
+	    	</div>
+
 	    	<div id='board-table' class='hide display-area'>
     			<div class='button-bar board-buttons top-button-bar'>
     				<button class='btn btn-info first-page-button'>第一页</button>
@@ -251,7 +251,7 @@
 	    			</span>
     			</div>
 	    	</div>
-	    	
+
 	    	<div id='post-view' class='hide display-area'>
 	    		<div class='button-bar post-buttons top-button-bar'>
 	    			<button class='btn btn-info st-prev-button'>同主题上一篇</button>
@@ -272,7 +272,7 @@
     						</li>
     					</ul>
 	    			</span>
-    			</div>	 	
+    			</div>
 	    		<div>
 	    			<pre class='post-view-area' id='post-view-area'>
 	    			</pre>
@@ -296,11 +296,11 @@
     						</li>
     					</ul>
 	    			</span>
-    			</div>	    			
+    			</div>
 	    	</div>
-	    	
+
     	</div>
-    	
+
     	<div class='modal hide' id='write-post-panel'>
     		<div class='modal-header'>
     			<button type='button' class='close cancel-button'>&times;</button>
@@ -364,9 +364,9 @@
     			<a class='btn cancel-button' id='cancel-post-button'>取消</a>
   			</div>
     	</div>
-    	
+
 	  </div>
-	  
+
 	  <!--Footer -->
 	  <div class='container' id='footer-div'>
 			<footer class='footer'>
@@ -380,8 +380,8 @@
 		  		BBS data interface powered by <a href='https://github.com/HenryHu/pybbs' target='_blank'>pybbs</a>.
 		  	</p>
 		  	<p>
-		  		Rowell is designed and coded by Mr.Roach. 
-		  		<iframe src="http://ghbtns.com/github-btn.html?user=mrroach9&repo=Rowell&type=watch" 
+		  		Rowell is designed and coded by Mr.Roach.
+		  		<iframe src="http://ghbtns.com/github-btn.html?user=mrroach9&repo=Rowell&type=watch"
 		  				allowtransparency="true" frameborder="0" scrolling="0" width="66px" height="20px">
 		  		</iframe>
 		  	</p>
@@ -390,7 +390,7 @@
 		  	</p>
 			</footer>
 		</div>
-		
+
 		<div id='global-backdrop' class='modal-backdrop'></div>
 		<div class='hide' id='loading-area'>
 			<div class='modal-backdrop blocker'></div>
@@ -399,14 +399,14 @@
 			</div>
 		</div>
 	  <div id='html-encoder' class='hide'></div>
-	  
+
     <!-- Placed at the end of the document so the pages load faster -->
     <script src='./js/jquery/jquery.min.js'></script>
     <script src='./js/jquery/jquery.ui.widget.js'></script>
     <script src='./js/jquery/jquery.cookie.js'></script>
     <script src='./js/jquery/jquery.fileupload.js'></script>
     <script src='./js/bootstrap/bootstrap.min.js'></script>
-    
+
     <script src='./js/bbs/ansi2html.js'></script>
     <script src='./js/bbs/config.js'></script>
     <script src='./js/bbs/common.js'></script>
@@ -417,7 +417,7 @@
     <script src='./js/bbs/bbs_path.js'></script>
     <script src='./js/bbs/bbs_hotkey.js'></script>
     <script src='./js/bbs/bbs_utility.js'></script>
-    
+
     <script type='text/javascript'>
 			$(document).ready(function(){
 				UI_register_func();
@@ -425,8 +425,8 @@
 				UI_set_fileupload();
 				UI_init();
 				UI_session_retrieved($.cookie(bbs_session_cookie));
-			});							
+			});
     </script>
   </body>
 </html>
- 
+
