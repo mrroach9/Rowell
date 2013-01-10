@@ -66,7 +66,7 @@ var bbs_type = {
 		reply			:		'POST_REPLY'
 	},
 };
-	
+
 var bbs_msg = {
 	info : {
 		zhname : '提示：',

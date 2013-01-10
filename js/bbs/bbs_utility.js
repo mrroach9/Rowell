@@ -8,13 +8,13 @@ function clear_unread(board_name, callback_func) {
 		dataType: 'text',
 		cache: false
 	};
-	
+
 	if (board_name != '') {
 		request_settings.data.name = board_name;
 	}
-	
+
 	var resp = $.ajax(request_settings);
-	
+
 	resp.success(function(response){
 		var msg = {
 			type : 'info',
@@ -27,7 +27,7 @@ function clear_unread(board_name, callback_func) {
 			view_boardlist(bbs_type.entry.allboard, -1, '', callback_func, 0);
 		}
 	});
-	
+
 	resp.fail(function(jqXHR, textStatus){
 		var msg = {
 			type : 'error',

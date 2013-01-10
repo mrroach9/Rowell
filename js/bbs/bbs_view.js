@@ -13,7 +13,7 @@ function view_boardlist(type, index, folder_name, callback_func, popNum){
 		dataType: 'text',
 		cache: false
 	};
-	
+
 	var name = '';
 	var pathType = '';
 	if (type == bbs_type.entry.favboard) {
@@ -29,9 +29,9 @@ function view_boardlist(type, index, folder_name, callback_func, popNum){
 		pathType = bbs_type.path.folder;
 		name = folder_name;
 	}
-	
+
 	var resp = $.ajax(request_settings);
-	
+
 	resp.success(function(response){
 		bbs_path.popTo(popNum);
 		var boardlist = extractBoardInfo(response);
@@ -55,7 +55,7 @@ function view_board(board_name, start, end, callback_func, source, popNum){
 		dataType: 'text',
 		cache: false
 	};
-	
+
 	if (start <= 0){
 		if (end <= 0) {
 			request_settings.data.count = bbs_post_count;
@@ -72,9 +72,9 @@ function view_board(board_name, start, end, callback_func, source, popNum){
 		request_settings.data.start = start;
 		request_settings.data.end = end;
 	}
-	
+
 	var resp = $.ajax(request_settings);
-	
+
 	resp.success(function(response){
 		var postlist = extractPostInfo(response);
 		var iStart = 999999;
@@ -94,7 +94,7 @@ function view_board(board_name, start, end, callback_func, source, popNum){
 		bbs_path.push(pathTerm);
 		callback_func();
 	});
-	
+
 	resp.fail(function(jqXHR, textStatus){
 		var msg = null;
 		if (jqXHR.status == 416) {
@@ -156,7 +156,7 @@ function view_board_jumpto(post_id, callback_func){
  *  If source == 'click', then it is called by click on an
  *  entry from the post list. No special info will be notified.
  *  If source == 'next', then it is called by click next
- *  in reading a post. If this is the last post, a 
+ *  in reading a post. If this is the last post, a
  *  'post-reach-end' notification will be issued.
  *  Similar case for source == 'prev'.
  */
@@ -173,7 +173,7 @@ function view_post(post_id, callback_func, source, popNum) {
 		dataType: 'text',
 		cache: false
 	};
-	
+
 	var resp = $.ajax(request_settings);
 	resp.success(function(response){
 		var post = extractPostContent(response);
@@ -182,7 +182,7 @@ function view_post(post_id, callback_func, source, popNum) {
 		bbs_path.push(pathTerm);
 		callback_func();
 	});
-	
+
 	resp.fail(function(jqXHR, textStatus) {
 		var msg = null;
 		if (jqXHR.status == 416) {
@@ -205,7 +205,7 @@ function view_post(post_id, callback_func, source, popNum) {
 		}
 		UI_notify_update(msg);
 	});
-}	
+}
 
 function view_next_post(callback_func) {
 	var pathTerm = bbs_path.getLast();
@@ -240,7 +240,7 @@ function view_post_sametopic(callback_func, source){
 		dataType: 'text',
 		cache: false
 	};
-	
+
 	if (source == 'head') {
 		request_settings.data.direction = 'backward';
 		request_settings.data.last_one = 1;
@@ -252,14 +252,14 @@ function view_post_sametopic(callback_func, source){
 		request_settings.data.direction = 'forward';
 		request_settings.data.last_one = 1;
 	}
-	
+
 	var resp = $.ajax(request_settings);
 	resp.success(function(response){
 		var res = JSON.parse(response);
 		var id = res.nextid;
 		view_post(id, callback_func, 'click', -1);
 	});
-	
+
 	resp.fail(function(jqXHR, textStatus) {
 		var msg = null;
 		if (jqXHR.status == 404) {
@@ -276,7 +276,12 @@ function view_post_sametopic(callback_func, source){
 			} else if (source == 'head') {
 				msg = {
 					type : 'info',
-					content : 'sametopic_head_not_exist'
+					content : 'sametopic_reach_first'
+				};
+			} else if (source == 'latest') {
+				msg = {
+					type : 'info',
+					content : 'sametopic_reach_last'
 				};
 			} else {
 				msg = {
@@ -331,10 +336,10 @@ function extractPostContent(contentStr) {
 	//Replace all \n to <br>
 	var reg = new RegExp("\n", "g");
 	post.content = post.content.replace(reg, '<br>');
-	
+
 	//Eliminate all ASCII control characters
 	reg = new RegExp("\u001B\\[[0-9;]*[A-Za-z]", "g");
 	post.content = post.content.replace(reg, '');
-	
+
 	return post;
 }
