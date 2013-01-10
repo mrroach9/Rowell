@@ -127,7 +127,7 @@ Filter = (function() {
     handleDisplay = function(code) {
       code = parseInt(code, 10);
       if (code === -1) {
-        callback('<br/>');
+        callback('<br />');
       }
       if (code === 0) {
         if (_this.stack.length) {
