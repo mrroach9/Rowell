@@ -25,15 +25,15 @@ function Path(){
 	this.pop = function() {
 		return this.pathList.pop();
 	};
-	
+
 	this.getLast = function() {
 		return this.pathList[this.pathList.length - 1];
 	};
-	
+
 	this.get = function(id) {
 		return this.pathList[id];
 	};
-	
+
 	this.getLastTermWithType = function(typeName) {
 		var d = this.pathList.length - 1;
 		while (d >= 0) {
@@ -44,11 +44,11 @@ function Path(){
 		}
 		return null;
 	};
-	
+
 	this.getBoard = function() {
 		return this.getLastTermWithType(bbs_type.path.board);
 	};
-	
+
 	this.getLastTerm = function() {
 		var d = this.pathList.length;
 		if (d == 0) {
@@ -57,7 +57,7 @@ function Path(){
 			return this.pathList[d-1];
 		}
 	};
-	
+
 	this.push = function(pathTerm) {
 		this.pathList.push(pathTerm);
 	};
