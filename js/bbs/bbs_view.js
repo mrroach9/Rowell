@@ -276,7 +276,12 @@ function view_post_sametopic(callback_func, source){
 			} else if (source == 'head') {
 				msg = {
 					type : 'info',
-					content : 'sametopic_head_not_exist'
+					content : 'sametopic_reach_first'
+				};
+			} else if (source == 'latest') {
+				msg = {
+					type : 'info',
+					content : 'sametopic_reach_last'
 				};
 			} else {
 				msg = {
