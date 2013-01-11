@@ -332,14 +332,18 @@ function extractPostInfo(contentStr) {
 function extractPostContent(contentStr) {
 	post = JSON.parse(contentStr);
 	post.title = html_encode(post.title);
-	post.content = html_encode(post.content);
-	//Replace all \n to <br>
-	var reg = new RegExp("\n", "g");
-	post.content = post.content.replace(reg, '<br>');
 
-	//Eliminate all ASCII control characters
-	reg = new RegExp("\u001B\\[[0-9;]*[A-Za-z]", "g");
-	post.content = post.content.replace(reg, '');
+	// add color to reference
+	refertitle = new RegExp('\n(【 .* 】)', 'g');
+	refercontent = new RegExp('\n(\: .*)', 'g');
+	post.content = post.content.replace(refertitle, '\n\u001b[1;33m$1\u001b[m');
+	post.content = post.content.replace(refercontent, '\n\u001b[36m$1\u001b[m');
+
+	post.content = html_encode(post.content);
+
+	// translate ansi color to html code
+	var filter = new Filter();
+	post.content = filter.toHtml(post.content);
 
 	return post;
 }
