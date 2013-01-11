@@ -345,5 +345,10 @@ function extractPostContent(contentStr) {
 	var filter = new Filter();
 	post.content = filter.toHtml(post.content);
 
+	// set the content to be fixed-width
+	post.content = '<tt>' + post.content + '</tt>';
+	monospacett = new RegExp('\n', 'g');
+	post.content = post.content.replace(monospacett, '</tt>\n<tt>');
+
 	return post;
 }
