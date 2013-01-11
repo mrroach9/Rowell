@@ -318,4 +318,3 @@ Filter = (function() {
 
 })();
 
-module.exports = Filter;
