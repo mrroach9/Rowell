@@ -135,7 +135,7 @@ Filter = (function() {
         }
       }
       if (code === 1) {
-        callback(_this.pushTag('b'));
+      //  callback(_this.pushTag('b'));
       }
       if (code === 2) {
 
