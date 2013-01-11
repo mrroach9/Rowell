@@ -2,7 +2,7 @@ var Filter, STYLES, defaults, extend, toHexString, _i, _results,
   __slice = [].slice;
 
 STYLES = {
-  'ef0': 'color:#000',
+  'ef0': '',
   'ef1': 'color:#A00',
   'ef2': 'color:#0A0',
   'ef3': 'color:#A50',
@@ -18,7 +18,7 @@ STYLES = {
   'ef13': 'color:#F5F',
   'ef14': 'color:#5FF',
   'ef15': 'color:#FFF',
-  'eb0': 'background-color:#000',
+  'eb0': '',
   'eb1': 'background-color:#A00',
   'eb2': 'background-color:#0A0',
   'eb3': 'background-color:#A50',
