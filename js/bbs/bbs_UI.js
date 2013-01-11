@@ -437,11 +437,13 @@ function UI_maindiv_update(pathTerm) {
 
 function UI_generate_board_entry(entry, type){
 	var entryStr = '';
+	var new_post_code = '<span class="badge badge-important new-post-mark">new</span>';
+
 	if (type == bbs_type.path.allboard) {
 		entryStr = '<tr href=\'\' class=\'board-entry\' board-name=\'' + entry.name + '\'>'
 						 + 		'<td>' + entry.total + '</td>'
 						 +		'<td class=\'board-table-center\'>'
-						 + 				(entry.read ? '' : '<span class="badge badge-important">new</span>')
+						 + 			((typeof(entry.read) == 'undefined' || entry.read) ? '' : new_post_code)
 						 + 		'</td>'
 						 +		'<td>' + entry.name + '</td>'
 						 +		'<td>' + entry.desc + '</td>'
@@ -462,7 +464,8 @@ function UI_generate_board_entry(entry, type){
 		entryStr = '<tr href=\'\' class=\'board-entry\' board-name=\'' + entry.binfo.name + '\'>'
 						 + 		'<td>' + entry.binfo.total + '</td>'
 						 +		'<td class=\'board-table-center\'>'
-						 + 				(entry.binfo.read ? '' : '<span class="badge badge-important">new</span>')
+						 + 			((typeof(entry.binfo.read) == 'undefined' || entry.binfo.read) 
+						 		  ? '' : new_post_code)
 						 + 		'</td>'
 						 +		'<td>' + entry.binfo.name + '</td>'
 						 +		'<td>' + entry.binfo.desc + '</td>'
@@ -477,18 +480,32 @@ function UI_generate_board_entry(entry, type){
 
 function UI_generate_post_entry(entry){
 	var attach_logo_str = '<img src="./img/attach-small.png" class="attach-logo"/>';
-	var entryStr =  	  '<tr href="#" class="post-entry unimplemented" post-id="' + entry.id + '">'
-								 + 		'<td>' + entry.id + '</td>'
-								 +		'<td class="board-table-center">'
-								 + 				(entry.read ? '' : '<span class="badge badge-important">new</span>')
-								 +		'</td>'
-								 +		'<td>' + entry.owner + '</td>'
-								 +		'<td>' + entry.posttime + '</td>'
-								 +		'<td>'
-								 +			entry.title
-								 +			((entry.attachment > 0) ? attach_logo_str : '')
-								 + 		'</td>'
-								 + '</tr>';
+	var class_name = 'post-entry';
+	var badge_code = '';
+	var new_post_code = '<span class="badge badge-important new-post-mark">new</span>';
+
+	if ($.inArray(bbs_type.post_mark.m, entry.flags) >= 0) {
+		badge_code += '<span class="badge badge-important post-mark post-mark-m">m</span>';
+		class_name = 'post-entry marked-post-entry';
+	}
+	if ($.inArray(bbs_type.post_mark.g, entry.flags) >= 0) {
+		badge_code += '<span class="badge badge-important post-mark post-mark-g">g</span>';	
+		class_name = 'post-entry marked-post-entry';
+	}
+
+	var entryStr = '<tr href="#" class="' + class_name + '" post-id="' + entry.id + '">'
+				 + 		'<td>' + entry.id + '</td>'
+				 +		'<td class="board-table-center">'
+				 + 				((typeof(entry.read) == 'undefined' || entry.read) ? '' : new_post_code)
+				 +		'</td>'
+				 +		'<td>' + entry.owner + '</td>'
+				 +		'<td>' + entry.posttime + '</td>'
+				 +		'<td>'
+				 +			entry.title
+				 +			((entry.attachment > 0) ? attach_logo_str : '')
+				 +			badge_code
+				 + 		'</td>'
+				 + '</tr>';
 	return entryStr;
 }
 

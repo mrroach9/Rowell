@@ -112,13 +112,35 @@ tr.folder-entry {
 	cursor: pointer;
 }
 
+tr.marked-post-entry {
+}
+
+.new-post-mark {
+	padding-left : 7px;
+	padding-right: 7px;
+}
+
+.post-mark {
+	margin-left : 10px;
+}
+
+.post-mark-g {
+	padding-left : 6px;
+	padding-right: 6px;	
+}
+
+.post-mark-m {
+	padding-left : 5px;
+	padding-right: 5px;	
+}
+
 .table th,
 .table td {
 	padding : 6px;
 }
 
 img.attach-logo {
-	margin-left : 15px;
+	margin-left : 10px;
 	width : 15px;
 	height : 15px;
 }

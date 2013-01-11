@@ -18,12 +18,12 @@ bbs_info.send_source += bbs_info.version + ']';
 
 var bbs_query = {
 	server 				:			'https://bbs.net9.org:8080',
-	client_id 		:			0,
-	client_secret :			0,
+	client_id 			:			0,
+	client_secret 		:			0,
 	auth : {
 		auth				:			'/auth/auth?redirect_uri=displaycode&response_type=code&client_id=',
 		token				:			'/auth/token',
-		session_verify : '/session/verify'
+		session_verify 		: '/session/verify'
 	},
 	view : {
 		allboard		:			'/board/list',
@@ -50,21 +50,25 @@ var bbs_type = {
 		allboard	:		'PATH_ALLBOARD',
 		favboard	:		'PATH_FAVBOARD',
 		folder		:		'PATH_FOLDER',
-		board			:		'PATH_BOARD',
-		post			:		'PATH_POST',
+		board		:		'PATH_BOARD',
+		post		:		'PATH_POST',
 		digest		:		'PATH_DIGEST'
 	},
 	entry : {
 		allboard	:		'ENTRY_ALLBOARD',
 		favboard	:		'ENTRY_FAVBOARD',
-		board			:		'ENTRY_BOARD',
+		board		:		'ENTRY_BOARD',
 		folder		:		'ENTRY_FOLDER',
-		post			:		'ENTRY_POST'
+		post		:		'ENTRY_POST'
 	},
 	write_post : {
-		new		  	: 	'POST_NEW',
-		reply			:		'POST_REPLY'
+		new		  	: 		'POST_NEW',
+		reply		:		'POST_REPLY'
 	},
+	post_mark : {
+		m 			:  		'marked',
+		g 			: 		'g'
+	}
 };
 
 var bbs_msg = {
