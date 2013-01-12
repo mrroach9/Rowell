@@ -16,3 +16,12 @@ function convertTime(msec, offset) {
 	var newTime = new Date(utc + (3600000*offset));
 	return newTime;
 }
+
+// This wrapper sets fixed parameters for all ajax requests,
+// including type, cache, timeout and other possible params.
+function setAjaxParam(ajax_request) {
+	ajax_request.cache = false;
+	ajax_request.dataType = 'text';
+	ajax_request.timeout = 5000;
+	return ajax_request;
+}

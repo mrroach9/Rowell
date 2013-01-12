@@ -4,10 +4,9 @@ function clear_unread(board_name, callback_func) {
 		type: 'POST',
 		data: {
 			session: bbs_session
-		},
-		dataType: 'text',
-		cache: false
+		}
 	};
+	request_settings = setAjaxParam(request_settings);
 
 	if (board_name != '') {
 		request_settings.data.name = board_name;

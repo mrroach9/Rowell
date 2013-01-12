@@ -9,10 +9,9 @@
 			grant_type: 'authorization_code',
 			client_id: bbs_query.client_id,
 			client_secret: bbs_query.client_secret
-		},
-		dataType: 'text',
-		cache: false
+		}
 	};
+	request_settings = setAjaxParam(request_settings);
 
 	var resp = $.ajax(request_settings);
 
@@ -47,10 +46,9 @@ function verifySession(session, saveSession, callback_func){
 		type: 'GET',
 		data: {
 			session: session
-		},
-		dataType: 'text',
-		cache: false
+		}
 	};
+	request_settings = setAjaxParam(request_settings);
 
 	var resp = $.ajax(request_settings);
 
@@ -73,7 +71,7 @@ function verifySession(session, saveSession, callback_func){
 
 /** Set a bbs_session cookie to browser with value
  *  session and expire time of 14 days. If update
- *  is true, the function will force the cookie be
+ *  is true, the function` will force the cookie be
  *  updated, otherwise it will only update when the
  *  cookie does not exist.
  */

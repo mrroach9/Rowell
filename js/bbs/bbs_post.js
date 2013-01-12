@@ -14,8 +14,8 @@ function postPrepare(mode, callback_func){
 		session	: bbs_session,
 		board : boardPathTerm.name,
 		for		: 'new',
-		anonymous	:	1,
-		attachments : '[{"name":"test","store_id":"test"}]'
+		anonymous	:	1
+//		attachments : '[{"name":"test","store_id":"test"}]'
 	};
 	if (mode == bbs_type.write_post.reply) {
 		var postPathTerm = bbs_path.getLastTermWithType(bbs_type.path.post);
@@ -28,10 +28,10 @@ function postPrepare(mode, callback_func){
 	var request_settings = {
 		url		:	bbs_query.server + bbs_query.write_post.prepare,
 		type	: 'GET',
-		data	:	data,
-		dateType	:	'text',
-		cache	: false
+		data	:	data
 	};
+	request_settings = setAjaxParam(request_settings);
+
 	var resp = $.ajax(request_settings);
 	resp.success(function(response){
 		var res = JSON.parse(response)
@@ -82,10 +82,9 @@ function getQuote(mode, callback_func){
 	var request_settings = {
 		url : bbs_query.server + bbs_query.write_post.get_quote,
 		type: 'GET',
-		data: data,
-		dataType: 'text',
-		cache: false
+		data: data
 	};
+	request_settings = setAjaxParam(request_settings);
 
 	var resp = $.ajax(request_settings);
 	resp.success(function(response){
@@ -131,10 +130,9 @@ function writePost(type, title, content, qmd_id, anonym, callback_func){
 	var request_settings = {
 		url : bbs_query.server + bbs_query.write_post.write_post,
 		type: 'POST',
-		data: data,
-		dataType: 'text',
-		cache: false
+		data: data
 	};
+	request_settings = setAjaxParam(request_settings);
 
 	var resp = $.ajax(request_settings);
 	resp.success(function(response){

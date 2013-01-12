@@ -34,7 +34,7 @@ var bbs_query = {
 	},
 	write_post : {
 		get_quote		:			'/post/quote',
-		write_post	:			'/post/new',
+		write_post		:			'/post/new',
 		prepare			:			'/post/prepare',
 		attach			:			'/store/new'
 	},

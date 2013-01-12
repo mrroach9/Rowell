@@ -9,10 +9,9 @@ function view_boardlist(type, index, folder_name, callback_func, popNum){
 			start: 1,
 			father: index,
 			count: bbs_max_board_count,
-		},
-		dataType: 'text',
-		cache: false
+		}
 	};
+	request_settings = setAjaxParam(request_settings);
 
 	var name = '';
 	var pathType = '';
@@ -51,10 +50,9 @@ function view_board(board_name, start, end, callback_func, source, popNum){
 		data: {
 			session: bbs_session,
 			name: board_name
-		},
-		dataType: 'text',
-		cache: false
+		}
 	};
+	request_settings = setAjaxParam(request_settings);
 
 	if (start <= 0){
 		if (end <= 0) {
@@ -169,10 +167,9 @@ function view_post(post_id, callback_func, source, popNum) {
 			session : bbs_session,
 			board : pathTerm.name,
 			id : post_id
-		},
-		dataType: 'text',
-		cache: false
+		}
 	};
+	request_settings = setAjaxParam(request_settings);
 
 	var resp = $.ajax(request_settings);
 	resp.success(function(response){
@@ -236,10 +233,9 @@ function view_post_sametopic(callback_func, source){
 			session : bbs_session,
 			board : pathTerm.name,
 			id : postTerm.data.id
-		},
-		dataType: 'text',
-		cache: false
+		}
 	};
+	request_settings = setAjaxParam(request_settings);
 
 	if (source == 'head') {
 		request_settings.data.direction = 'backward';
