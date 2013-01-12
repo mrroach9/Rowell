@@ -111,7 +111,10 @@ function UI_register_func(){
 	});
 
 	$(document).on('click', '.reply-post-button', function(){
-		postPrepare(bbs_type.write_post.reply, UI_prepare_getQuote);
+		var type = $(this).attr('type');
+		postPrepare(bbs_type.write_post.reply, function(){
+			getQuote(type, UI_prepare_post_modal);
+		});
 	});
 
 	$(document).on('click', '.new-post-normal', function(){
@@ -129,9 +132,9 @@ function UI_register_func(){
 		clear_unread('', UI_update);
 	});
 
-	$(document).on('click', '#add-attachment-link', function(){
-		$('div.attach-area').show();
-	});
+	// $(document).on('click', '#add-attachment-link', function(){
+	// 	$('div.attach-area').show();
+	// });
 
 	$('#publish-post-button').click(UI_write_post);
 
@@ -151,33 +154,29 @@ function UI_register_func(){
 
 }
 
-function UI_set_fileupload() {
-	$('#fileupload').fileupload({
-		dropZone : $('#fileupload'),
-		type : 'POST',
-		url : bbs_query.server + bbs_query.write_post.attach,
-		dataType : 'json',
-		paramName : 'content',
-		formData : {
-			session : bbs_session,
-			item : 'attachment'
-		},
-		add : function(e, data) {
-			alert('here');
-			data.submit();
-		}
-	});
-}
+// Temporarily commented, will not release in v0.2.5
+// function UI_set_fileupload() {
+// 	$('#fileupload').fileupload({
+// 		dropZone : $('#fileupload'),
+// 		type : 'POST',
+// 		url : bbs_query.server + bbs_query.write_post.attach,
+// 		dataType : 'json',
+// 		paramName : 'content',
+// 		formData : {
+// 			session : bbs_session,
+// 			item : 'attachment'
+// 		},
+// 		add : function(e, data) {
+// 			alert('here');
+// 			data.submit();
+// 		}
+// 	});
+// }
 
 function UI_hide_write_post(){
 	$('#write-post-panel').modal('hide');
 	$('.attach-area').hide();
 	bbs_topmost_stack.pop();
-}
-
-
-function UI_prepare_getQuote() {
-	getQuote($(this).attr('type'), UI_prepare_post_modal);
 }
 
 function UI_set_loading(){

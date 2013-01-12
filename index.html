@@ -321,7 +321,7 @@
 	    							不支持匿名发帖
 	    						</span>
 	    						<span class='left-pad-text add-attach-area hide'>
-	    							<a href='javascript:void(0)' id='add-attachment-link'>
+	    							<a class='unimplemented' href='javascript:void(0)' id='add-attachment-link'>
 	    								添加附件
 	    							</a>
 	    						</span>
@@ -422,7 +422,7 @@
 			$(document).ready(function(){
 				UI_register_func();
 				UI_register_hotkeys();
-				UI_set_fileupload();
+				// UI_set_fileupload();
 				UI_init();
 				UI_session_retrieved($.cookie(bbs_session_cookie));
 			});
