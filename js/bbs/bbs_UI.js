@@ -110,6 +110,14 @@ function UI_register_func(){
 		$(this).fadeOut();
 	});
 
+	$('#ctrbtr-link').click(function() {
+		$('#ctrbtr-list').modal('toggle');
+	})
+
+	$('#ctrbtr-list .cancel-button').click(function() {
+		$('#ctrbtr-list').modal('hide');
+	})
+
 	$(document).on('click', '.reply-post-button', function(){
 		var type = $(this).attr('type');
 		postPrepare(bbs_type.write_post.reply, function(){
