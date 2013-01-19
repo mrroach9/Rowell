@@ -17,11 +17,11 @@ function view_boardlist(type, index, folder_name, callback_func, popNum){
 	var pathType = '';
 	if (type == bbs_type.entry.favboard) {
 		request_settings.url = bbs_query.server + bbs_query.view.favboard;
-		name = bbs_favboard_name;
+		name = bbs_string.favboard_name;
 		pathType = bbs_type.path.favboard;
 	} else if (type == bbs_type.entry.allboard) {
 		request_settings.url = bbs_query.server + bbs_query.view.allboard;
-		name = bbs_allboard_name;
+		name = bbs_string.allboard_name;
 		pathType = bbs_type.path.allboard;
 	} else if (type == bbs_type.entry.folder) {
 		request_settings.url = bbs_query.server + bbs_query.view.favboard;
@@ -49,7 +49,8 @@ function view_board(board_name, start, end, callback_func, source, popNum){
 		type: 'GET',
 		data: {
 			session: bbs_session,
-			name: board_name
+			name: board_name,
+			mode: bbs_type.post_list_mode.normal
 		}
 	};
 	request_settings = setAjaxParam(request_settings);
@@ -108,6 +109,38 @@ function view_board(board_name, start, end, callback_func, source, popNum){
 				};
 			}
 			view_board(board_name, -1, -1, callback_func, 'click', popNum);
+		} else {
+			var msg = {
+				type : 'error',
+				content : 'network_error'
+			};
+		}
+		UI_notify_update(msg);
+	});
+}
+
+function view_sticky_post_list(board_name, callback_func) {
+	var request_settings = {
+		url : bbs_query.server + bbs_query.view.postlist,
+		type: 'GET',
+		data: {
+			session: bbs_session,
+			name: board_name,
+			mode: bbs_type.post_list_mode.sticky
+		}
+	};
+	request_settings = setAjaxParam(request_settings);
+
+	var resp = $.ajax(request_settings);
+
+	resp.success(function(response){
+		var postlist = extractPostInfo(response);
+		callback_func(postlist);
+	});
+
+	resp.fail(function(jqXHR, textStatus){
+		var msg = null;
+		if (jqXHR.status == 416) {
 		} else {
 			var msg = {
 				type : 'error',
@@ -313,8 +346,8 @@ function extractPostInfo(contentStr) {
 	postlist = JSON.parse(contentStr);
 	for (var i = 0; i < postlist.length; ++i) {
 		postlist[i].title = html_encode(postlist[i].title);
-		if (postlist[i].title.substr(0,4) != 'Re: ') {
-			postlist[i].title = '● ' + postlist[i].title;
+		if (postlist[i].title.substr(0,4) != bbs_string.reply_title_prefix) {
+			postlist[i].title = bbs_string.post_title_prefix + postlist[i].title;
 		}
 		var date = convertTime(postlist[i].posttime * 1000, 8);
 		var dateStr = date.toDateString();

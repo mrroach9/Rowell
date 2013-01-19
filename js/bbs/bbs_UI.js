@@ -147,7 +147,7 @@ function UI_register_func(){
 	$('#publish-post-button').click(UI_write_post);
 
 	$(document).on('click', '#write-post-panel .cancel-button', function(){
-		if (confirm('确定舍弃当前未发布文章吗？')) {
+		if (confirm(bbs_string.confirm_cancel_post)) {
 			UI_hide_write_post();
 		}
 	});
@@ -286,13 +286,13 @@ function UI_init() {
 	UI_show_backdrop();
 
 	$('a#login-path').attr('href',bbs_query.server + bbs_query.auth.auth);
-	$(document).attr("title", bbs_info.title + 'v' + bbs_info.version);
+	$(document).attr("title", bbs_string.title);
 
 	$('.unimplemented').popover({
 		trigger: 'hover',
 		placement: 'bottom',
-		title: '矮油',
-		content: '此功能尚未实现，我们将在后续版本中添加，敬请谅解。'
+		title: bbs_string.unimpltd_title,
+		content: bbs_string.unimpltd_text
 	});
 
 	bbs_topmost_stack.splice(0);
@@ -462,7 +462,7 @@ function UI_generate_board_entry(entry, type){
 						 + entry.name + '\' index=\'' + entry.index + '\'>'
 						 + 		'<td></td>'
 						 +		'<td class=\'board-table-center\'></td>'
-						 +		'<td>[目录]</td>'
+						 +		'<td>' + bbs_string.entry_folder + '</td>'
 						 +		'<td>' + entry.name + '</td>'
 						 +		'<td></td>'
 						 +		'<td></td>'
@@ -519,14 +519,14 @@ function UI_generate_post_entry(entry){
 function UI_generate_pic_attach_code(data) {
 	if (data.picattach.length <= 0) return '';
 	var attach_code = '<div class="pic-attach-area">'
-									+		'本帖附带图片如下：'
+									+		bbs_string.attach_pic_text
 									+		'<ul class="thumbnails">';
 	var attach_link = data.attachlink + '&a=';
 	for (var id in data.picattach) {
 		var attach = data.picattach[id];
 		attach_code += '<li class="span2">'
 								+	 	'<a href="' + attach_link + attach.offset + '"'
-								+		' title="' + attach.name + '\n点击查看大图"'
+								+		' title="' + attach.name + '\n' + bbs_string.attach_pic_tooltip + '"'
 								+		' target="_blank" class="thumbnail">'
 								+			'<img src="' + attach_link + attach.offset + '&thumbnail=160x1000"'
 								+			'alt="' + attach.name + '" />'
@@ -540,7 +540,7 @@ function UI_generate_pic_attach_code(data) {
 function UI_generate_other_attach_code(data) {
 	if (data.otherattach.length <= 0) return '';
 	var attach_code = '<div class="other-attach-area">'
-									+		'本帖附带文件如下：'
+									+		bbs_string.attach_other_text
 	var attach_link = data.attachlink + '&a=';
 	for (var id in data.otherattach) {
 		var attach = data.otherattach[id];
@@ -549,7 +549,7 @@ function UI_generate_other_attach_code(data) {
 								+		attach.name
 								+		'<br>'
 								+	 	'<a href="' + attach_link + attach.offset + '"'
-								+		' target="_blank">下载文件</a>'
+								+		' target="_blank">' + bbs_string.attach_other_tooltip + '</a>'
 								+	'</div>';
 	}
 	attach_code += '</ul></div>';

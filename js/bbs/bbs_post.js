@@ -105,7 +105,7 @@ function writePost(type, title, content, qmd_id, anonym, callback_func){
 	var data = {
 		session : bbs_session,
 		title : title,
-		content: content + '\n\n' + bbs_info.send_source,
+		content: content + '\n\n' + bbs_string.send_source,
 		signature_id : qmd_id,
 		anonymous: (anonym ? 1 : 0)
 	};

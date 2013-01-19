@@ -1,20 +1,28 @@
-﻿var bbs_favboard_name = '收藏夹';
-var bbs_allboard_name = '所有版面';
-
-var bbs_max_board_count = 9999;
+﻿var bbs_max_board_count = 9999;
 var bbs_post_count = 20;
 var bbs_max_post_count = 999;
 
 var bbs_session_cookie = 'bbs_session';
 var bbs_error_session = 'SESSION_ERROR';
 
-var bbs_info = {
-	title : '9# BBS - Rowell ',
-	version : '0.2.4',
-	send_source : '[Sent from Rowell v'
+var bbs_string = {
+	favboard_name		:	'收藏夹',
+	allboard_name		:	'所有版面',
+	title				:	'9# BBS - Rowell v0.2.5',
+	version				:	'0.2.5',
+	send_source			:	'[Sent from Rowell v0.2.5]',
+	unimpltd_title		:	'矮油',
+	unimpltd_text		:	'此功能尚未实现，我们将在后续版本中添加，敬请谅解。',
+	entry_folder		:	'[目录]',
+	entry_sticky		:	'[置底]',
+	post_title_prefix	:	'● ',
+	reply_title_prefix	:	'Re: ',
+	attach_pic_text		:	'本帖附带图片如下：',
+	attach_pic_tooltip	:	'点击查看大图',
+	attach_other_text	:	'本帖附带文件如下：',
+	attach_other_tooltip:	'下载文件',
+	confirm_cancel_post	:	'确定舍弃当前未发布文章吗？'
 };
-
-bbs_info.send_source += bbs_info.version + ']';
 
 var bbs_query = {
 	server 				:			'https://bbs.net9.org:8080',
@@ -68,6 +76,14 @@ var bbs_type = {
 	post_mark : {
 		m 			:  		'marked',
 		g 			: 		'g'
+	},
+	post_list_mode : {
+		normal		: 		'normal', 
+		digest 		: 		'digest',
+		mark 		: 		'mark',
+		thread		:		'thread',
+		origin		:		'origin',
+		sticky		:		'sticky'
 	}
 };
 
