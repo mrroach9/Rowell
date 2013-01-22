@@ -62,5 +62,3 @@ function Path(){
 		this.pathList.push(pathTerm);
 	};
 }
-
-var bbs_path = new Path();

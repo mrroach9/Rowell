@@ -1,6 +1,4 @@
-﻿var bbs_loading_show = false;
-
-function UI_register_func(){
+﻿function UI_register_func(){
 	$('#login-button').click(function(){
 		var auth_code = $('input#auth-code-textbox').val();
 		UI_show_backdrop();
@@ -415,8 +413,13 @@ function UI_maindiv_update(pathTerm) {
 		bbs_topmost_stack.push('#boardlist-table');
 	} else if (pathTerm.type == bbs_type.path.board) {
 		$('#board-table-body').empty();
+
 		for (var i = 0; i < pathTerm.data.length; ++i) {
-			var entryStr = UI_generate_post_entry(pathTerm.data[i]);
+			var entryStr = UI_generate_post_entry(pathTerm.data[i], false);
+			$('#board-table-body').append(entryStr);
+		}
+		for (var i = 0; i < bbs_sticky.posts.length; ++i) {
+			var entryStr = UI_generate_post_entry(bbs_sticky.posts[i], true);
 			$('#board-table-body').append(entryStr);
 		}
 
@@ -485,7 +488,7 @@ function UI_generate_board_entry(entry, type){
 	return entryStr;
 }
 
-function UI_generate_post_entry(entry){
+function UI_generate_post_entry(entry, is_sticky){
 	var attach_logo_str = '<img src="./img/attach-small.png" class="attach-logo"/>';
 	var class_name = 'post-entry';
 	var badge_code = '';
@@ -500,8 +503,8 @@ function UI_generate_post_entry(entry){
 		class_name = 'post-entry marked-post-entry';
 	}
 
-	var entryStr = '<tr href="#" class="' + class_name + '" post-id="' + entry.id + '">'
-				 + 		'<td>' + entry.id + '</td>'
+	var entryStr = '<tr href="#" class="' + class_name + '" post-id="' + (is_sticky ? '' : entry.id) + '">'
+				 + 		'<td>' + (is_sticky ? bbs_string.entry_sticky : entry.id) + '</td>'
 				 +		'<td class="board-table-center">'
 				 + 				((typeof(entry.read) == 'undefined' || entry.read) ? '' : new_post_code)
 				 +		'</td>'

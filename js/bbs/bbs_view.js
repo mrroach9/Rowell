@@ -1,6 +1,4 @@
-﻿var bbs_session = '';
-
-function view_boardlist(type, index, folder_name, callback_func, popNum){
+﻿function view_boardlist(type, index, folder_name, callback_func, popNum){
 	var request_settings = {
 		url : '',
 		type: 'GET',
@@ -38,7 +36,7 @@ function view_boardlist(type, index, folder_name, callback_func, popNum){
 		if (pathType == bbs_type.path.folder){
 			pathTerm.index = index;
 		}
-	  bbs_path.push(pathTerm);
+	  	bbs_path.push(pathTerm);
 		callback_func();
 	});
 }
@@ -91,7 +89,12 @@ function view_board(board_name, start, end, callback_func, source, popNum){
 		pathTerm.end = iEnd;
 		bbs_path.popTo(popNum);
 		bbs_path.push(pathTerm);
-		callback_func();
+
+		if (bbs_sticky.name == board_name) {
+			callback_func();	
+		} else {
+			view_sticky_post_list(board_name, callback_func);
+		}
 	});
 
 	resp.fail(function(jqXHR, textStatus){
@@ -135,7 +138,9 @@ function view_sticky_post_list(board_name, callback_func) {
 
 	resp.success(function(response){
 		var postlist = extractPostInfo(response);
-		callback_func(postlist);
+		bbs_sticky.name = board_name;
+		bbs_sticky.posts = postlist;
+		callback_func();
 	});
 
 	resp.fail(function(jqXHR, textStatus){

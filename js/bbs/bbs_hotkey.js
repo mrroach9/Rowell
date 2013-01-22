@@ -14,7 +14,6 @@ function Hotkey(keyCode, ctrl, alt, selector, target, trigger){
 	}
 }
 
-
 function HotkeyManager() {
 	this.hotkeyMap = new Array();
 
@@ -103,9 +102,6 @@ function HotkeyManager() {
 		$(document).unbind('keyup');
 	};
 }
-
-var bbs_hotkey_manager = new HotkeyManager();
-var bbs_topmost_stack = new Array();
 
 function register_default_hotkeys(){
 	//Ctrl + Enter(13)/w(87)/x(88) on #write-post-panel: Publish post;

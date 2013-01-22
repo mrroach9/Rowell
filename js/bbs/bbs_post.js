@@ -1,11 +1,4 @@
-﻿var bbs_post_info = {
-	can_anony	: false,
-	sig_id		: -1,
-	quote			: '',
-	type			: ''
-};
-
-function postPrepare(mode, callback_func){
+﻿function postPrepare(mode, callback_func){
 	var boardPathTerm = bbs_path.getLastTermWithType(bbs_type.path.board);
 	if (boardPathTerm == null) {
 		return;

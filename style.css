@@ -15,6 +15,12 @@ body {
 
 .subnav .nav {
 	margin-bottom : 10px;
+	margin-top : 2px;
+}
+
+.alert.alert-info {
+	margin-bottom : 0px;
+	height : 16px;
 }
 
 .well {
@@ -50,6 +56,12 @@ body {
 .btn-group.subnav-right-btn > .btn-large.dropdown-toggle.dropdown-caret {
   padding-right: 9px;
   padding-left: 9px;
+}
+
+button.btn.btn-large {
+	padding-top: 8px;
+	padding-bottom: 9px;
+	height: 38px;
 }
 
 /* Loading logos */
@@ -112,8 +124,6 @@ tr.folder-entry {
 	cursor: pointer;
 }
 
-tr.marked-post-entry {
-}
 
 .new-post-mark {
 	padding-left : 7px;

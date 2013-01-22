@@ -25,29 +25,29 @@ var bbs_string = {
 };
 
 var bbs_query = {
-	server 				:			'https://bbs.net9.org:8080',
-	client_id 			:			0,
-	client_secret 		:			0,
+	server 				:	'https://bbs.net9.org:8080',
+	client_id 			:	0,
+	client_secret 		:	0,
 	auth : {
-		auth				:			'/auth/auth?redirect_uri=displaycode&response_type=code&client_id=',
-		token				:			'/auth/token',
-		session_verify 		: '/session/verify'
+		auth			:	'/auth/auth?redirect_uri=displaycode&response_type=code&client_id=',
+		token			:	'/auth/token',
+		session_verify 	:	'/session/verify'
 	},
 	view : {
-		allboard		:			'/board/list',
-		favboard		:			'/favboard/list',
-		postlist		:			'/board/post_list',
-		viewpost		:			'/post/view',
-		sametopic		:			'/post/nextid'
+		allboard		:	'/board/list',
+		favboard		:	'/favboard/list',
+		postlist		:	'/board/post_list',
+		viewpost		:	'/post/view',
+		sametopic		:	'/post/nextid'
 	},
 	write_post : {
-		get_quote		:			'/post/quote',
-		write_post		:			'/post/new',
-		prepare			:			'/post/prepare',
-		attach			:			'/store/new'
+		get_quote		:	'/post/quote',
+		write_post		:	'/post/new',
+		prepare			:	'/post/prepare',
+		attach			:	'/store/new'
 	},
 	utility : {
-		clear_unread:			'/board/clear_unread'
+		clear_unread	:	'/board/clear_unread'
 	}
 };
 
@@ -55,35 +55,35 @@ bbs_query.auth.auth += bbs_query.client_id;
 
 var bbs_type = {
 	path : {
-		allboard	:		'PATH_ALLBOARD',
-		favboard	:		'PATH_FAVBOARD',
-		folder		:		'PATH_FOLDER',
-		board		:		'PATH_BOARD',
-		post		:		'PATH_POST',
-		digest		:		'PATH_DIGEST'
+		allboard	:	'PATH_ALLBOARD',
+		favboard	:	'PATH_FAVBOARD',
+		folder		:	'PATH_FOLDER',
+		board		:	'PATH_BOARD',
+		post		:	'PATH_POST',
+		digest		:	'PATH_DIGEST'
 	},
 	entry : {
-		allboard	:		'ENTRY_ALLBOARD',
-		favboard	:		'ENTRY_FAVBOARD',
-		board		:		'ENTRY_BOARD',
-		folder		:		'ENTRY_FOLDER',
-		post		:		'ENTRY_POST'
+		allboard	:	'ENTRY_ALLBOARD',
+		favboard	:	'ENTRY_FAVBOARD',
+		board		:	'ENTRY_BOARD',
+		folder		:	'ENTRY_FOLDER',
+		post		:	'ENTRY_POST'
 	},
 	write_post : {
-		new		  	: 		'POST_NEW',
-		reply		:		'POST_REPLY'
+		new		  	:	'POST_NEW',
+		reply		:	'POST_REPLY'
 	},
 	post_mark : {
-		m 			:  		'marked',
-		g 			: 		'g'
+		m 			:	'marked',
+		g 			:	'g'
 	},
 	post_list_mode : {
-		normal		: 		'normal', 
-		digest 		: 		'digest',
-		mark 		: 		'mark',
-		thread		:		'thread',
-		origin		:		'origin',
-		sticky		:		'sticky'
+		normal		:	'normal', 
+		digest 		:	'digest',
+		mark 		:	'mark',
+		thread		:	'thread',
+		origin		:	'origin',
+		sticky		:	'sticky'
 	}
 };
 
