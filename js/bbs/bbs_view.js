@@ -196,7 +196,7 @@ function view_board_jumpto(post_id, callback_func){
  *  'post-reach-end' notification will be issued.
  *  Similar case for source == 'prev'.
  */
-function view_post(post_id, callback_func, source, popNum) {
+function view_post(post_id, mode, callback_func, source, popNum) {
 	var pathTerm = bbs_path.getLastTermWithType(bbs_type.path.board);
 	var request_settings = {
 		url : bbs_query.server + bbs_query.view.viewpost,
@@ -204,7 +204,8 @@ function view_post(post_id, callback_func, source, popNum) {
 		data: {
 			session : bbs_session,
 			board : pathTerm.name,
-			id : post_id
+			id : post_id,
+			mode : mode
 		}
 	};
 	request_settings = setAjaxParam(request_settings);
@@ -212,7 +213,13 @@ function view_post(post_id, callback_func, source, popNum) {
 	var resp = $.ajax(request_settings);
 	resp.success(function(response){
 		var post = extractPostContent(response);
-		var pathTerm = new PathTerm(bbs_type.path.post, post.title, post);
+		var type = '';
+		if (mode == bbs_type.post_list_mode.normal) {
+			type = bbs_type.path.post;
+		} else if (mode == bbs_type.post_list_mode.sticky) {
+			type = bbs_type.path.sticky_post;
+		}
+		var pathTerm = new PathTerm(type, post.title, post);
 		bbs_path.popTo(popNum);
 		bbs_path.push(pathTerm);
 		callback_func();
@@ -247,7 +254,7 @@ function view_next_post(callback_func) {
 	if (pathTerm.type != bbs_type.path.post) {
 		return;
 	}
-	view_post(pathTerm.data.id + 1, callback_func, 'next', -1);
+	view_post(pathTerm.data.id + 1, bbs_type.post_list_mode.normal, callback_func, 'next', -1);
 }
 
 function view_prev_post(callback_func) {
@@ -255,7 +262,7 @@ function view_prev_post(callback_func) {
 	if (pathTerm.type != bbs_type.path.post) {
 		return;
 	}
-	view_post(pathTerm.data.id - 1, callback_func, 'prev', -1);
+	view_post(pathTerm.data.id - 1, bbs_type.post_list_mode.normal, callback_func, 'prev', -1);
 }
 
 function view_post_sametopic(callback_func, source){
@@ -291,7 +298,7 @@ function view_post_sametopic(callback_func, source){
 	resp.success(function(response){
 		var res = JSON.parse(response);
 		var id = res.nextid;
-		view_post(id, callback_func, 'click', -1);
+		view_post(id, bbs_type.post_list_mode.normal, callback_func, 'click', -1);
 	});
 
 	resp.fail(function(jqXHR, textStatus) {

@@ -29,7 +29,7 @@
 
 	$(document).on('click', '.post-entry', function() {
 		UI_set_loading();
-		view_post($(this).attr('post-id'), UI_update, 'click');
+		view_post($(this).attr('post-id'), $(this).attr('type'), UI_update, 'click');
 	});
 
 	$(document).on('click', '#path-term', UI_path_click);
@@ -71,31 +71,79 @@
 	});
 
 	$('.next-post-button').click(function(){
+		var pathTerm = bbs_path.getLastTerm();
+		if (pathTerm.type == bbs_type.path.sticky_post) {
+			UI_notify_update({
+				type: 'error',
+				content: 'invalid_sticky_op'
+			});
+			return;
+		}
 		UI_set_loading();
 		view_next_post(UI_update);
 	});
 
 	$('.prev-post-button').click(function(){
+		var pathTerm = bbs_path.getLastTerm();
+		if (pathTerm.type == bbs_type.path.sticky_post) {
+			UI_notify_update({
+				type: 'error',
+				content: 'invalid_sticky_op'
+			});
+			return;
+		}
 		UI_set_loading();
 		view_prev_post(UI_update);
 	});
 
 	$('.st-prev-button').click(function(){
+		var pathTerm = bbs_path.getLastTerm();
+		if (pathTerm.type == bbs_type.path.sticky_post) {
+			UI_notify_update({
+				type: 'error',
+				content: 'invalid_sticky_op'
+			});
+			return;
+		}
 		UI_set_loading();
 		view_post_sametopic(UI_update, 'prev');
 	});
 
 	$('.st-next-button').click(function(){
+		var pathTerm = bbs_path.getLastTerm();
+		if (pathTerm.type == bbs_type.path.sticky_post) {
+			UI_notify_update({
+				type: 'error',
+				content: 'invalid_sticky_op'
+			});
+			return;
+		}
 		UI_set_loading();
 		view_post_sametopic(UI_update, 'next');
 	});
 
 	$('.st-head-button').click(function(){
+		var pathTerm = bbs_path.getLastTerm();
+		if (pathTerm.type == bbs_type.path.sticky_post) {
+			UI_notify_update({
+				type: 'error',
+				content: 'invalid_sticky_op'
+			});
+			return;
+		}
 		UI_set_loading();
 		view_post_sametopic(UI_update, 'head');
 	});
 
 	$('.st-latest-button').click(function(){
+		var pathTerm = bbs_path.getLastTerm();
+		if (pathTerm.type == bbs_type.path.sticky_post) {
+			UI_notify_update({
+				type: 'error',
+				content: 'invalid_sticky_op'
+			});
+			return;
+		}
 		UI_set_loading();
 		view_post_sametopic(UI_update, 'latest');
 	});
@@ -434,7 +482,8 @@ function UI_maindiv_update(pathTerm) {
 
 		$('#board-table').show();
 		bbs_topmost_stack.push('#board-table');
-	} else if (pathTerm.type == bbs_type.path.post) {
+	} else if (pathTerm.type == bbs_type.path.post || 
+			   pathTerm.type == bbs_type.path.sticky_post) {
 		$('#post-view-area').empty();
 		var content = linkify(pathTerm.data.content)
 								+ UI_generate_pic_attach_code(pathTerm.data)
@@ -453,7 +502,7 @@ function UI_generate_board_entry(entry, type){
 		entryStr = '<tr href=\'\' class=\'board-entry\' board-name=\'' + entry.name + '\'>'
 						 + 		'<td>' + entry.total + '</td>'
 						 +		'<td class=\'board-table-center\'>'
-						 + 			((typeof(entry.read) == 'undefined' || entry.read) ? '' : new_post_code)
+						 + 			((entry.isdir || entry.read) ? '' : new_post_code)
 						 + 		'</td>'
 						 +		'<td>' + entry.name + '</td>'
 						 +		'<td>' + entry.desc + '</td>'
@@ -503,8 +552,28 @@ function UI_generate_post_entry(entry, is_sticky){
 		class_name = 'post-entry marked-post-entry';
 	}
 
-	var entryStr = '<tr href="#" class="' + class_name + '" post-id="' + (is_sticky ? '' : entry.id) + '">'
-				 + 		'<td>' + (is_sticky ? bbs_string.entry_sticky : entry.id) + '</td>'
+	var entryStr = '';
+	if (is_sticky) {
+		entryStr = 	'<tr href="#" class="' + class_name + '" post-id="' + entry.id + '" type="' 
+				 +  bbs_type.post_list_mode.sticky + '" >'
+				 + 		'<td><b>' 
+				 + 			bbs_string.entry_sticky
+				 + 		'</b></td>'
+				 +		'<td class="board-table-center"><b>'
+				 + 				((typeof(entry.read) == 'undefined' || entry.read) ? '' : new_post_code)
+				 +		'</b></td>'
+				 +		'<td><b>' + entry.owner + '</b></td>'
+				 +		'<td><b>' + entry.posttime + '</b></td>'
+				 +		'<td><b>'
+				 +			entry.title
+				 +			((entry.attachment > 0) ? attach_logo_str : '')
+				 +			badge_code
+				 + 		'</b></td>'
+				 + '</tr>';
+	} else {
+		entryStr = '<tr href="#" class="' + class_name + '" post-id="' + entry.id + '" type="' 
+				 +  bbs_type.post_list_mode.normal + '" >'
+				 + 		'<td>' + entry.id + '</td>'
 				 +		'<td class="board-table-center">'
 				 + 				((typeof(entry.read) == 'undefined' || entry.read) ? '' : new_post_code)
 				 +		'</td>'
@@ -516,6 +585,8 @@ function UI_generate_post_entry(entry, is_sticky){
 				 +			badge_code
 				 + 		'</td>'
 				 + '</tr>';
+	}
+
 	return entryStr;
 }
 

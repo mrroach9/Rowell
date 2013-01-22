@@ -60,6 +60,7 @@ var bbs_type = {
 		folder		:	'PATH_FOLDER',
 		board		:	'PATH_BOARD',
 		post		:	'PATH_POST',
+		sticky_post	:	'PATH_STICKY_POST',
 		digest		:	'PATH_DIGEST'
 	},
 	entry : {
@@ -108,7 +109,8 @@ var bbs_msg = {
 		network_error : '网络连接异常，无法完成您的请求。',
 		unknown_error : '出现未知错误，请重新请求或联系开发者。',
 		cannot_reply	:	'此帖已被设置为不可回复。',
-		cannot_post		:	'本版已被设置为只读。'
+		cannot_post		:	'本版已被设置为只读。',
+		invalid_sticky_op:	'无法对置底贴进行该操作。'
 	},
 	warning : {
 		class_name : 'alert alert-block',
