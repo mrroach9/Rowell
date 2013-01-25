@@ -13,7 +13,14 @@
 	if (mode == bbs_type.write_post.reply) {
 		var postPathTerm = bbs_path.getLastTermWithType(bbs_type.path.post);
 		if (postPathTerm == null) {
-			return;
+			postPathTerm = bbs_path.getLastTermWithType(bbs_type.path.sticky_post);
+			if (postPathTerm != null) {
+				data.re_mode = bbs_type.post_list_mode.sticky;
+			} else {
+				return;
+			}
+		} else {
+			data.re_mode = bbs_type.post_list_mode.normal;
 		}
 		data.re_id = postPathTerm.data.id;
 		data.re_xid = postPathTerm.data.xid;
@@ -62,15 +69,25 @@
 function getQuote(mode, callback_func){
 	var boardPathTerm = bbs_path.getLastTermWithType(bbs_type.path.board);
 	var postPathTerm = bbs_path.getLastTermWithType(bbs_type.path.post);
-	if (boardPathTerm == null || postPathTerm == null){
+	var quoteMode = bbs_type.post_list_mode.normal;
+	if (boardPathTerm == null){
 		return;
+	}
+	if (postPathTerm == null) {
+		postPathTerm = bbs_path.getLastTermWithType(bbs_type.path.sticky_post);
+		if (postPathTerm != null) {
+			quoteMode = bbs_type.post_list_mode.sticky;
+		} else {
+			return;
+		}
 	}
 	var data = {
 		session : bbs_session,
 		board : boardPathTerm.name,
 		id : postPathTerm.data.id,
 		xid : postPathTerm.data.xid,
-		mode : mode
+		mode : mode,
+		index_mode : quoteMode
 	};
 	var request_settings = {
 		url : bbs_query.server + bbs_query.write_post.get_quote,
@@ -113,8 +130,18 @@ function writePost(type, title, content, qmd_id, anonym, callback_func){
 		data.board = boardPathTerm.name;
 	} else if (type == bbs_type.write_post.reply) {
 		popNum = -2;
-		if (boardPathTerm == null || postPathTerm == null){
+		if (boardPathTerm == null){
 			return;
+		}
+		if (postPathTerm == null) {
+			postPathTerm = bbs_path.getLastTermWithType(bbs_type.path.sticky_post);
+			if (postPathTerm != null) {
+				data.re_mode = bbs_type.post_list_mode.sticky;
+			} else {
+				return;
+			}
+		} else {
+			data.re_mode = bbs_type.post_list_mode.normal;
 		}
 		data.board = boardPathTerm.name;
 		data.re_id = postPathTerm.data.id;

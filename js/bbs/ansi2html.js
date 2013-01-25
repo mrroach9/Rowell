@@ -254,7 +254,7 @@ Filter = (function() {
       if (g1.trim().length === 0) {
         g1 = '0';
       }
-      g1 = g1.trimRight(';').split(';');
+      g1 = g1.replace(/;*$/, '').split(';');
       for (_j = 0, _len = g1.length; _j < _len; _j++) {
         code = g1[_j];
         callback('display', code);

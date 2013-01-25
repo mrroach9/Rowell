@@ -437,7 +437,8 @@ function UI_subnavbar_update(path) {
 		$('.favboard-btns').show();
 	} else if (type == bbs_type.path.board) {
 		$('.board-btns').show();
-	} else if (type == bbs_type.path.post) {
+	} else if (type == bbs_type.path.post ||
+			   type == bbs_type.path.sticky_post) {
 		$('.post-view-btns').show();
 	} else if (type == bbs_type.path.allboard) {
 		$('.allboard-btns').show();
