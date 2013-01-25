@@ -555,21 +555,21 @@ function UI_generate_post_entry(entry, is_sticky){
 
 	var entryStr = '';
 	if (is_sticky) {
-		entryStr = 	'<tr href="#" class="' + class_name + '" post-id="' + entry.id + '" type="' 
+		entryStr = 	'<tr href="#" class="' + class_name + ' sticky'+ '" post-id="' + entry.id + '" type="' 
 				 +  bbs_type.post_list_mode.sticky + '" >'
-				 + 		'<td><b>' 
+				 + 		'<td>' 
 				 + 			bbs_string.entry_sticky
-				 + 		'</b></td>'
-				 +		'<td class="board-table-center"><b>'
+				 + 		'</td>'
+				 +		'<td class="board-table-center">'
 				 + 				((typeof(entry.read) == 'undefined' || entry.read) ? '' : new_post_code)
-				 +		'</b></td>'
-				 +		'<td><b>' + entry.owner + '</b></td>'
-				 +		'<td><b>' + entry.posttime + '</b></td>'
-				 +		'<td><b>'
+				 +		'</td>'
+				 +		'<td>' + entry.owner + '</td>'
+				 +		'<td>' + entry.posttime + '</td>'
+				 +		'<td>'
 				 +			entry.title
 				 +			((entry.attachment > 0) ? attach_logo_str : '')
 				 +			badge_code
-				 + 		'</b></td>'
+				 + 		'</td>'
 				 + '</tr>';
 	} else {
 		entryStr = '<tr href="#" class="' + class_name + '" post-id="' + entry.id + '" type="' 
