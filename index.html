@@ -1,6 +1,6 @@
 ﻿<!DOCTYPE html>
 <html lang='zh'>
-  <head>
+<head>
     <meta charset='utf-8'>
     <title>9# BBS</title>
     <!--
@@ -25,27 +25,27 @@
 		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
 		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 		  })();
-		</script>
-  </head>
+	</script>
+</head>
 
-  <body>
+<body>
   	<!-- Navigation bars for logged-in version and unlogged-in version -->
     <div class='navbar navbar-fixed-top' id='unlogged-navbar'>
-      <div class='navbar-inner'>
-        <div class='container'>
-          <div class='brand'>
-          	<div class='title-label'>9# BBS</div>
-          </div>
-          <div class='nav-collapse'>
-            <ul class='nav'>
-            <!--
-              <li><a data-toggle='modal' href='#login-panel'>登录</a></li>
-            -->
-              <li><a href='' id='login-path'>登录</a></li>
-            </ul>
-          </div>
+        <div class='navbar-inner'>
+            <div class='container'>
+                <div class='brand'>
+                    <div class='title-label'>9# BBS</div>
+                </div>
+                <div class='nav-collapse'>
+                    <ul class='nav'>
+                        <!--
+                          <li><a data-toggle='modal' href='#login-panel'>登录</a></li>
+                        -->
+                        <li><a href='' id='login-path'>登录</a></li>
+                    </ul>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
 
     <div class='navbar navbar-fixed-top hide' id='logged-navbar'>
@@ -369,64 +369,63 @@
     			<a class='btn cancel-button' id='cancel-post-button'>取消</a>
   			</div>
     	</div>
+	</div>
 
-    	<div class='modal hide' id='ctrbtr-list'>
-    		<div class='modal-header'>
-    			<button type='button' class='close cancel-button'>&times;</button>
-    			<h3 id='post-panel-title'>Rowell开发者名单</h3>
-    		</div>
-    		<div class='modal-body'>
-    			<p>按常用ID字母序排列。</p>
-    			<ul>
-    				<li>
-    					<a href="https://github.com/BYVoid" target="_blank">BYVoid</a>
-    				</li>
-    				<li>
-    					<a href="https://github.com/mrroach9" target="_blank">Roach</a>
-    				</li>
-    				<li>
-    					<a href="https://github.com/ccding" target="_blank">Tux</a>
-    				</li>
-    			</ul>
-    		</div>
-    		<div class='modal-footer'>
-    			<a class='btn btn-primary cancel-button'>关闭</a>
-  			</div>
-    	</div>
+    <div class='modal hide' id='ctrbtr-list'>
+        <div class='modal-header'>
+            <button type='button' class='close cancel-button'>&times;</button>
+            <h3 id='post-panel-title'>Rowell开发者名单</h3>
+        </div>
+        <div class='modal-body'>
+            <p>按常用ID字母序排列。</p>
+            <ul>
+                <li>
+                     <a href="https://github.com/BYVoid" target="_blank">BYVoid</a>
+                </li>
+                <li>
+                    <a href="https://github.com/mrroach9" target="_blank">Roach</a>
+                </li>
+                <li>
+                    <a href="https://github.com/ccding" target="_blank">Tux</a>
+                </li>
+            </ul>
+        </div>
+        <div class='modal-footer'>
+            <a class='btn btn-primary cancel-button'>关闭</a>
+        </div>
+    </div>
 
-	  </div>
+	<!--Footer -->
+	<div class='container' id='footer-div'>
+		<footer class='footer'>
+	  	<p class='pull-right'>
+	  		<a href='#'>回到顶部</a>
+	  	</p>
+	  	<p>
+	  		UI powered by <a href='https://twitter.github.com/bootstrap/index.html' target='_blank'>Twitter Bootstrap</a>.
+	  	</p>
+	  	<p>
+	  		BBS API powered by <a href='https://github.com/HenryHu/pybbs' target='_blank'>pybbs</a>.
+	  	</p>
+	  	<p>
+	  		<a href="https://github.com/mrroach9/Rowell/" target="_blank">Rowell
+	  		</a> is created by many 9#er's. 
+	  		<a href="javascript:void(0)" id="ctrbtr-link">Contributors</a>.
+	  	</p>
+	  	<p>
+	  		For all suggestions and bug reports, contact zhangwenqi1988[at]gmail[dot]com.
+	  	</p>
+		</footer>
+	</div>
 
-	  <!--Footer -->
-	  <div class='container' id='footer-div'>
-			<footer class='footer'>
-		  	<p class='pull-right'>
-		  		<a href='#'>回到顶部</a>
-		  	</p>
-		  	<p>
-		  		UI powered by <a href='https://twitter.github.com/bootstrap/index.html' target='_blank'>Twitter Bootstrap</a>.
-		  	</p>
-		  	<p>
-		  		BBS API powered by <a href='https://github.com/HenryHu/pybbs' target='_blank'>pybbs</a>.
-		  	</p>
-		  	<p>
-		  		<a href="https://github.com/mrroach9/Rowell/" target="_blank">Rowell
-		  		</a> is created by many 9#er's. 
-		  		<a href="javascript:void(0)" id="ctrbtr-link">Contributors</a>.
-		  	</p>
-		  	<p>
-		  		For all suggestions and bug reports, contact zhangwenqi1988[at]gmail[dot]com.
-		  	</p>
-			</footer>
+	<div id='global-backdrop' class='modal-backdrop'></div>
+	<div class='hide' id='loading-area'>
+		<div class='modal-backdrop blocker'></div>
+		<div class='modal-backdrop loading'>
+			<img class='loading-logo' src='./img/loading.gif'></img>
 		</div>
-
-		<div id='global-backdrop' class='modal-backdrop'></div>
-		<div class='hide' id='loading-area'>
-			<div class='modal-backdrop blocker'></div>
-			<div class='modal-backdrop loading'>
-				<img class='loading-logo' src='./img/loading.gif'></img>
-			</div>
-		</div>
-	  <div id='html-encoder' class='hide'></div>
+	</div>
+	<div id='html-encoder' class='hide'></div>
 
     <!-- Placed at the end of the document so the pages load faster -->
     <script src='./js/jquery/jquery.min.js'></script>
