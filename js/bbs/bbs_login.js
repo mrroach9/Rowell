@@ -35,7 +35,8 @@
  *  updated if it is verified successfully.
  */
 function verifySession(session, saveSession, callback_func){
-	if (session == null || session == bbs_error_session) {
+	if (session == null || typeof(session) == 'undefined' ||
+		session == bbs_error_session) {
 		callback_func(false);
 		return;
 	}
