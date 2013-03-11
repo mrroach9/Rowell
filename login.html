@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset='utf-8'>
+	</head>
+	<body>
+		<div id="information"></div>
+		<script src='./js/jquery/jquery.min.js'></script>
+		<script src='./js/jquery/jquery.cookie.js'></script>
+		<script src='./js/bbs/config.js'></script>
+		<script src='./js/bbs/common.js'></script>
+		<script src='./js/bbs/bbs_login.js'></script>
+		<script src='./js/bbs/accounts9.js'></script>
+		<script type='text/javascript'>
+		$(function(){
+			var query = getQueryString();
+			if (query.code) {
+				Accounts9.getAccessToken(query.code, function (err, accessToken) {
+					if (err) return displayError(err);
+					$.cookie(accounts9_session_cookie, accessToken, {expires: 14});
+					Accounts9.getBBSUser(accessToken, function (err, bbsUser) {
+						if (err) return displayError(err);
+						if (!bbsUser) {
+							location.href = accounts9.server + accounts9.connect;
+						}
+						setSessionCookie(bbsUser.accessToken, true);
+						location.href = website_address;
+					});
+				});
+			}
+			if (query.error) {
+				displayError(query.error);
+			}
+		});
+		function displayError(err) {
+			$('#information').html('<h1>登录失败，请返回重试。</h1><p>' + err + '</p>');
+		}
+		</script>
+		</body>
+		</html>
