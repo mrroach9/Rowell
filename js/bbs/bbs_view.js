@@ -1,4 +1,70 @@
-﻿function view_boardlist(type, index, folder_name, callback_func, popNum){
+﻿function view_mail(id, callback_func, popNum) {
+	var request_settings = {
+		url : '',
+		type: 'GET',
+		data: {
+			session: bbs_session,
+			start: 1,
+			father: -1,
+			count: bbs_max_board_count,
+			index: id
+		},
+		dataType: 'text',
+		cache: false
+	};
+
+	var name = '';
+	var pathType = '';
+
+	request_settings.url = bbs_query.server + bbs_query.view.mail;
+
+	var resp = $.ajax(request_settings);
+
+	resp.success(function(response){
+		var mail = extractMailContent(response);
+		var pathTerm = new PathTerm(bbs_type.path.mail, mail.title, mail);
+		bbs_path.push(pathTerm);
+		callback_func();
+	});
+
+}
+
+function view_mailbox(type, index, callback_func, popNum){
+	var request_settings = {
+		url : '',
+		type: 'GET',
+		data: {
+			session: bbs_session,
+			start: 1,
+			father: index,
+			count: bbs_max_board_count,
+		},
+		dataType: 'text',
+		cache: false
+	};
+
+	var name = '';
+	var pathType = '';
+
+	if (type == bbs_type.entry.mailbox) {
+		request_settings.url = bbs_query.server + bbs_query.view.mailbox;
+		pathType = bbs_type.path.mailbox;
+		name = bbs_mailbox_name;
+	}
+
+	var resp = $.ajax(request_settings);
+
+	resp.success(function(response){
+		bbs_path.popTo(popNum);
+		var maillist = extractMailInfo(response);
+		console.log( maillist );
+		var pathTerm = new PathTerm(pathType, name, maillist);
+		bbs_path.push(pathTerm);
+		callback_func();
+	});
+}
+
+function view_boardlist(type, index, folder_name, callback_func, popNum){
 	var request_settings = {
 		url : '',
 		type: 'GET',
@@ -32,11 +98,12 @@
 	resp.success(function(response){
 		bbs_path.popTo(popNum);
 		var boardlist = extractBoardInfo(response);
+		console.log( boardlist );
 		var pathTerm = new PathTerm(pathType, name, boardlist);
 		if (pathType == bbs_type.path.folder){
 			pathTerm.index = index;
 		}
-	  	bbs_path.push(pathTerm);
+		bbs_path.push(pathTerm);
 		callback_func();
 	});
 }
@@ -340,6 +407,14 @@ function view_post_sametopic(callback_func, source){
 	});
 }
 
+function extractMailInfo(contentStr) {
+	contentStr = html_encode(contentStr);
+	var maillist = JSON.parse(contentStr).mails;
+	for (var i = 0; i < maillist.length; ++i) {
+		maillist[i].type = bbs_type.entry.board;
+	}
+	return maillist;
+}
 
 function extractBoardInfo(contentStr) {
 	contentStr = html_encode(contentStr);
@@ -392,4 +467,17 @@ function extractPostContent(contentStr) {
 	post.content = post.content.replace(monospacett, '</tt>\n<tt>');
 
 	return post;
+}
+
+function extractMailContent(contentStr) {
+	mail = JSON.parse(contentStr);
+	mail.title = html_encode(mail.title);
+	mail.content = html_encode(mail.content);
+	var reg = new RegExp("\n", "g");
+	mail.content = mail.content.replace(reg, '<br>');
+
+	reg = new RegExp("\u001B\\[[0-9;]*[A-Za-z]", "g");
+	mail.content = mail.content.replace(reg, '');
+
+	return mail;
 }
