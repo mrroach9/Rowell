@@ -120,7 +120,8 @@ pre.post-view-area {
 
 tr.board-entry,
 tr.post-entry,
-tr.folder-entry {
+tr.folder-entry,
+tr.mail-entry {
 	cursor: pointer;
 }
 
