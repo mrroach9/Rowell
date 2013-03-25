@@ -4,18 +4,17 @@ for (var i = 1; i < path.length - 1; i++) {
 		website_address += '/' + path[i];
 }
 
-var bbs_mailbox_name = '站内信';
 var bbs_max_board_count = 9999;
 var bbs_post_count = 20;
 var bbs_max_post_count = 999;
 
-var accounts9_session_cookie = 'accounts9_session';
 var bbs_session_cookie = 'bbs_session';
 var bbs_error_session = 'SESSION_ERROR';
 
 var bbs_string = {
 	favboard_name		:	'收藏夹',
 	allboard_name		:	'所有版面',
+	mailbox_name		:	'站内信',
 	title				:	'9# BBS - Rowell v0.2.5',
 	version				:	'0.2.5',
 	send_source			:	'[Sent from Rowell v0.2.5]',
@@ -61,7 +60,7 @@ var bbs_query = {
 	}
 };
 
-bbs_query.auth.auth += encodeURIComponent($.url().attr('source').replace(/\/?[#?].*$/, ''));
+bbs_query.auth.auth += website_address;
 
 var bbs_type = {
 	path : {
@@ -135,8 +134,10 @@ var bbs_msg = {
 	}
 };
 
+var accounts9_session_cookie = 'accounts9_session';
+
 var accounts9 = {
-	server: 'https://accounts.net9.org',
+	server: 'https://account.net9.org',
 	client_id 		:			'AicTWsI7iS-ZD53Z4AI8ev2PhjU',
 	client_secret: 'rtubs1cpNfZeA9CG4K5a',
 	connect: '/bbs/connect',
@@ -146,5 +147,5 @@ var accounts9 = {
 	bbsuserinfo: '/api/bbsuserinfo',
 };
 
-accounts9.auth += '?redirect_uri=' + encodeURIComponent(website_address + '/login.html');
+accounts9.auth += '?redirect_uri=' + encodeURIComponent(website_address + '/login_accounts9.html');
 accounts9.auth += '&client_id=' + accounts9.client_id;

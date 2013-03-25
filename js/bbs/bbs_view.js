@@ -49,7 +49,7 @@ function view_mailbox(type, index, callback_func, popNum){
 	if (type == bbs_type.entry.mailbox) {
 		request_settings.url = bbs_query.server + bbs_query.view.mailbox;
 		pathType = bbs_type.path.mailbox;
-		name = bbs_mailbox_name;
+		name = bbs_string.mailbox_name;
 	}
 
 	var resp = $.ajax(request_settings);

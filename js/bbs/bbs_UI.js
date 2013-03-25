@@ -385,6 +385,7 @@ function UI_init() {
 	UI_show_backdrop();
 
 	$('a#login-path').attr('href',bbs_query.auth.auth);
+	$('a#accounts9-login-path').attr('href',accounts9.server+accounts9.auth);
 	$(document).attr("title", bbs_string.title);
 
 	$('.unimplemented').popover({
