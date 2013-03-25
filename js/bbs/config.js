@@ -1,4 +1,10 @@
-﻿var bbs_max_board_count = 9999;
+﻿var website_address = location.origin;
+var path = location.pathname.split('/');
+for (var i = 1; i < path.length - 1; i++) {
+		website_address += '/' + path[i];
+}
+
+var bbs_max_board_count = 9999;
 var bbs_post_count = 20;
 var bbs_max_post_count = 999;
 
@@ -8,6 +14,7 @@ var bbs_error_session = 'SESSION_ERROR';
 var bbs_string = {
 	favboard_name		:	'收藏夹',
 	allboard_name		:	'所有版面',
+	mailbox_name		:	'站内信',
 	title				:	'9# BBS - Rowell v0.2.5',
 	version				:	'0.2.5',
 	send_source			:	'[Sent from Rowell v0.2.5]',
@@ -38,7 +45,9 @@ var bbs_query = {
 		favboard		:	'/favboard/list',
 		postlist		:	'/board/post_list',
 		viewpost		:	'/post/view',
-		sametopic		:	'/post/nextid'
+		sametopic		:			'/post/nextid',
+		mailbox			:			'/mail/list',
+		mail			:			'/mail/view'
 	},
 	write_post : {
 		get_quote		:	'/post/quote',
@@ -51,28 +60,35 @@ var bbs_query = {
 	}
 };
 
-bbs_query.auth.auth += encodeURIComponent($.url().attr('source').replace(/\/?[#?].*$/, ''));
+bbs_query.auth.auth += website_address;
 
 var bbs_type = {
 	path : {
 		allboard	:	'PATH_ALLBOARD',
 		favboard	:	'PATH_FAVBOARD',
+		mailbox		:		'PATH_MAILBOX',
 		folder		:	'PATH_FOLDER',
 		board		:	'PATH_BOARD',
 		post		:	'PATH_POST',
 		sticky_post	:	'PATH_STICKY_POST',
-		digest		:	'PATH_DIGEST'
+		digest		:		'PATH_DIGEST',
+		mail		:		'PATH_MAIL'
 	},
 	entry : {
 		allboard	:	'ENTRY_ALLBOARD',
 		favboard	:	'ENTRY_FAVBOARD',
 		board		:	'ENTRY_BOARD',
 		folder		:	'ENTRY_FOLDER',
-		post		:	'ENTRY_POST'
+		post			:		'ENTRY_POST',
+		mailbox		:		'ENTRY_MAILBOX',
+		mail		:		'ENTRY_MAIL'
 	},
 	write_post : {
 		new		  	:	'POST_NEW',
 		reply		:	'POST_REPLY'
+	},
+	write_mail : {
+		new			:	'POST_NEW'
 	},
 	post_mark : {
 		m 			:	'marked',
@@ -118,3 +134,18 @@ var bbs_msg = {
 	}
 };
 
+var accounts9_session_cookie = 'accounts9_session';
+
+var accounts9 = {
+	server: 'https://account.net9.org',
+	client_id 		:			'AicTWsI7iS-ZD53Z4AI8ev2PhjU',
+	client_secret: 'rtubs1cpNfZeA9CG4K5a',
+	connect: '/bbs/connect',
+	auth: '/api/authorize',
+	access_token: '/api/access_token',
+	userinfo: '/api/userinfo',
+	bbsuserinfo: '/api/bbsuserinfo',
+};
+
+accounts9.auth += '?redirect_uri=' + encodeURIComponent(website_address + '/login_accounts9.html');
+accounts9.auth += '&client_id=' + accounts9.client_id;

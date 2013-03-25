@@ -25,3 +25,18 @@ function setAjaxParam(ajax_request) {
 	ajax_request.timeout = 5000;
 	return ajax_request;
 }
+
+function getQueryString() {
+	var query = {};
+	if (location.search.length <= 1) {
+		return query;
+	}
+	location.search.substr(1).split('&').forEach(function (para) {
+		var item = para.split('=');
+		if (item.length != 2) {
+			return;
+		}
+		query[item[0]] = item[1];
+	});
+	return query;
+}
