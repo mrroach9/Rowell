@@ -384,8 +384,9 @@ function UI_session_retrieved(session){
 function UI_init() {
 	UI_show_backdrop();
 
-	$('a#login-path').attr('href',bbs_query.auth.auth);
-	$('a#accounts9-login-path').attr('href',accounts9.server+accounts9.auth);
+	$('#login-path').attr('href', bbs_query.server + bbs_query.auth.auth);
+	//$('a#bbs-login-path').attr('href', bbs_query.server + bbs_query.auth.auth);
+	//$('a#accounts9-login-path').attr('href', accounts9.server + accounts9.auth);
 	$(document).attr("title", bbs_string.title);
 
 	$('.unimplemented').popover({
@@ -423,7 +424,7 @@ function UI_logout(){
 }
 
 function UI_path_click(){
-	$('#loading-area').hide();
+	UI_set_loading();
 	var id = $(this).attr('path-id');
 	var pathTerm = bbs_path.get(id);
 	if (pathTerm.type == bbs_type.path.allboard){

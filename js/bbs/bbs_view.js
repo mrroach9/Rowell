@@ -57,7 +57,6 @@ function view_mailbox(type, index, callback_func, popNum){
 	resp.success(function(response){
 		bbs_path.popTo(popNum);
 		var maillist = extractMailInfo(response);
-		console.log( maillist );
 		var pathTerm = new PathTerm(pathType, name, maillist);
 		bbs_path.push(pathTerm);
 		callback_func();
@@ -98,7 +97,6 @@ function view_boardlist(type, index, folder_name, callback_func, popNum){
 	resp.success(function(response){
 		bbs_path.popTo(popNum);
 		var boardlist = extractBoardInfo(response);
-		console.log( boardlist );
 		var pathTerm = new PathTerm(pathType, name, boardlist);
 		if (pathType == bbs_type.path.folder){
 			pathTerm.index = index;

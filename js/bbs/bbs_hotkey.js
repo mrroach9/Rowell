@@ -107,10 +107,10 @@ function register_default_hotkeys(){
 	//Ctrl + Enter(13)/w(87)/x(88) on #write-post-panel: Publish post;
 	var publishPostHotkeyEnter = new Hotkey(13, true, false,
 		'#write-post-panel', '#publish-post-button', 'click');
-	/*
+	
 	var publishPostHotkeyW = new Hotkey(87, true, false,
 		'#write-post-panel', '#publish-post-button', 'click');
-  */
+ 
 	var publishPostHotkeyX = new Hotkey(88, true, false,
 		'#write-post-panel', '#publish-post-button', 'click');
 
@@ -157,7 +157,7 @@ function register_default_hotkeys(){
 	bbs_hotkey_manager.untriggerAll();
 	bbs_hotkey_manager.add(publishPostHotkeyEnter);
 //	bbs_hotkey_manager.add(publishPostHotkeyW);
-	bbs_hotkey_manager.add(publishPostHotkeyX);
+//	bbs_hotkey_manager.add(publishPostHotkeyX);
 	bbs_hotkey_manager.add(cancelPostHotkey);
 	bbs_hotkey_manager.add(prevPostHotkey);
 	bbs_hotkey_manager.add(nextPostHotkey);

@@ -1,4 +1,3 @@
-
 var Accounts9 = {};
 
 Accounts9.getAccessToken = function (code, callback) {

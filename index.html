@@ -38,10 +38,10 @@
                 </div>
                 <div class='nav-collapse'>
                     <ul class='nav'>
-                          <li><a data-toggle='modal' href='#login-panel'>登录</a></li>
                         <!--
-                        <li><a href='' id='login-path'>登录</a></li>
+                        <li><a data-toggle='modal' href='#login-panel'>登录</a></li>
                         -->
+                        <li><a href='' id='login-path'>登录</a></li>
                     </ul>
                 </div>
             </div>
@@ -83,27 +83,27 @@
     </div>
 
     <!-- Login window -->
+    <!-- Since the webpage login_accounts9.html and relevant scripts are missing, the
+         feature of logging in with accounts9 has to be temperarily removed from v0.3.0.
+
     <div class='modal hide' id='login-panel'>
     	<div class='modal-header'>
     		<button type='button' class='close' data-dismiss='modal'>&times;</button>
-    		<h3>登录</h3>
+    		<h3>选择登录方式</h3>
     	</div>
 		<div class='modal-body'>
-			<p><a id="accounts9-login-path" href="https://accounts.net9.org/api/authorize?redirect_uri=https%3A%2F%2Frowell.net9.org%2Flogin_accounts9.html&amp;client_id=FYDBDkj2417_TIEuhcf5Juxi3h0" id="login-accounts9"><img src="./img/accounts9-login.png" alt="Login with Accounts9"></a> (推荐)</p>
-			<p><small><a href="" id="login-other-method-button">其他方式</a></small></p>
-			<p id="login-other-method" class="hide"><small>使用<a id="login-net9-bbs" href="https://bbs.net9.org:8080/auth/auth?redirect_uri=https%3A%2F%2Frowell.net9.org%2Flogin.html&amp;response_type=code&amp;client_id=0">酒井ID</a>登录</small></p>
-			<!--
-    		<p>点击<a href='' id='login-path' target='_blank'>此处</a>获取登录码。</p>
-    		<form action='' method='get'>
-		 	 		输入登录码： <input type='text' name='auth-code' id='auth-code-textbox' />
-				</form>
-			-->
+            <p><a id="bbs-login-path" href="">使用酒井账号登录</a></p>
+			<p>
+                <a id="accounts9-login-path" href="">
+                    <img src="./img/accounts9-login.png" alt="Login with Accounts9">
+                </a>
+            </p>
     	</div>
     	<div class='modal-footer'>
-    		<a class='btn btn-primary' id='login-button' data-dismiss='modal'>登录</a>
     		<a class='btn' data-dismiss='modal'>关闭</a>
   		</div>
   	</div>
+    -->
 
     <!-- Main part of unlogged-in panel -->
     <div class='container' id='unlogged-panel'>
