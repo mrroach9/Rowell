@@ -1,4 +1,6 @@
 ﻿function UI_register_func(){
+	// Logging in and out.
+
 	$('#login-button').click(function(){
 		var auth_code = $('input#auth-code-textbox').val();
 		UI_show_backdrop();
@@ -6,6 +8,8 @@
 	});
 
 	$('#logout-button').click(UI_logout);
+
+	// Navigation bar actions.
 
 	$(document).on('click', '#favboard-nav-label', function(){
 		UI_set_loading();
@@ -21,6 +25,8 @@
 		UI_set_loading();
 		view_mailbox(bbs_type.entry.mailbox, -1, UI_update, 0);
 	});
+
+	// In-view clicking navigations
 
 	$(document).on('click', '.mail-entry', function(){
 		UI_set_loading();
@@ -42,7 +48,9 @@
 		view_post($(this).attr('post-id'), $(this).attr('type'), UI_update, 'click');
 	});
 
-	$(document).on('click', '#path-term', UI_path_click);
+	$(document).on('click', '.path-term', UI_path_click);
+
+	// Linear navigations
 
 	$('.last-page-button').click(function(){
 		UI_set_loading();
@@ -158,6 +166,8 @@
 		view_post_sametopic(UI_update, 'latest');
 	});
 
+	// Notifications and contributer lists
+
 	$('#notification-close-button').click(function(){
 		$('#notification').fadeOut();
 	});
@@ -166,9 +176,6 @@
 		$(this).fadeOut();
 	});
 
-	$(document).on('click', '.new-mail-normal', function(){
-		mailPrepare(bbs_type.write_mail.new, UI_prepare_mail_modal);
-	});
 	$('#ctrbtr-link').click(function() {
 		$('#ctrbtr-list').modal('toggle');
 	})
@@ -176,6 +183,8 @@
 	$('#ctrbtr-list .cancel-button').click(function() {
 		$('#ctrbtr-list').modal('hide');
 	})
+
+	// Posting, mailing and replying
 
 	$(document).on('click', '.reply-post-button', function(){
 		var type = $(this).attr('type');
@@ -187,6 +196,13 @@
 	$(document).on('click', '.new-post-normal', function(){
 		postPrepare(bbs_type.write_post.new, UI_prepare_post_modal);
 	});
+/*
+	$(document).on('click', '.new-mail-normal', function(){
+		mailPrepare(bbs_type.write_mail.new, UI_prepare_mail_modal);
+	});
+*/
+
+	// Clear unreads
 
 	$(document).on('click', '.clear-board-unread', function(){
 		UI_set_loading();
@@ -261,6 +277,7 @@ function UI_hide_loading(){
 	$('#loading-area').hide();
 }
 
+/*
 function UI_prepare_mail_modal(){
 	$('#write-post-panel').attr('post-type', bbs_post_info.type);
 	if (bbs_post_info.type == bbs_type.write_post.new) {
@@ -296,6 +313,7 @@ function UI_prepare_mail_modal(){
 	$('#write-post-panel').modal('toggle');
 	bbs_topmost_stack.push('#write-post-panel');
 }
+*/
 
 function UI_prepare_post_modal(){
 	$('#write-post-panel').attr('post-type', bbs_post_info.type);
@@ -445,6 +463,8 @@ function UI_path_click(){
 		}
 	} else if (pathTerm.type == bbs_type.path.folder) {
 		view_boardlist(bbs_type.entry.folder, pathTerm.index, pathTerm.name, UI_update, id);
+	} else if (pathTerm.type == bbs_type.path.mailbox) {
+		view_mailbox(bbs_type.entry.mailbox, -1, UI_update, 0);
 	}
 }
 
@@ -480,7 +500,7 @@ function UI_subnavbar_update(path) {
 	var arrow = '<li><i class="icon-chevron-right right-arrow" id="boardlist-board-nav-arrow"></i></li>';
 	var d = path.depth();
 	for (var i = 0; i < d; ++i) {
-		var term = '<li><a href="#" id="path-term" path-id=' + i + '>'
+		var term = '<li><a href="#" class="path-term" path-id=' + i + '>'
 						 + path.pathList[i].name
 						 + '</a></li>';
 		if (i != 0) {
