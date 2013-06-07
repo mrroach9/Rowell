@@ -40,3 +40,24 @@ function getQueryString() {
 	});
 	return query;
 }
+
+function ansi2html(content) {
+	// add color to reference
+	refertitle = new RegExp('\n(【 .* 】)', 'g');
+	refercontent = new RegExp('\n(\: .*)', 'g');
+	content = content.replace(refertitle, '\n\u001b[1;33m$1\u001b[m');
+	content = content.replace(refercontent, '\n\u001b[36m$1\u001b[m');
+
+	content = html_encode(content);
+
+	// translate ansi color to html code
+	var filter = new Filter();
+	content = filter.toHtml(content);
+
+	// set the content to be fixed-width
+	content = '<tt>' + content + '</tt>';
+	monospacett = new RegExp('\n', 'g');
+	content = content.replace(monospacett, '</tt>\n<tt>');
+
+	return content;
+}

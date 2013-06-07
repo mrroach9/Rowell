@@ -10,9 +10,9 @@ var bbs_string = {
 	favboard_name		:	'收藏夹',
 	allboard_name		:	'所有版面',
 	mailbox_name		:	'站内信',
-	title				:	'9# BBS - Rowell v0.2.5',
-	version				:	'0.2.5',
-	send_source			:	'[Sent from Rowell v0.2.5]',
+	title				:	'9# BBS - Rowell v0.3.0',
+	version				:	'0.3.0',
+	send_source			:	'[Sent from Rowell v0.3.0]',
 	unimpltd_title		:	'矮油',
 	unimpltd_text		:	'此功能尚未实现，我们将在后续版本中添加，敬请谅解。',
 	entry_folder		:	'[目录]',
@@ -83,7 +83,12 @@ var bbs_type = {
 		reply		:	'POST_REPLY'
 	},
 	write_mail : {
-		new			:	'POST_NEW'
+		new			:	'MAIL_NEW',
+		reply 		: 	'MAIL_REPLY'
+	},
+	view_mailbox : {
+		sent 		: 	'sent',
+		inbox 		: 	'inbox'
 	},
 	post_mark : {
 		m 			:	'marked',

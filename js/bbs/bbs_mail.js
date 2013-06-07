@@ -1,9 +1,70 @@
-﻿var bbs_post_info = {
-	can_anony	: false,
-	sig_id		: -1,
-	quote			: '',
-	type			: ''
-};
+﻿function view_mail(id, callback_func, popNum) {
+	var request_settings = {
+		url : bbs_query.server + bbs_query.view.mail,
+		type: 'GET',
+		data: {
+			session: bbs_session,
+			folder: bbs_type.view_mailbox.inbox,
+			index: id
+		}
+	};
+
+	request_settings = setAjaxParam(request_settings);
+
+	var resp = $.ajax(request_settings);
+
+	resp.success(function(response){
+		bbs_path.popTo(popNum);
+		var mail = extractMailContent(response);
+		var pathTerm = new PathTerm(bbs_type.path.mail, mail.title, mail);
+		bbs_path.push(pathTerm);
+		callback_func();
+	});
+
+}
+
+function view_mailbox(type, index, callback_func, popNum){
+	var request_settings = {
+		url : '',
+		type: 'GET',
+		data: {
+			session: bbs_session,
+			start: 1,
+			father: index,
+			count: bbs_max_board_count
+		}
+	};
+
+	request_settings = setAjaxParam(request_settings);
+	
+	var name = '';
+	var pathType = '';
+
+	if (type == bbs_type.entry.mailbox) {
+		request_settings.url = bbs_query.server + bbs_query.view.mailbox;
+		pathType = bbs_type.path.mailbox;
+		name = bbs_string.mailbox_name;
+	}
+
+	var resp = $.ajax(request_settings);
+
+	resp.success(function(response){
+		bbs_path.popTo(popNum);
+		var maillist = extractMailInfo(response);
+		var pathTerm = new PathTerm(pathType, name, maillist);
+		bbs_path.push(pathTerm);
+		callback_func();
+	});
+}
+
+function extractMailContent(contentStr) {
+	mail = JSON.parse(contentStr);
+	mail.title = html_encode(mail.title);
+	mail.content = ansi2html(mail.content);
+	return mail;
+}
+
+// Note: DO NOT CALL functions below as they have no corresponding API's yet!
 
 function mailPrepare(mode, callback_func){
 	var data = {

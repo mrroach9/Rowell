@@ -1,69 +1,4 @@
-﻿function view_mail(id, callback_func, popNum) {
-	var request_settings = {
-		url : '',
-		type: 'GET',
-		data: {
-			session: bbs_session,
-			start: 1,
-			father: -1,
-			count: bbs_max_board_count,
-			index: id
-		},
-		dataType: 'text',
-		cache: false
-	};
-
-	var name = '';
-	var pathType = '';
-
-	request_settings.url = bbs_query.server + bbs_query.view.mail;
-
-	var resp = $.ajax(request_settings);
-
-	resp.success(function(response){
-		var mail = extractMailContent(response);
-		var pathTerm = new PathTerm(bbs_type.path.mail, mail.title, mail);
-		bbs_path.push(pathTerm);
-		callback_func();
-	});
-
-}
-
-function view_mailbox(type, index, callback_func, popNum){
-	var request_settings = {
-		url : '',
-		type: 'GET',
-		data: {
-			session: bbs_session,
-			start: 1,
-			father: index,
-			count: bbs_max_board_count,
-		},
-		dataType: 'text',
-		cache: false
-	};
-
-	var name = '';
-	var pathType = '';
-
-	if (type == bbs_type.entry.mailbox) {
-		request_settings.url = bbs_query.server + bbs_query.view.mailbox;
-		pathType = bbs_type.path.mailbox;
-		name = bbs_string.mailbox_name;
-	}
-
-	var resp = $.ajax(request_settings);
-
-	resp.success(function(response){
-		bbs_path.popTo(popNum);
-		var maillist = extractMailInfo(response);
-		var pathTerm = new PathTerm(pathType, name, maillist);
-		bbs_path.push(pathTerm);
-		callback_func();
-	});
-}
-
-function view_boardlist(type, index, folder_name, callback_func, popNum){
+﻿function view_boardlist(type, index, folder_name, callback_func, popNum){
 	var request_settings = {
 		url : '',
 		type: 'GET',
@@ -446,36 +381,6 @@ function extractPostInfo(contentStr) {
 function extractPostContent(contentStr) {
 	post = JSON.parse(contentStr);
 	post.title = html_encode(post.title);
-
-	// add color to reference
-	refertitle = new RegExp('\n(【 .* 】)', 'g');
-	refercontent = new RegExp('\n(\: .*)', 'g');
-	post.content = post.content.replace(refertitle, '\n\u001b[1;33m$1\u001b[m');
-	post.content = post.content.replace(refercontent, '\n\u001b[36m$1\u001b[m');
-
-	post.content = html_encode(post.content);
-
-	// translate ansi color to html code
-	var filter = new Filter();
-	post.content = filter.toHtml(post.content);
-
-	// set the content to be fixed-width
-	post.content = '<tt>' + post.content + '</tt>';
-	monospacett = new RegExp('\n', 'g');
-	post.content = post.content.replace(monospacett, '</tt>\n<tt>');
-
+	post.content = ansi2html(post.content);
 	return post;
-}
-
-function extractMailContent(contentStr) {
-	mail = JSON.parse(contentStr);
-	mail.title = html_encode(mail.title);
-	mail.content = html_encode(mail.content);
-	var reg = new RegExp("\n", "g");
-	mail.content = mail.content.replace(reg, '<br>');
-
-	reg = new RegExp("\u001B\\[[0-9;]*[A-Za-z]", "g");
-	mail.content = mail.content.replace(reg, '');
-
-	return mail;
 }
