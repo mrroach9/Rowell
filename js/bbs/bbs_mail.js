@@ -31,7 +31,7 @@ function view_mailbox(type, index, callback_func, popNum){
 			session: bbs_session,
 			start: 1,
 			father: index,
-			count: bbs_max_board_count
+			count: bbs_settings.max_mail_count
 		}
 	};
 

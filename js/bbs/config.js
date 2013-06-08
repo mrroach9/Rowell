@@ -1,10 +1,4 @@
 ﻿var website_address = location.origin + location.pathname;
-var bbs_max_board_count = 9999;
-var bbs_post_count = 20;
-var bbs_max_post_count = 999;
-
-var bbs_session_cookie = 'bbs_session';
-var bbs_error_session = 'SESSION_ERROR';
 
 var bbs_string = {
 	favboard_name		:	'收藏夹',
@@ -101,6 +95,10 @@ var bbs_type = {
 		thread		:	'thread',
 		origin		:	'origin',
 		sticky		:	'sticky'
+	},
+	cookie : {
+		session 	: 	'bbs_session',
+		error_session 	: 	'SESSION_ERROR'
 	}
 };
 
@@ -132,6 +130,14 @@ var bbs_msg = {
 		class_name : 'alert alert-block',
 		zhname : '警告：'
 	}
+};
+
+var bbs_settings = {
+	max_board_count : 	999,
+	post_count 	 	: 	20,
+	max_post_count 	: 	999,
+	max_mail_count 	: 	999,
+	mail_count 		: 	20
 };
 
 var accounts9_session_cookie = 'accounts9_session';

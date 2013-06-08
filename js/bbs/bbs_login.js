@@ -21,13 +21,13 @@
 		if (res.access_token != '') {
 			session = res.access_token;
 		} else {
-			session = bbs_error_session;
+			session = bbs_type.cookie.error_session;
 		}
 		callback_func(session);
 	});
 
 	resp.fail(function(jqXHR, textStatus){
-		callback_func(bbs_error_session);
+		callback_func(bbs_type.cookie.error_session);
 	});
 }
 
@@ -36,7 +36,7 @@
  */
 function verifySession(session, saveSession, callback_func){
 	if (session == null || typeof(session) == 'undefined' ||
-		session == bbs_error_session) {
+		session == bbs_type.cookie.error_session) {
 		callback_func(false);
 		return;
 	}
@@ -77,11 +77,11 @@ function verifySession(session, saveSession, callback_func){
  *  cookie does not exist.
  */
 function setSessionCookie(session, update){
-	if (update || $.cookie(bbs_session_cookie) == null) {
-		$.cookie(bbs_session_cookie, session, {expires: 14});
+	if (update || $.cookie(bbs_type.cookie.session) == null) {
+		$.cookie(bbs_type.cookie.session, session, {expires: 14});
 	}
 }
 
 function removeSessionCookie(){
-	$.cookie(bbs_session_cookie, null);
+	$.cookie(bbs_type.cookie.session, null);
 }

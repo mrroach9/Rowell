@@ -6,7 +6,7 @@
 			session: bbs_session,
 			start: 1,
 			father: index,
-			count: bbs_max_board_count,
+			count: bbs_settings.max_board_count,
 		}
 	};
 	request_settings = setAjaxParam(request_settings);
@@ -55,16 +55,16 @@ function view_board(board_name, start, end, callback_func, source, popNum){
 
 	if (start <= 0){
 		if (end <= 0) {
-			request_settings.data.count = bbs_post_count;
+			request_settings.data.count = bbs_settings.post_count;
 		} else {
 			request_settings.data.end = end;
-			request_settings.data.count = bbs_post_count;
+			request_settings.data.count = bbs_settings.post_count;
 		}
 	} else if (end <= 0) {
 		request_settings.data.start = start;
-		request_settings.data.count = bbs_post_count;
-	} else if (end - start > bbs_max_post_count) {
-		request_settings.data.count = bbs_post_count;
+		request_settings.data.count = bbs_settings.post_count;
+	} else if (end - start > bbs_settings.max_post_count) {
+		request_settings.data.count = bbs_settings.post_count;
 	} else {
 		request_settings.data.start = start;
 		request_settings.data.end = end;
@@ -172,7 +172,7 @@ function view_board_prev_page(callback_func){
 		return;
 	}
 	var name = pathTerm.name;
-	var newStart = pathTerm.start - bbs_post_count;
+	var newStart = pathTerm.start - bbs_settings.post_count;
 	view_board(name, newStart, -1, callback_func, 'prev', -1);
 }
 

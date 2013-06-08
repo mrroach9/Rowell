@@ -393,7 +393,7 @@ function UI_show_backdrop(){
 function UI_session_retrieved(session){
 	bbs_session = session;
 	if (bbs_session == null || typeof(bbs_session) == 'undefined' ||
-		bbs_session == bbs_error_session) {
+		bbs_session == bbs_type.cookie.error_session) {
 		bbs_session = $.url().param('access_token');
 	}
 	verifySession(bbs_session, true, UI_login_finished);
