@@ -17,6 +17,13 @@ function convertTime(msec, offset) {
 	return newTime;
 }
 
+function getTimeStr(sec) {
+	var newTime = convertTime(sec * 1000, 8);
+	var dateStr = newTime.toDateString();
+	var strArr = dateStr.split(' ');
+	return strArr[1] + ' ' + strArr[2];
+}
+
 // This wrapper sets fixed parameters for all ajax requests,
 // including type, cache, timeout and other possible params.
 function setAjaxParam(ajax_request) {

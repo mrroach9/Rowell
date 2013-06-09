@@ -111,7 +111,7 @@ function view_board(board_name, start, end, callback_func, source, popNum){
 					content : 'board_reach_first'
 				};
 			}
-			view_board(board_name, -1, -1, callback_func, 'click', popNum);
+			// view_board(board_name, -1, -1, callback_func, 'click', popNum);
 		} else {
 			var msg = {
 				type : 'error',
@@ -173,7 +173,16 @@ function view_board_prev_page(callback_func){
 	}
 	var name = pathTerm.name;
 	var newStart = pathTerm.start - bbs_settings.post_count;
-	view_board(name, newStart, -1, callback_func, 'prev', -1);
+	if (newStart <= 0) {
+		view_board(name, 1, -1, callback_func, 'prev', -1);
+		var msg = {
+			type : 'info',
+			content : 'board_reach_first'
+		};
+		UI_notify_update(msg);
+	} else {
+		view_board(name, newStart, -1, callback_func, 'prev', -1);
+	}
 }
 
 function view_board_jumpto(post_id, callback_func){
@@ -182,8 +191,8 @@ function view_board_jumpto(post_id, callback_func){
 		return;
 	}
 	var name = pathTerm.name;
-	if (post_id != null && post_id != '') {
-		view_board(name, post_id, -1, UI_update, 'next', -1);
+	if (typeof(post_id) != 'undefined' && post_id != null && post_id != '') {
+		view_board(name, post_id, -1, callback_func, 'next', -1);
 	}
 }
 
@@ -239,6 +248,7 @@ function view_post(post_id, mode, callback_func, source, popNum) {
 					content : 'post_reach_first'
 				};
 			}
+			view_board(board_name, -1, -1, callback_func, 'click', popNum);
 		} else {
 			var msg = {
 				type : 'error',
@@ -340,15 +350,6 @@ function view_post_sametopic(callback_func, source){
 	});
 }
 
-function extractMailInfo(contentStr) {
-	contentStr = html_encode(contentStr);
-	var maillist = JSON.parse(contentStr).mails;
-	for (var i = 0; i < maillist.length; ++i) {
-		maillist[i].type = bbs_type.entry.board;
-	}
-	return maillist;
-}
-
 function extractBoardInfo(contentStr) {
 	contentStr = html_encode(contentStr);
 	var boardlist = JSON.parse(contentStr);
@@ -369,11 +370,7 @@ function extractPostInfo(contentStr) {
 		if (postlist[i].title.substr(0,4) != bbs_string.reply_title_prefix) {
 			postlist[i].title = bbs_string.post_title_prefix + postlist[i].title;
 		}
-		var date = convertTime(postlist[i].posttime * 1000, 8);
-		var dateStr = date.toDateString();
-		var strArr = dateStr.split(' ');
-		dateStr = strArr[1] + ' ' + strArr[2];
-		postlist[i].posttime = dateStr;
+		postlist[i].posttime = getTimeStr(postlist[i].posttime);
 	}
 	return postlist;
 }

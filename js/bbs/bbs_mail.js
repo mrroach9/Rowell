@@ -23,38 +23,123 @@
 
 }
 
-function view_mailbox(type, index, callback_func, popNum){
+function view_mailbox(type, start, end, callback_func, source, popNum){
 	var request_settings = {
 		url : '',
 		type: 'GET',
 		data: {
 			session: bbs_session,
-			start: 1,
-			father: index,
-			count: bbs_settings.max_mail_count
+			folder: bbs_type.view_mailbox.inbox
 		}
 	};
 
 	request_settings = setAjaxParam(request_settings);
-	
-	var name = '';
-	var pathType = '';
+	if (start <= 0){
+		if (end <= 0) {
+			request_settings.data.count = bbs_settings.mail_count;
+		} else {
+			request_settings.data.end = end;
+			request_settings.data.count = bbs_settings.mail_count;
+		}
+	} else if (end <= 0) {
+		request_settings.data.start = start;
+		request_settings.data.count = bbs_settings.mail_count;
+	} else if (end - start > bbs_settings.max_mail_count) {
+		request_settings.data.count = bbs_settings.mail_count;
+	} else {
+		request_settings.data.start = start;
+		request_settings.data.end = end;
+	}
 
 	if (type == bbs_type.entry.mailbox) {
 		request_settings.url = bbs_query.server + bbs_query.view.mailbox;
-		pathType = bbs_type.path.mailbox;
-		name = bbs_string.mailbox_name;
 	}
 
 	var resp = $.ajax(request_settings);
 
 	resp.success(function(response){
-		bbs_path.popTo(popNum);
 		var maillist = extractMailInfo(response);
-		var pathTerm = new PathTerm(pathType, name, maillist);
+		var pathTerm = new PathTerm(bbs_type.path.mailbox, bbs_string.mailbox_name, maillist);
+
+		var iStart = 999999;
+		var iEnd = -1;
+		for (var i = 0; i < maillist.length; ++i) {
+			if (maillist[i].id < iStart) {
+				iStart = maillist[i].id;
+			}
+			if (maillist[i].id > iEnd) {
+				iEnd = maillist[i].id;
+			}
+		}
+
+		pathTerm.start = iStart;
+		pathTerm.end = iEnd;
+		bbs_path.popTo(popNum);
 		bbs_path.push(pathTerm);
+
 		callback_func();
 	});
+
+	resp.fail(function(jqXHR, textStatus){
+		var msg = null;
+		if (jqXHR.status == 416) {
+			if (source == 'next') {
+				msg = {
+					type : 'info',
+					content : 'mailbox_reach_last'
+				};
+			} else if (source == 'prev') {
+				msg = {
+					type : 'info',
+					content : 'mailbox_reach_first'
+				};
+			}
+			view_mailbox(bbs_type.entry.mailbox, -1, -1, callback_func, 'click', popNum);
+		} else {
+			var msg = {
+				type : 'error',
+				content : 'network_error'
+			};
+		}
+		UI_notify_update(msg);
+	});
+}
+
+function view_mailbox_next_page(callback_func){
+	var pathTerm = bbs_path.getLast();
+	if (pathTerm.type != bbs_type.path.mailbox) {
+		return;
+	}
+	var newStart = pathTerm.end + 1;
+	view_mailbox(bbs_type.entry.mailbox, newStart, -1, callback_func, 'next', -1);
+}
+
+function view_mailbox_prev_page(callback_func){
+	var pathTerm = bbs_path.getLast();
+	if (pathTerm.type != bbs_type.path.mailbox) {
+		return;
+	}
+	var newStart = pathTerm.start - bbs_settings.post_count;
+	if (newStart <= 0) {
+		view_mailbox(bbs_type.entry.mailbox, 1, -1, callback_func, 'next', -1);
+		var msg = {
+			type : 'info',
+			content : 'board_reach_first'
+		};
+		UI_notify_update(msg);
+	} else {
+		view_mailbox(bbs_type.entry.mailbox, newStart, -1, callback_func, 'next', -1);
+	}
+}
+
+function view_mailbox_jumpto(mail_id, callback_func){
+	var pathTerm = bbs_path.getLast();
+	if (pathTerm.type != bbs_type.path.mailbox) {
+		return;
+	}
+	if (typeof(mail_id) != 'undefined' && mail_id != null && mail_id != '') {
+		view_mailbox(bbs_type.entry.mailbox, mail_id, -1, callback_func, 'next', -1);
+	}
 }
 
 function extractMailContent(contentStr) {
@@ -62,6 +147,18 @@ function extractMailContent(contentStr) {
 	mail.title = html_encode(mail.title);
 	mail.content = ansi2html(mail.content);
 	return mail;
+}
+
+function extractMailInfo(contentStr) {
+	var maillist = JSON.parse(contentStr).mails;
+	for (var i = 0; i < maillist.length; ++i) {
+		maillist[i].title = html_encode(maillist[i].title);
+		if (maillist[i].title.substr(0,4) != bbs_string.reply_title_prefix) {
+			maillist[i].title = bbs_string.mail_title_prefix + maillist[i].title;
+		}
+		maillist[i].posttime = getTimeStr(maillist[i].posttime);
+	}
+	return maillist;
 }
 
 // Note: DO NOT CALL functions below as they have no corresponding API's yet!

@@ -202,7 +202,8 @@ img.attach-logo {
 	width : 40px;
 }
 
-.jump-to-post {
+.jump-to-post,
+.jump-to-mail {
 	margin-left : 20px;
 }
 

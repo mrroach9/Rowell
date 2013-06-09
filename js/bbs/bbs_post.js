@@ -165,7 +165,7 @@ function writePost(type, title, content, qmd_id, anonym, callback_func){
 			view_board(boardPathTerm.name, -1, -1, callback_func, 'click', popNum);
 		} else {
 			var currentId = postPathTerm.data.id;
-			if (currentId + 1 < bbs_post_count) {
+			if (currentId + 1 < bbs_settings.post_count) {
 				view_board(boardPathTerm.name, 1, -1, callback_func, 'click', popNum);
 			} else {
 				view_board(boardPathTerm.name, -1, currentId + 1, callback_func, 'click', popNum);

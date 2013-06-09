@@ -23,7 +23,7 @@
 
 	$(document).on('click', '#mailbox-nav-label', function() {
 		UI_set_loading();
-		view_mailbox(bbs_type.entry.mailbox, -1, UI_update, 0);
+		view_mailbox(bbs_type.entry.mailbox, -1, -1, UI_update, 'click', 0);
 	});
 
 	// In-view clicking navigations
@@ -52,39 +52,73 @@
 
 	// Linear navigations
 
-	$('.last-page-button').click(function(){
+	$('#board-table .last-page-button').click(function(){
 		UI_set_loading();
 		var pathTerm = bbs_path.getLastTermWithType(bbs_type.path.board);
 		view_board(pathTerm.name, -1, -1, UI_update, 'click', -1);
 	});
 
-	$('.first-page-button').click(function(){
+	$('#board-table .first-page-button').click(function(){
 		UI_set_loading();
 		var pathTerm = bbs_path.getLastTermWithType(bbs_type.path.board);
 		view_board(pathTerm.name, 1, -1, UI_update, 'click', -1);
 	});
 
-	$('.next-page-button').click(function(){
+	$('#board-table .next-page-button').click(function(){
 		UI_set_loading();
 		view_board_next_page(UI_update);
 	});
 
-	$('.prev-page-button').click(function(){
+	$('#board-table .prev-page-button').click(function(){
 		UI_set_loading();
 		view_board_prev_page(UI_update);
 	});
 
 	$('.jump-to-post-button').click(function(){
 		UI_set_loading();
-		var post_id = $('.jump-to-post-input').val();
-		view_board_jumpto(post_id);
+		var post_id = $(this).parent().children('.jump-to-post-input').val();
+		view_board_jumpto(post_id, UI_update);
 	});
 
 	$('.jump-to-post-input').keypress(function(event) {
 		if ( event.which == 13 ) {
 			UI_set_loading();
 			var post_id = $(this).val();
-			view_board_jumpto(post_id);
+			view_board_jumpto(post_id, UI_update);
+		}
+	});
+
+	$('#mailbox-table .last-page-button').click(function(){
+		UI_set_loading();
+		view_mailbox(bbs_type.entry.mailbox, -1, -1, UI_update, 'click', -1);
+	});
+
+	$('#mailbox-table .first-page-button').click(function(){
+		UI_set_loading();
+		view_mailbox(bbs_type.entry.mailbox, 1, -1, UI_update, 'click', -1);
+	});
+
+	$('#mailbox-table .next-page-button').click(function(){
+		UI_set_loading();
+		view_mailbox_next_page(UI_update);
+	});
+
+	$('#mailbox-table .prev-page-button').click(function(){
+		UI_set_loading();
+		view_mailbox_prev_page(UI_update);
+	});
+
+	$('.jump-to-mail-button').click(function(){
+		UI_set_loading();
+		var mail_id = $(this).parent().children('.jump-to-mail-input').val();
+		view_mailbox_jumpto(mail_id, UI_update);
+	});
+
+	$('.jump-to-mail-input').keypress(function(event) {
+		if ( event.which == 13 ) {
+			UI_set_loading();
+			var post_id = $(this).val();
+			view_mail_jumpto(post_id, UI_update);
 		}
 	});
 
@@ -453,7 +487,7 @@ function UI_path_click(){
 		var postPathTerm = bbs_path.getLast();
 		if (postPathTerm.type == bbs_type.path.post) {
 			var currentId = postPathTerm.data.id;
-			if (currentId + 1 < bbs_post_count) {
+			if (currentId + 1 < bbs_settings.post_count) {
 				view_board(pathTerm.name, 1, -1, UI_update, 'click', id);
 			} else {
 				view_board(pathTerm.name, -1, currentId + 1, UI_update, 'click', id);
@@ -464,7 +498,17 @@ function UI_path_click(){
 	} else if (pathTerm.type == bbs_type.path.folder) {
 		view_boardlist(bbs_type.entry.folder, pathTerm.index, pathTerm.name, UI_update, id);
 	} else if (pathTerm.type == bbs_type.path.mailbox) {
-		view_mailbox(bbs_type.entry.mailbox, -1, UI_update, 0);
+		var mailPathTerm = bbs_path.getLast();
+		if (mailPathTerm.type == bbs_type.path.mail) {
+			var currentId = mailPathTerm.data.id;
+			if (currentId + 1 < bbs_settings.mail_count) {
+				view_mailbox(bbs_type.entry.mailbox, 1, -1, UI_update, 'click', id);
+			} else {
+				view_mailbox(bbs_type.entry.mailbox, -1, currentId + 1, UI_update, 'click', id);
+			}
+		} else {
+			view_mailbox(bbs_type.entry.mailbox, -1, -1, UI_update, 'click', id);
+		}
 	}
 }
 
@@ -532,10 +576,11 @@ function UI_maindiv_update(pathTerm) {
 	bbs_topmost_stack.splice(0);
 	if (pathTerm.type == bbs_type.path.mailbox) {
 		$('#mailbox-table-body').empty();
-		for (var i = pathTerm.data.length - 1; i >= 0; --i) {
+		for (var i = 0; i < pathTerm.data.length; ++i) {
 			var entryStr = UI_generate_mail_entry(pathTerm.data[i], pathTerm.type);
 			$('#mailbox-table-body').append(entryStr);
 		}
+		$('.jump-to-mail-input').attr('value', '');
 		$('#mailbox-table').show();
 		bbs_topmost_stack.push('#mailbox-table');
 	} else if (pathTerm.type == bbs_type.path.allboard ||
@@ -591,10 +636,15 @@ function UI_maindiv_update(pathTerm) {
 
 function UI_generate_mail_entry(entry, type){
 	var entryStr = '';
+	var new_post_code = '<span class="badge badge-important new-post-mark">new</span>';
 	if (type == bbs_type.path.mailbox) {
 		entryStr = '<tr href=\'\' class=\'mail-entry\' mail-id=\'' + entry.id + '\'>'
 						 + 		'<td>' + entry.id + '</td>'
+						 +		'<td class="board-table-center">'
+						 + 				((typeof(entry.read) == 'undefined' || entry.read) ? '' : new_post_code)
+						 +		'</td>'
 						 +		'<td>' + entry.owner + '</td>'
+				 		 +		'<td>' + entry.posttime + '</td>'
 						 +		'<td>' + entry.title + '</td>'
 						 + '</tr>';		
 	}
