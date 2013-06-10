@@ -190,6 +190,14 @@ img.attach-logo {
 	margin-top : -5px;
 }
 
+.prev-mail-button,
+.next-mail-button {
+	padding-left: 15px;
+	padding-right: 15px;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
 #board-buttons.button-bar {
 	margin-left : 120px;
 }

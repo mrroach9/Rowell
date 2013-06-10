@@ -148,6 +148,16 @@
 		view_prev_post(UI_update);
 	});
 
+	$('.next-mail-button').click(function(){
+		UI_set_loading();
+		view_next_mail(UI_update);
+	});
+
+	$('.prev-mail-button').click(function(){
+		UI_set_loading();
+		view_prev_mail(UI_update);
+	});
+
 	$('.st-prev-button').click(function(){
 		var pathTerm = bbs_path.getLastTerm();
 		if (pathTerm.type == bbs_type.path.sticky_post) {
@@ -302,7 +312,7 @@ function UI_set_loading(){
 		if (bbs_loading_show) {
 			$('#loading-area').show();
 		}
-	}, 500);
+	}, 300);
 	setTimeout(UI_hide_loading, 5000);
 }
 
@@ -630,6 +640,7 @@ function UI_maindiv_update(pathTerm) {
 		var content = linkify(pathTerm.data.content);
 		$('#mail-view-area').html(content);
 		$('#mail-view').show();
+		bbs_topmost_stack.push('#mail-view');
 	}
 }
 	    

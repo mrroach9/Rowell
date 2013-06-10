@@ -1,4 +1,4 @@
-﻿function view_mail(id, callback_func, popNum) {
+﻿function view_mail(id, callback_func, source, popNum) {
 	var request_settings = {
 		url : bbs_query.server + bbs_query.view.mail,
 		type: 'GET',
@@ -21,6 +21,28 @@
 		callback_func();
 	});
 
+	resp.fail(function(jqXHR, textStatus) {
+		var msg = null;
+		if (jqXHR.status == 416) {
+			if (source == 'next') {
+				msg = {
+					type : 'info',
+					content : 'mail_reach_last'
+				};
+			} else if (source == 'prev') {
+				msg = {
+					type : 'info',
+					content : 'mail_reach_first'
+				};
+			}
+		} else {
+			var msg = {
+				type : 'error',
+				content : 'network_error'
+			};
+		}
+		UI_notify_update(msg);
+	});
 }
 
 function view_mailbox(type, start, end, callback_func, source, popNum){
@@ -140,6 +162,22 @@ function view_mailbox_jumpto(mail_id, callback_func){
 	if (typeof(mail_id) != 'undefined' && mail_id != null && mail_id != '') {
 		view_mailbox(bbs_type.entry.mailbox, mail_id, -1, callback_func, 'next', -1);
 	}
+}
+
+function view_next_mail(callback_func) {
+	var pathTerm = bbs_path.getLast();
+	if (pathTerm.type != bbs_type.path.mail) {
+		return;
+	}
+	view_mail(pathTerm.data.id + 1, callback_func, 'next', -1);
+}
+
+function view_prev_mail(callback_func) {
+	var pathTerm = bbs_path.getLast();
+	if (pathTerm.type != bbs_type.path.mail) {
+		return;
+	}
+	view_mail(pathTerm.data.id - 1, callback_func, 'prev', -1);
 }
 
 function extractMailContent(contentStr) {
