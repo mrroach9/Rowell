@@ -1,12 +1,5 @@
 ﻿function UI_register_func(){
 	// Logging in and out.
-
-	$('#login-button').click(function(){
-		var auth_code = $('input#auth-code-textbox').val();
-		UI_show_backdrop();
-		getSession(auth_code, UI_session_retrieved);
-	});
-
 	$('#logout-button').click(UI_logout);
 
 	// Navigation bar actions.
@@ -434,11 +427,14 @@ function UI_show_backdrop(){
 	$('#global-backdrop').show();
 }
 
-function UI_session_retrieved(session){
-	bbs_session = session;
-	if (bbs_session == null || typeof(bbs_session) == 'undefined' ||
-		bbs_session == bbs_type.cookie.error_session) {
-		bbs_session = $.url().param('access_token');
+function UI_retrieve_session(){
+	bbs_session = $.url().param('access_token');
+	if (typeof(bbs_session) == 'undefined') {
+		bbs_session = $.cookie(bbs_type.cookie.session);
+		if (bbs_session == null || typeof(bbs_session) == 'undefined' ||
+			bbs_session == bbs_type.cookie.error_session) {
+			bbs_session = null;
+		}		
 	}
 	verifySession(bbs_session, true, UI_login_finished);
 }
@@ -463,6 +459,10 @@ function UI_init() {
 
 function UI_login_finished(result){
 	if (result) {
+		if (location.href.replace('#', '') != website_address) {
+			location.href = website_address;
+			return;
+		}
 		$('#unlogged-navbar').hide();
 		$('#unlogged-panel').hide();
 		$('#logged-navbar').show();

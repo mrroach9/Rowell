@@ -301,15 +301,15 @@
 
 			<div id='mail-view' class='hide display-area'>
                 <div class='button-bar post-buttons top-button-bar'>
-                    <button class='btn btn-success prev-mail-button'>上一篇</button>
-                    <button class='btn btn-success next-mail-button'>下一篇</button>
+                    <button class='btn btn-success prev-mail-button'>上一封</button>
+                    <button class='btn btn-success next-mail-button'>下一封</button>
                 </div>
 				<div>
 					<pre class='mail-view-area' id='mail-view-area'>
 				</div>
                 <div class='button-bar post-buttons bottom-button-bar'>
-                    <button class='btn btn-success prev-mail-button'>上一篇</button>
-                    <button class='btn btn-success next-mail-button'>下一篇</button>
+                    <button class='btn btn-success prev-mail-button'>上一封</button>
+                    <button class='btn btn-success next-mail-button'>下一封</button>
                 </div>
 			</div>
 
@@ -513,7 +513,7 @@
 				UI_register_hotkeys();
 				// UI_set_fileupload();
 				UI_init();
-				UI_session_retrieved($.cookie(bbs_type.cookie.session));
+                UI_retrieve_session();
 			});
     </script>
   </body>
