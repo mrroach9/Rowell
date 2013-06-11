@@ -1,4 +1,4 @@
-﻿function postPrepare(mode, callback_func){
+function postPrepare(mode, callback_func){
     var boardPathTerm = bbs_path.getLastTermWithType(bbs_type.path.board);
     if (boardPathTerm == null) {
         return;

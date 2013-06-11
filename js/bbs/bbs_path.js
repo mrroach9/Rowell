@@ -1,4 +1,4 @@
-﻿function PathTerm(type, name, data){
+function PathTerm(type, name, data){
     this.type = type;
     this.data = data;
     this.name = name;

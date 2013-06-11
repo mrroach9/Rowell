@@ -1,4 +1,4 @@
-﻿function view_boardlist(type, index, folder_name, callback_func, popNum){
+function view_boardlist(type, index, folder_name, callback_func, popNum){
     var request_settings = {
         url : '',
         type: 'GET',

@@ -1,4 +1,4 @@
-﻿function view_mail(id, callback_func, source, popNum) {
+function view_mail(id, callback_func, source, popNum) {
     var request_settings = {
         url : bbs_query.server + bbs_query.view.mail,
         type: 'GET',

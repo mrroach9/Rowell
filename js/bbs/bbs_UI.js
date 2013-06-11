@@ -1,4 +1,4 @@
-﻿function UI_register_func(){
+function UI_register_func(){
     // Logging in and out.
     $('#logout-button').click(UI_logout);
 

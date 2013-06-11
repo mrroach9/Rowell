@@ -1,4 +1,4 @@
-﻿function getSession(auth_code, callback_func){
+function getSession(auth_code, callback_func){
     var url = bbs_query.server + bbs_query.auth.token;
     var request_settings = {
         url: url,
