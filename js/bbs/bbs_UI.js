@@ -24,21 +24,25 @@ function UI_register_func(){
     $(document).on('click', '.mail-entry', function(){
         UI_set_loading();
         view_mail($(this).attr('mail-id'), UI_update, 'click');
+        location.href='#';
     });
     
     $(document).on('click', '.board-entry', function(){
         UI_set_loading();
         view_board($(this).attr('board-name'), -1, -1, UI_update, 'click');
+        location.href='#';
     });
 
     $(document).on('click', '.folder-entry', function(){
         UI_set_loading();
         view_boardlist(bbs_type.entry.folder, $(this).attr('index'), $(this).attr('folder-name'), UI_update);
+        location.href='#';
     });
 
     $(document).on('click', '.post-entry', function() {
         UI_set_loading();
         view_post($(this).attr('post-id'), $(this).attr('type'), UI_update, 'click');
+        location.href='#';
     });
 
     $(document).on('click', '.path-term', UI_path_click);
@@ -65,6 +69,10 @@ function UI_register_func(){
     $('#board-table .prev-page-button').click(function(){
         UI_set_loading();
         view_board_prev_page(UI_update);
+    });
+
+    $('.button-bar button').click(function() {
+        location.href = '#';
     });
 
     $('.jump-to-post-button').click(function(){
@@ -252,9 +260,9 @@ function UI_register_func(){
         clear_unread('', UI_update);
     });
 
-    // $(document).on('click', '#add-attachment-link', function(){
-    //  $('div.attach-area').show();
-    // });
+    $(document).on('click', '#add-attachment-link', function(){
+        $('div.attach-area').show();
+    });
 
     $('#publish-post-button').click(UI_write_post);
 
@@ -274,24 +282,19 @@ function UI_register_func(){
 
 }
 
-// Temporarily commented, will not release in v0.2.5
-// function UI_set_fileupload() {
-//  $('#fileupload').fileupload({
-//      dropZone : $('#fileupload'),
-//      type : 'POST',
-//      url : bbs_query.server + bbs_query.write_post.attach,
-//      dataType : 'json',
-//      paramName : 'content',
-//      formData : {
-//          session : bbs_session,
-//          item : 'attachment'
-//      },
-//      add : function(e, data) {
-//          alert('here');
-//          data.submit();
-//      }
-//  });
-// }
+function UI_set_fileupload() {
+ $('#fileupload').fileupload({
+     dropZone : $('#fileupload'),
+     type : 'POST',
+     url : bbs_query.server + bbs_query.write_post.attach,
+     dataType : 'json',
+     paramName : 'content',
+     formData : {
+         session : bbs_session,
+         item : 'attachment'
+     }
+ });
+}
 
 function UI_hide_write_post(){
     $('#write-post-panel').modal('hide');
@@ -441,6 +444,12 @@ function UI_retrieve_session(){
 
 function UI_init() {
     UI_show_backdrop();
+
+    var scale = 1.0;
+    if (window.screen.width > 1366) {
+        scale = window.screen.width / 1366;
+    }
+    $('body').css('zoom', scale);
 
     $('#login-path').attr('href', bbs_query.server + bbs_query.auth.auth);
     //$('a#bbs-login-path').attr('href', bbs_query.server + bbs_query.auth.auth);
@@ -649,7 +658,7 @@ function UI_generate_mail_entry(entry, type){
     var entryStr = '';
     var new_post_code = '<span class="badge badge-important new-post-mark">new</span>';
     if (type == bbs_type.path.mailbox) {
-        entryStr = '<tr href=\'\' class=\'mail-entry\' mail-id=\'' + entry.id + '\'>'
+        entryStr = '<tr href="" class=\'mail-entry\' mail-id=\'' + entry.id + '\'>'
                          +      '<td>' + entry.id + '</td>'
                          +      '<td class="board-table-center">'
                          +              ((typeof(entry.read) == 'undefined' || entry.read) ? '' : new_post_code)
@@ -667,7 +676,7 @@ function UI_generate_board_entry(entry, type){
     var new_post_code = '<span class="badge badge-important new-post-mark">new</span>';
 
     if (type == bbs_type.path.allboard) {
-        entryStr = '<tr href=\'\' class=\'board-entry\' board-name=\'' + entry.name + '\'>'
+        entryStr = '<tr href="" class=\'board-entry\' board-name=\'' + entry.name + '\'>'
                          +      '<td>' + entry.total + '</td>'
                          +      '<td class=\'board-table-center\'>'
                          +          ((entry.isdir || entry.read) ? '' : new_post_code)
@@ -678,7 +687,7 @@ function UI_generate_board_entry(entry, type){
                          +      '<td>' + entry.BM + '</td>'
                          + '</tr>';
     } else if (entry.type == bbs_type.entry.folder) {
-        entryStr = '<tr href=\'\' class=\'folder-entry\' folder-name=\''
+        entryStr = '<tr href="" class=\'folder-entry\' folder-name=\''
                          + entry.name + '\' index=\'' + entry.index + '\'>'
                          +      '<td></td>'
                          +      '<td class=\'board-table-center\'></td>'
@@ -688,7 +697,7 @@ function UI_generate_board_entry(entry, type){
                          +      '<td></td>'
                          + '</tr>';
     } else if (entry.type == bbs_type.entry.board) {
-        entryStr = '<tr href=\'\' class=\'board-entry\' board-name=\'' + entry.binfo.name + '\'>'
+        entryStr = '<tr href="" class=\'board-entry\' board-name=\'' + entry.binfo.name + '\'>'
                          +      '<td>' + entry.binfo.total + '</td>'
                          +      '<td class=\'board-table-center\'>'
                          +          ((typeof(entry.binfo.read) == 'undefined' || entry.binfo.read) 
@@ -722,7 +731,7 @@ function UI_generate_post_entry(entry, is_sticky){
 
     var entryStr = '';
     if (is_sticky) {
-        entryStr =  '<tr href="#" class="' + class_name + ' sticky'+ '" post-id="' + entry.id + '" type="' 
+        entryStr =  '<tr href="" class="' + class_name + ' sticky'+ '" post-id="' + entry.id + '" type="' 
                  +  bbs_type.post_list_mode.sticky + '" >'
                  +      '<td>' 
                  +          bbs_string.entry_sticky
@@ -739,7 +748,7 @@ function UI_generate_post_entry(entry, is_sticky){
                  +      '</td>'
                  + '</tr>';
     } else {
-        entryStr = '<tr href="#" class="' + class_name + '" post-id="' + entry.id + '" type="' 
+        entryStr = '<tr href="" class="' + class_name + '" post-id="' + entry.id + '" type="' 
                  +  bbs_type.post_list_mode.normal + '" >'
                  +      '<td>' + entry.id + '</td>'
                  +      '<td class="board-table-center">'

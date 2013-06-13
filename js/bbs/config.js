@@ -1,4 +1,4 @@
-var website_address = location.origin + location.pathname;
+var website_address = location.protocol + '//' + location.hostname + location.pathname;
 
 var bbs_string = {
     favboard_name       :   '收藏夹',

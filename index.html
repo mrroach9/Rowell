@@ -344,7 +344,7 @@
                     <button class='btn btn-success next-post-button'>下一篇</button>
                     <button class='btn btn-info st-next-button'>同主题下一篇</button>
                     <span class='dropdown st-nav-menu'>
-                        <a class='dropdown-toggle' data-toggle='dropdown' href='javascript:void(0)'>
+                        <a class='dropdown-toggle' data-toggle='dropdown' href='#'>
                             更多选项
                             <b class="caret"></b>
                         </a>
@@ -382,7 +382,7 @@
                                     不支持匿名发帖
                                 </span>
                                 <span class='left-pad-text add-attach-area hide'>
-                                    <a class='unimplemented' href='javascript:void(0)' id='add-attachment-link'>
+                                    <a class='' href='javascript:void(0)' id='add-attachment-link'>
                                         添加附件
                                     </a>
                                 </span>
@@ -398,10 +398,10 @@
                                 </span>
                                 <div class='pull-right'>
                                     <span class="btn btn-success fileinput-button">
-                        <i class="icon-plus icon-white"></i>
-                        <span>添加文件...</span>
-                        <input class='fileuploadbox' type="file" name="files[]" multiple="">
-                        </span>
+                                        <i class="icon-plus icon-white"></i>
+                                        <span>添加文件...</span>
+                                        <input class='fileuploadbox' type="file" name="files[]" multiple="">
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -461,18 +461,13 @@
             <a href='#'>回到顶部</a>
         </p>
         <p>
-            UI powered by <a href='https://twitter.github.com/bootstrap/index.html' target='_blank'>Twitter Bootstrap</a>.
+            <a href="https://github.com/mrroach9/Rowell/" target="_blank">Rowell</a>
+            <a href="javascript:void(0)" id="ctrbtr-link">Contributors List</a>
+            (API powered by 
+            <a href='https://github.com/HenryHu/pybbs' target='_blank'>pybbs</a>).
         </p>
         <p>
-            BBS API powered by <a href='https://github.com/HenryHu/pybbs' target='_blank'>pybbs</a>.
-        </p>
-        <p>
-            <a href="https://github.com/mrroach9/Rowell/" target="_blank">Rowell
-            </a> is created by many 9#er's. 
-            <a href="javascript:void(0)" id="ctrbtr-link">Contributors</a>.
-        </p>
-        <p>
-            For all suggestions and bug reports, contact zhangwenqi1988[at]gmail[dot]com.
+            For bug reports, contact zhangwenqi1988[at]gmail[dot]com.
         </p>
         </footer>
     </div>
@@ -511,7 +506,7 @@
             $(document).ready(function(){
                 UI_register_func();
                 UI_register_hotkeys();
-                // UI_set_fileupload();
+                UI_set_fileupload();
                 UI_init();
                 UI_retrieve_session();
             });
