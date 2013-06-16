@@ -66,6 +66,49 @@ function postPrepare(mode, callback_func){
     });
 }
 
+function delPost(callback_func){
+    var boardPathTerm = bbs_path.getLastTermWithType(bbs_type.path.board);
+    var postPathTerm = bbs_path.getLastTermWithType(bbs_type.path.post);
+    if (boardPathTerm == null){
+        return;
+    }
+    if (postPathTerm == null) {
+        postPathTerm = bbs_path.getLastTermWithType(bbs_type.path.sticky_post);
+        if (postPathTerm != null) {
+        } else {
+            return;
+        }
+    }
+    var data = {
+        session : bbs_session,
+        board : boardPathTerm.name,
+        id : postPathTerm.data.id,
+        xid : postPathTerm.data.xid,
+    };
+    var request_settings = {
+        url : bbs_query.server + bbs_query.del_post.del_post,
+        type: 'POST',
+        data: data
+    };
+    request_settings = setAjaxParam(request_settings);
+
+    var resp = $.ajax(request_settings);
+    resp.success(function(response){
+        bbs_post_info.quote = JSON.parse(response);
+        var currentId = postPathTerm.data.id;
+        var popNum = -1;
+        view_board(boardPathTerm.name, -1, currentId + 1, callback_func, 'click', popNum);
+    });
+
+    resp.fail(function(jqXHR, textStatus){
+        var msg = {
+                type : 'error',
+                content : 'network_error'
+        };
+        UI_notify_update(msg);
+    });
+}
+
 function getQuote(mode, callback_func){
     var boardPathTerm = bbs_path.getLastTermWithType(bbs_type.path.board);
     var postPathTerm = bbs_path.getLastTermWithType(bbs_type.path.post);
