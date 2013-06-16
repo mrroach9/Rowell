@@ -45,6 +45,9 @@ var bbs_query = {
         prepare         :   '/post/prepare',
         attach          :   '/store/new'
     },
+    del_post : {
+        del_post        :   '/post/delete',
+    },
     utility : {
         clear_unread    :   '/board/clear_unread'
     }
