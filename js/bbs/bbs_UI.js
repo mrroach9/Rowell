@@ -445,12 +445,6 @@ function UI_retrieve_session(){
 function UI_init() {
     UI_show_backdrop();
 
-    var scale = 1.0;
-    if (window.screen.width > 1366) {
-        scale = window.screen.width / 1366;
-    }
-    $('body').css('zoom', scale);
-
     $('#login-path').attr('href', bbs_query.server + bbs_query.auth.auth);
     //$('a#bbs-login-path').attr('href', bbs_query.server + bbs_query.auth.auth);
     //$('a#accounts9-login-path').attr('href', accounts9.server + accounts9.auth);

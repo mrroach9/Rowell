@@ -121,20 +121,27 @@ tr.mail-entry {
     cursor: pointer;
 }
 
+table.table,
+.table td,
+.table th {
+    border-left : none;
+    border-right : none;
+}
+
 .table-striped tbody tr.marked-post-entry td{
-  background-color: #BFE8FF;
+  background-color: #C5F2FF;
 }
 
 .table tbody tr.marked-post-entry:hover td {
-  background-color: #BAE3FA;
+  background-color: #C0EAFD;
 }
 
 .table-striped tbody tr.sticky td{
-  background-color: #F0F3A5;
+  background-color: #F8FBB5;
 }
 
 .table tbody tr.sticky:hover td {
-  background-color: #EAEEA0;
+  background-color: #F0F5B0;
 }
 
 .new-post-mark {
