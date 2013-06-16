@@ -238,6 +238,11 @@ function UI_register_func(){
         });
     });
 
+    $(document).on('click', '.delete-post-button', function(){
+        UI_set_loading();
+        delPost(UI_update);
+    });
+
     $(document).on('click', '.new-post-normal', function(){
         postPrepare(bbs_type.write_post.new, UI_prepare_post_modal);
     });
