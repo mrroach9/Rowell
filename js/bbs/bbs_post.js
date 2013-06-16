@@ -66,7 +66,7 @@ function postPrepare(mode, callback_func){
     });
 }
 
-function delPost(callback_func){
+function delPost(callback_func, popNum){
     var boardPathTerm = bbs_path.getLastTermWithType(bbs_type.path.board);
     var postPathTerm = bbs_path.getLastTermWithType(bbs_type.path.post);
     if (boardPathTerm == null){
@@ -96,15 +96,27 @@ function delPost(callback_func){
     resp.success(function(response){
         bbs_post_info.quote = JSON.parse(response);
         var currentId = postPathTerm.data.id;
-        var popNum = -1;
         view_board(boardPathTerm.name, -1, currentId + 1, callback_func, 'click', popNum);
+        var msg = {
+            type : 'info',
+            content : 'post_delete_success'
+        };
+        UI_notify_update(msg);
     });
 
     resp.fail(function(jqXHR, textStatus){
-        var msg = {
+        var msg;
+        if (jqXHR.status == 403) {
+            msg = {
+                type : 'error',
+                content : 'cannot_delete_post'
+            };
+        } else {
+            msg = {
                 type : 'error',
                 content : 'network_error'
-        };
+            };
+        }
         UI_notify_update(msg);
     });
 }
