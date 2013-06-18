@@ -507,10 +507,10 @@ function UI_path_click(){
         var postPathTerm = bbs_path.getLast();
         if (postPathTerm.type == bbs_type.path.post) {
             var currentId = postPathTerm.data.id;
-            if (currentId + 1 < bbs_settings.post_count) {
+            if (currentId + 3 < bbs_settings.post_count) {
                 view_board(pathTerm.name, 1, -1, UI_update, 'click', id);
             } else {
-                view_board(pathTerm.name, -1, currentId + 1, UI_update, 'click', id);
+                view_board(pathTerm.name, -1, currentId + 3, UI_update, 'click', id);
             }
         } else {
             view_board(pathTerm.name, -1, -1, UI_update, 'click', id);
@@ -521,10 +521,10 @@ function UI_path_click(){
         var mailPathTerm = bbs_path.getLast();
         if (mailPathTerm.type == bbs_type.path.mail) {
             var currentId = mailPathTerm.data.id;
-            if (currentId + 1 < bbs_settings.mail_count) {
+            if (currentId + 3 < bbs_settings.mail_count) {
                 view_mailbox(bbs_type.entry.mailbox, 1, -1, UI_update, 'click', id);
             } else {
-                view_mailbox(bbs_type.entry.mailbox, -1, currentId + 1, UI_update, 'click', id);
+                view_mailbox(bbs_type.entry.mailbox, -1, currentId + 3, UI_update, 'click', id);
             }
         } else {
             view_mailbox(bbs_type.entry.mailbox, -1, -1, UI_update, 'click', id);
