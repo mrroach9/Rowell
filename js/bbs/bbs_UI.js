@@ -289,7 +289,9 @@ function UI_register_func(){
 
 }
 
+
 function UI_set_fileupload() {
+    /*
  $('#fileupload').fileupload({
      dropZone : $('#fileupload'),
      type : 'POST',
@@ -301,7 +303,9 @@ function UI_set_fileupload() {
          item : 'attachment'
      }
  });
+*/
 }
+
 
 function UI_hide_write_post(){
     $('#write-post-panel').modal('hide');
