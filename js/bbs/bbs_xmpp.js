@@ -22,3 +22,11 @@ function xmpp_presence(presence) {
 function xmpp_error(error) {
     console.log("Error: "+error);
 }
+
+function xmpp_send(to, message) {
+    $.xmpp.sendMessage({body: message, to: to}, "", xmpp_sent);
+}
+
+function xmpp_sent() {
+    console.log("message sent");
+}
