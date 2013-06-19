@@ -54,7 +54,7 @@ var bbs_query = {
     }
 };
 
-bbs_query.auth.auth += encodeURIComponent(website_address);
+bbs_query.auth.auth += bbs_query.client_id + '&redirect_uri=' + encodeURIComponent(website_address);
 
 var bbs_type = {
     path : {
@@ -164,6 +164,5 @@ var accounts9 = {
     bbsuserinfo     : '/api/bbsuserinfo',
 };
 
-bbs_query.auth.auth +=  bbs_query.client_id + '&redirect_uri=';
 accounts9.auth += '?redirect_uri=' + encodeURIComponent(website_address + '/login_accounts9.html');
 accounts9.auth += '&client_id=' + accounts9.client_id;
