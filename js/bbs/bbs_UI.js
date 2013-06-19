@@ -486,6 +486,7 @@ function UI_login_finished(result){
             domain: bbs_query.xmpp_domain,
             token: bbs_session,
             url: bbs_query.bosh_url,
+            wait: bbs_query.xmpp_wait,
             onDisconnect: xmpp_disconnect,
             onConnect: xmpp_connect,
             onIq: xmpp_iq,
