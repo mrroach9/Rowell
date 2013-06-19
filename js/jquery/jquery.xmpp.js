@@ -572,8 +572,6 @@
 
             if(options.resource != null)
                     toJid = toJid+"/"+options.resource;
-            else if(this.resource != "")
-                    toJid = toJid+"/"+this.resource;
 
             //Remove used paramteres
             delete options.to;
