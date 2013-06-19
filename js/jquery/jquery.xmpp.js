@@ -101,8 +101,7 @@
         connect: function(options){
             this.rid = Math.round(Math.random()*Math.pow(10,10));
             this.jid = options.jid;
-            var split = options.jid.split("@");
-            var domain = split[1];
+            var domain = options.domain;
             var xmpp = this;
             if(options.url == null)
                 this.url = '/http-bind'
@@ -448,7 +447,8 @@
                         $.post(url,text,function(data){
                             //xmpp.messageHandler(data);
 							var response = $(xmpp.fixBody(data));
-							options.jid = response.find("jid").text().split('/')[0]
+							options.jid = response.find("jid").text().split('/')[0];
+							this.jid = options.jid;
                             xmpp.rid++;
                             text = "<body rid='"+xmpp.rid+"' xmlns='http://jabber.org/protocol/httpbind' sid='"+xmpp.sid+"'><iq type='set' id='_session_auth_2' xmlns='jabber:client'><session xmlns='urn:ietf:params:xml:ns:xmpp-session'/></iq></body>";
                             $.post(url,text,function(data){
