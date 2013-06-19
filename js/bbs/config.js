@@ -24,8 +24,8 @@ var bbs_string = {
 
 var bbs_query = {
     server              :   'https://bbs.net9.org:8080',
-    client_id           :   0,
-    client_secret       :   0,
+    client_id           :   'rowell-henryhu',
+    client_secret       :   '6c0b3e673516de3b',
     auth : {
         auth            :   '/auth/auth?response_type=token&client_id=0&redirect_uri=',
         token           :   '/auth/token',
