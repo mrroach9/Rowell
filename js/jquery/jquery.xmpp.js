@@ -436,7 +436,7 @@
             var user = split[0];
             var domain = split[1];
             var xmpp = this;
-            var text = "<body rid='"+this.rid+"' xmlns='http://jabber.org/protocol/httpbind' sid='"+this.sid+"'><auth xmlns='urn:ietf:params:xml:ns:xmpp-sasl' mechanism='PLAIN'>"+Base64.encode(this.user+"\u0000"+user+"\u0000"+options.token)+"</auth></body>";
+            var text = "<body rid='"+this.rid+"' xmlns='http://jabber.org/protocol/httpbind' sid='"+this.sid+"'><auth xmlns='urn:ietf:params:xml:ns:xmpp-sasl' mechanism='PLAIN'>"+Base64.encode(user+"\u0000"+user+"\u0000"+options.token)+"</auth></body>";
             var url = this.url;
             $.post(this.url,text,function(data){
                 var response = $(xmpp.fixBody(data));
