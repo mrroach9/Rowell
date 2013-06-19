@@ -432,9 +432,7 @@
 
         loginToken: function(options){
             this.rid++;
-            var split = options.jid.split("@");
-            var user = split[0];
-            var domain = split[1];
+			var domain = options.domain;
             var xmpp = this;
             var text = "<body rid='"+this.rid+"' xmlns='http://jabber.org/protocol/httpbind' sid='"+this.sid+"'><auth xmlns='urn:ietf:params:xml:ns:xmpp-sasl' mechanism='BBSAUTH'>"+Base64.encode(options.token)+"</auth></body>";
             var url = this.url;
@@ -449,6 +447,8 @@
                         text ="<body rid='"+xmpp.rid+"' xmlns='http://jabber.org/protocol/httpbind' sid='"+xmpp.sid+"'><iq type='set' id='_bind_auth_2' xmlns='jabber:client'><bind xmlns='urn:ietf:params:xml:ns:xmpp-bind'><resource>" + xmpp.resource +"</resource></bind></iq></body>";
                         $.post(url,text,function(data){
                             //xmpp.messageHandler(data);
+							var response = $(xmpp.fixBody(data));
+							options.jid = response.find("jid").text().split('/')[0]
                             xmpp.rid++;
                             text = "<body rid='"+xmpp.rid+"' xmlns='http://jabber.org/protocol/httpbind' sid='"+xmpp.sid+"'><iq type='set' id='_session_auth_2' xmlns='jabber:client'><session xmlns='urn:ietf:params:xml:ns:xmpp-session'/></iq></body>";
                             $.post(url,text,function(data){
