@@ -141,7 +141,9 @@
                 var response = $(xmpp.fixBody(data));
                 xmpp.sid = response.attr("sid");
 
-                if(response.find("mechanism:contains('PLAIN')").length){
+                if(response.find("mechanism:contains('BBSAUTH')").length){
+                    xmpp.loginToken(options);
+				}else if(response.find("mechanism:contains('PLAIN')").length){
                     xmpp.loginPlain(options);
                 }else if(response.find("mechanism:contains('DIGEST-MD5')").length){
                     xmpp.loginDigestMD5(options);
@@ -427,6 +429,44 @@
                 }
             }, 'text');
         },
+
+        loginToken: function(options){
+            this.rid++;
+            var split = options.jid.split("@");
+            var user = split[0];
+            var domain = split[1];
+            var xmpp = this;
+            var text = "<body rid='"+this.rid+"' xmlns='http://jabber.org/protocol/httpbind' sid='"+this.sid+"'><auth xmlns='urn:ietf:params:xml:ns:xmpp-sasl' mechanism='PLAIN'>"+Base64.encode(this.jid+"\u0000"+user+"\u0000"+options.token)+"</auth></body>";
+            var url = this.url;
+            $.post(this.url,text,function(data){
+                var response = $(xmpp.fixBody(data));
+                if(response.find("success").length){
+                    xmpp.rid++;
+                    text ="<body rid='"+xmpp.rid+"' xmlns='http://jabber.org/protocol/httpbind' sid='"+xmpp.sid+"' to='"+domain+"' xml:lang='en' xmpp:restart='true' xmlns:xmpp='urn:xmpp:xbosh'/>";
+                    $.post(url,text,function(data){
+                        //xmpp.messageHandler(data);
+                        xmpp.rid++;
+                        text ="<body rid='"+xmpp.rid+"' xmlns='http://jabber.org/protocol/httpbind' sid='"+xmpp.sid+"'><iq type='set' id='_bind_auth_2' xmlns='jabber:client'><bind xmlns='urn:ietf:params:xml:ns:xmpp-bind'><resource>" + xmpp.resource +"</resource></bind></iq></body>";
+                        $.post(url,text,function(data){
+                            //xmpp.messageHandler(data);
+                            xmpp.rid++;
+                            text = "<body rid='"+xmpp.rid+"' xmlns='http://jabber.org/protocol/httpbind' sid='"+xmpp.sid+"'><iq type='set' id='_session_auth_2' xmlns='jabber:client'><session xmlns='urn:ietf:params:xml:ns:xmpp-session'/></iq></body>";
+                            $.post(url,text,function(data){
+                                if(options.onConnect != null)
+                                    xmpp.connected = true;
+
+                                options.onConnect(data);
+                                xmpp.listen();
+                            }, 'text');
+                        }, 'text');
+                    }, 'text');
+                }else{
+                            if(options.onError != null)
+                                options.onError({error: "Invalid credentials", data:data});
+                }
+            }, 'text');
+        },
+
 
         /**
          * Disconnected cause a network problem
