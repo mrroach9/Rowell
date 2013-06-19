@@ -481,6 +481,18 @@ function UI_login_finished(result){
         $('#unlogged-panel').hide();
         $('#logged-navbar').show();
         view_boardlist(bbs_type.entry.favboard, -1, '', UI_update, 0);
+        $.xmpp.connect({
+            resource: bbs_query.xmpp_resource,
+            domain: bbs_query.xmpp_domain,
+            token: bbs_session,
+            url: bbs_query.bosh_url,
+            onDisconnect: xmpp_disconnect,
+            onConnect: xmpp_connect,
+            onIq: xmpp_iq,
+            onMessage: xmpp_message,
+            onPresence: xmpp_presence,
+            onError: xmpp_error
+        });    
     } else {
         $('#unlogged-navbar').show();
         $('#unlogged-panel').show();
