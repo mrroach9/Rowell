@@ -27,7 +27,7 @@ var bbs_query = {
     client_id           :   'rowell-henryhu',
     client_secret       :   '6c0b3e673516de3b',
     auth : {
-        auth            :   '/auth/auth?response_type=token&client_id=0&redirect_uri=',
+        auth            :   '/auth/auth?response_type=token&client_id=',
         token           :   '/auth/token',
         session_verify  :   '/session/verify'
     },
@@ -164,5 +164,6 @@ var accounts9 = {
     bbsuserinfo     : '/api/bbsuserinfo',
 };
 
+bbs_query.auth.auth +=  bbs_query.client_id + '&redirect_uri=';
 accounts9.auth += '?redirect_uri=' + encodeURIComponent(website_address + '/login_accounts9.html');
 accounts9.auth += '&client_id=' + accounts9.client_id;
