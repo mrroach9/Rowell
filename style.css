@@ -325,3 +325,49 @@ input[type="file"].fileuploadbox {
 .left-pad-text {
     margin-left : 30px;
 }
+
+#xmpp-panel.affix-top {
+  position: fixed;
+  right: 0px;
+  top: 40px;
+}
+
+#xmpp-panel.affix {
+  position: fixed;
+  right: 0px;
+  top: 40px;
+}
+
+.xmpp-panel-handle {
+  top: 50%;
+  left: -10px;
+  position: absolute;
+  width: 30px;
+  overflow: hidden;
+/*  border: 1px solid green;*/
+  background: lightblue;
+}
+
+.xmpp-user-list {
+  overflow: auto;
+  height: 100%;
+  position: absolute;
+  border: 1px solid blue;
+}
+
+.xmpp-panel {
+  height: 93%;
+  width: 200px;
+}
+
+.xmpp-user-status {
+  overflow: hidden;
+}
+
+.xmpp-panel-handle-text {
+  text-align: center;
+}
+
+.xmpp-user-show {
+  width: 10px;
+}

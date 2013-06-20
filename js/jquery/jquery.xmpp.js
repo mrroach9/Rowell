@@ -667,8 +667,8 @@
             $.each(response.find("presence"),function(i,element){
                 try{
                     var e = $(element);
-                    xmpp.onPresence({from: e.attr("from"), to: e.attr("to"), show: e.find("show").html()});
-                }catch(e){}
+                    xmpp.onPresence({from: e.attr("from"), to: e.attr("to"), show: e.find("show").html(), type: e.attr("type"), status: e.find("status").html()});
+                }catch(e){console.log(e);}
             });
         },
 
