@@ -128,6 +128,16 @@ function register_default_hotkeys(){
         '#mail-view', '.prev-mail-button', 'click');
     var nextMailHotkey = new Hotkey(39, false, false,
         '#mail-view', '.next-mail-button', 'click');
+    // P and N on #post-view: next post and prev post;
+    // on #mail-view: next/prev mail
+    var prevPostHotkeyP = new Hotkey(80, false, false,
+        '#post-view', '.prev-post-button', 'click');
+    var nextPostHotkeyN = new Hotkey(78, false, false,
+        '#post-view', '.next-post-button', 'click');
+    var prevMailHotkeyP = new Hotkey(80, false, false,
+        '#mail-view', '.prev-mail-button', 'click');
+    var nextMailHotkeyN = new Hotkey(78, false, false,
+        '#mail-view', '.next-mail-button', 'click');
 
     // Ctrl + Left/Right on #post-view: Same topic next/prev post;
     var SpPrevPostHotkey = new Hotkey(37, true, false,
@@ -135,10 +145,10 @@ function register_default_hotkeys(){
     var SpNextPostHotkey = new Hotkey(39, true, false,
         '#post-view', '.st-next-button', 'click');
 
-    // p and l on #post-view: Same topic next/prev post;
-    var SpPrevPostHotkeyL = new Hotkey(76, false, false,
+    // h and l on #post-view: Same topic next/prev post;
+    var SpPrevPostHotkeyH = new Hotkey(72, false, false,
         '#post-view', '.st-prev-button', 'click');
-    var SpNextPostHotkeyP = new Hotkey(80, false, false,
+    var SpNextPostHotkeyL = new Hotkey(76, false, false,
         '#post-view', '.st-next-button', 'click');
 
     // Left and Right on #board-table: next and prev page of posts;
@@ -150,6 +160,16 @@ function register_default_hotkeys(){
     var prevMailboxPageHotkey = new Hotkey(37, false, false,
         '#mailbox-table', '#mailbox-table .prev-page-button', 'click');
     var nextMailboxPageHotkey = new Hotkey(39, false, false,
+        '#mailbox-table', '#mailbox-table .next-page-button', 'click');
+    // P and N on #board-table: next and prev page of posts;
+    // on #mailbox-table: next/prev page of mails
+    var prevBoardPageHotkeyP = new Hotkey(80, false, false,
+        '#board-table', '#board-table .prev-page-button', 'click');
+    var nextBoardPageHotkeyN = new Hotkey(78, false, false,
+        '#board-table', '#board-table .next-page-button', 'click');
+    var prevMailboxPageHotkeyP = new Hotkey(80, false, false,
+        '#mailbox-table', '#mailbox-table .prev-page-button', 'click');
+    var nextMailboxPageHotkeyN = new Hotkey(78, false, false,
         '#mailbox-table', '#mailbox-table .next-page-button', 'click');
 
     //r on #post-view: reply in normal mode;
@@ -173,14 +193,22 @@ function register_default_hotkeys(){
     bbs_hotkey_manager.add(nextPostHotkey);
     bbs_hotkey_manager.add(prevMailHotkey);
     bbs_hotkey_manager.add(nextMailHotkey);
+    bbs_hotkey_manager.add(prevPostHotkeyP);
+    bbs_hotkey_manager.add(nextPostHotkeyN);
+    bbs_hotkey_manager.add(prevMailHotkeyP);
+    bbs_hotkey_manager.add(nextMailHotkeyN);
     bbs_hotkey_manager.add(SpPrevPostHotkey);
     bbs_hotkey_manager.add(SpNextPostHotkey);
-    bbs_hotkey_manager.add(SpPrevPostHotkeyL);
-    bbs_hotkey_manager.add(SpNextPostHotkeyP);
+    bbs_hotkey_manager.add(SpPrevPostHotkeyH);
+    bbs_hotkey_manager.add(SpNextPostHotkeyL);
     bbs_hotkey_manager.add(prevBoardPageHotkey);
     bbs_hotkey_manager.add(nextBoardPageHotkey);
     bbs_hotkey_manager.add(prevMailboxPageHotkey);
     bbs_hotkey_manager.add(nextMailboxPageHotkey);
+    bbs_hotkey_manager.add(prevBoardPageHotkeyP);
+    bbs_hotkey_manager.add(nextBoardPageHotkeyN);
+    bbs_hotkey_manager.add(prevMailboxPageHotkeyP);
+    bbs_hotkey_manager.add(nextMailboxPageHotkeyN);
     bbs_hotkey_manager.add(replyHotkey);
     bbs_hotkey_manager.add(writePostHotkey);
     bbs_hotkey_manager.add(clearUnreadHotkey);
