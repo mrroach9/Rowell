@@ -1,10 +1,20 @@
 var xmpp_panel_closed = false;
 
-function xmpp_panel_toggle() {
+function xmpp_onresize(){
+    var width = $('body').prop('clientWidth');
     if (xmpp_panel_closed) {
-        $('#xmpp-panel').animate({'right': '0px'}, 500);
+        $('#xmpp-panel').css({left: width - 30, right: ''});
     } else {
-        $('#xmpp-panel').animate({'right': '-210px'}, 500);
+        $('#xmpp-panel').css({left: width - 230, right: ''});
+    }
+}
+
+function xmpp_panel_toggle() {
+    var left = $('#xmpp-panel').offset().left;
+    if (xmpp_panel_closed) {
+        $('#xmpp-panel').css({left: left}).animate({'left': left - 200}, 500);
+    } else {
+        $('#xmpp-panel').css({left: left}).animate({'left': left + 200}, 500);
     }
     xmpp_panel_closed = !xmpp_panel_closed;
 }

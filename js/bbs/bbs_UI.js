@@ -287,6 +287,7 @@ function UI_register_func(){
         }
     });
 
+    window.onresize = UI_onresize;
 }
 
 
@@ -827,4 +828,8 @@ function UI_generate_other_attach_code(data) {
 
 function UI_register_hotkeys(){
     register_default_hotkeys();
+}
+
+function UI_onresize(){
+    xmpp_onresize();
 }
