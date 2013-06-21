@@ -7,8 +7,8 @@ function postPrepare(mode, callback_func){
         session : bbs_session,
         board : boardPathTerm.name,
         for     : 'new',
-        anonymous   :   1
-//      attachments : '[{"name":"test","store_id":"test"}]'
+        anonymous   :   1,
+        attachments : '[{"name":"test","store_id":"test"}]'
     };
     if (mode == bbs_type.write_post.reply) {
         var postPathTerm = bbs_path.getLastTermWithType(bbs_type.path.post);

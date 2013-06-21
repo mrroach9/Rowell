@@ -292,18 +292,52 @@ function UI_register_func(){
 
 function UI_set_fileupload() {
     /*
- $('#fileupload').fileupload({
-     dropZone : $('#fileupload'),
-     type : 'POST',
-     url : bbs_query.server + bbs_query.write_post.attach,
-     dataType : 'json',
-     paramName : 'content',
-     formData : {
-         session : bbs_session,
-         item : 'attachment'
-     }
- });
-*/
+    $('*').on('drop', function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        return false;
+    });
+    */
+    $('*').on('dragenter', function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        return false;
+    });
+    $('*').on('dragover', function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        return false;
+    });
+
+    $('input:file[name=file-input]').change(function() {
+        $('.drag-file-note').hide();
+        var files = this.files;
+        for (var i = 0; i < files.length; ++i) {
+            upload_file(files[i], function(uploadSuccess, id) {
+                if (uploadSuccess) {
+                    console.log('File upload success! id = ' + id);
+                } else {
+                    console.log('File upload failed!');
+                }
+            });
+        }
+        this.value = '';
+    });
+
+    $('.attach-area').on('drop', function(event) {
+        event.preventDefault();
+        var files = event.originalEvent.dataTransfer.files;
+        for (var i = 0; i < files.length; ++i) {
+            upload_file(files[i], function(uploadSuccess, id) {
+                if (uploadSuccess) {
+                    console.log('File upload success! id = ' + id);
+                } else {
+                    console.log('File upload failed!');
+                }
+            });
+        }
+        event.stopPropagation();
+    });
 }
 
 

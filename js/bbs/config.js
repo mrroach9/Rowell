@@ -50,7 +50,8 @@ var bbs_query = {
         del_post        :   '/post/delete',
     },
     utility : {
-        clear_unread    :   '/board/clear_unread'
+        clear_unread    :   '/board/clear_unread',
+        upload_file     :   '/store/new'
     }
 };
 

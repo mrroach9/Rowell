@@ -393,14 +393,14 @@
                         </div>
                         <div class='attach-area hide' id='fileupload'>
                             <div>
-                                <span>
+                                <span class='drag-file-note'>
                                     拖拽文件至此处开始上传，或点击按钮添加文件。
                                 </span>
                                 <div class='pull-right'>
                                     <span class="btn btn-success fileinput-button">
                                         <i class="icon-plus icon-white"></i>
                                         <span>添加文件...</span>
-                                        <input class='fileuploadbox' type="file" name="files[]" multiple="">
+                                        <input class='fileuploadbox' type="file" name="file-input" multiple>
                                     </span>
                                 </div>
                             </div>
@@ -483,7 +483,6 @@
 
     <!-- Placed at the end of the document so the pages load faster -->
     <script src='./js/jquery/jquery.min.js'></script>
-    <script src='./js/jquery/jquery.ui.widget.js'></script>
     <script src='./js/jquery/jquery.cookie.js'></script>
     <script src='./js/jquery/jquery.purl.js'></script>
     <script src='./js/bootstrap/bootstrap.min.js'></script>
