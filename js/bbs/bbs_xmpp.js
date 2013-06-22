@@ -35,13 +35,23 @@ function xmpp_iq(iq) {
 
 function xmpp_message(message) {
     console.log("New message of " + message.from + ": "+message.body);
+    var user = message.from.split('@')[0];
+    alert("New message of " + user + ": "+message.body);
 }
 
 function xmpp_presence(presence) {
     console.log("New presence of " + presence.from + " is " + presence.type +
             " status: " + presence.status + " show: " + presence.show);
     var jid = presence.from;
-    var jid_bare = jid.split('/')[0];
+    var jid_split = jid.split('/');
+    var resource = "";
+    if (jid_split.length > 1) {
+        resource = jid_split[1];
+    } else {
+        console.log("ERROR: xmpp_presence: jid no resource: " + jid);
+        return;
+    }
+    var jid_bare = jid_split[0];
     var name = jid_bare.split('@')[0]
     var domain = jid_bare.split('@')[1].replace(/\./g, '_');
     var div_id = 'xmpp-user-' + name + '-' + domain;
@@ -66,17 +76,22 @@ function xmpp_presence(presence) {
             show = '[' + presence.show + ']';
         }
     }
-    if (jid_bare in xmpp_user_list) {
+    if (jid_bare in xmpp_user_list && resource in xmpp_user_list[jid_bare]) {
         if (presence.type == "unavailable") {
-            $('#' + div_id).fadeOut(500, function() { $(this).remove(); });
-            delete xmpp_user_list[jid_bare]
+            delete xmpp_user_list[jid_bare][resource];
+            if (Object.keys(xmpp_user_list[jid_bare]).length == 0) {
+                $('#' + div_id).fadeOut(500, function() { $(this).remove(); });
+                delete xmpp_user_list[jid_bare];
+            }
         } else {
             $('#' + status_id).html(status);
             $('#' + show_id).html(show);
+            xmpp_user_list[jid_bare][resource] = presence;
         }
     } else {
         var user_div =
-            '<div class="xmpp-user" id="' + div_id + '">' +
+            '<div class="xmpp-user" id="' + div_id + '" onclick="xmpp_user_click(\'' +
+                    jid_bare + '\');">' +
             '<table><tr>' +
                 '<td><div class="xmpp-user-show" id="' + show_id + '">' +
                 show +
@@ -88,7 +103,10 @@ function xmpp_presence(presence) {
             '</tr></table>' +
             '</div>';
         $('#xmpp-user-list').append(user_div);
-        xmpp_user_list[jid_bare] = presence;
+        if (!(jid_bare in xmpp_user_list)) {
+            xmpp_user_list[jid_bare] = {}
+        }
+        xmpp_user_list[jid_bare][resource] = presence;
     }
 }
 
