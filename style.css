@@ -327,13 +327,16 @@ input[type="file"].fileuploadbox {
 }
 
 .xmpp-panel-handle {
-  top: 50%;
+  top: 45%;
   left: 0px;
   position: absolute;
   width: 30px;
   overflow: hidden;
 /*  border: 1px solid green;*/
   background: lightblue;
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .xmpp-user-list {
@@ -341,7 +344,9 @@ input[type="file"].fileuploadbox {
   height: 100%;
   left: 30px;
   position: absolute;
-  border-left: 1px solid blue;
+/*  border-left: 1px solid blue;*/
+  background: #F0F0F0;
+  width: 100%;
 }
 
 .xmpp-panel {
@@ -357,18 +362,20 @@ input[type="file"].fileuploadbox {
     white-space:nowrap;
 }
 
-.xmpp-panel-handle-text {
-  text-align: center;
-}
-
 .xmpp-user-show {
-  width: 10px;
+  width: 15px;
+  margin-right: 5px;
 }
 
-.xmpp-user :hover {
+.xmpp-user:hover {
   background: lightblue;
+  width: 100%;
 }
 
 .xmpp-user {
   width: 100%;
+  overflow: hidden;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 5px;
 }
