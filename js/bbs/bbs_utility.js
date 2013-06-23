@@ -45,6 +45,13 @@ function upload_file(file, callback_func, progress_func) {
     var request_settings = {
         url : bbs_query.server + bbs_query.utility.upload_file,
         type : 'POST',
+        xhr: function() {
+            myXhr = $.ajaxSettings.xhr();
+            if(myXhr.upload && progress_func){
+                myXhr.upload.addEventListener('progress', progress_func, false);
+            }
+            return myXhr;
+        },
         data : {
             session : bbs_session,
             item : 'attachment'
@@ -67,12 +74,6 @@ function upload_file(file, callback_func, progress_func) {
         resp.fail(function(jqXHR, textStatus) {
             //TODO: add error handler
             callback_func(false);
-        });
-        
-        // NOTE: this progress function is not called currently, needs to be fixed.
-        resp.progress(function(jqXHR, progressEvent) {
-            console.log(progressEvent.toString());
-            //progress_func(progress_func);
         });
     };
     fr.readAsDataURL(file);

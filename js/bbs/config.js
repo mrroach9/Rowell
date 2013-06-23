@@ -27,7 +27,7 @@ var bbs_query = {
     client_id           :   0,
     client_secret       :   0,
     auth : {
-        auth            :   '/auth/auth?response_type=token&client_id=0&redirect_uri=',
+        auth            :   '/auth/auth?response_type=token&client_id=',
         token           :   '/auth/token',
         session_verify  :   '/session/verify'
     },
@@ -55,7 +55,7 @@ var bbs_query = {
     }
 };
 
-bbs_query.auth.auth += encodeURIComponent(website_address);
+bbs_query.auth.auth += bbs_query.client_id + '&redirect_uri=' + encodeURIComponent(website_address);
 
 var bbs_type = {
     path : {
