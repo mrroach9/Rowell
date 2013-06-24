@@ -30,7 +30,7 @@ var bbs_query = {
     client_id           :   0,
     client_secret       :   0,
     auth : {
-        auth            :   '/auth/auth?response_type=token&client_id=',
+        auth            :   '/auth/auth?response_type=token',
         token           :   '/auth/token',
         session_verify  :   '/session/verify'
     },
@@ -58,8 +58,8 @@ var bbs_query = {
     }
 };
 
-bbs_query.auth.auth += bbs_query.client_id + 
-                     + '&client_secret=' + bbs_query.client_secret
+bbs_query.auth.auth += '&client_id=' + bbs_query.client_id.toString()
+                     + '&client_secret=' + bbs_query.client_secret.toString()
                      + '&redirect_uri=' + encodeURIComponent(website_address);
 
 var bbs_type = {
