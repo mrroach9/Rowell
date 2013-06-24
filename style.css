@@ -276,7 +276,7 @@ p#notification-content {
     background-color : #F5F5F5;
     border-radius: 5px;
     border: thin dashed #999999;
-    min-width: 220px;
+    min-height: 70px;
     margin-top : -3px;
     margin-left : 50px;
     margin-bottom : 15px;
@@ -362,6 +362,11 @@ input[type="file"].fileuploadbox {
 .no-add-attach-area,
 .no-anonymous-area {
     color   : red;
+}
+
+.upload-failed-area {
+    color   : red;
+    margin-left : 20px;
 }
 
 .left-pad-text {

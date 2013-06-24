@@ -273,7 +273,7 @@ function UI_register_func(){
 
     $('#publish-post-button').click(UI_write_post);
 
-    $(document).on('click', '#write-post-panel > .cancel-button', function(){
+    $(document).on('click', '.close-write-post', function(){
         if (confirm(bbs_string.confirm_cancel_post)) {
             UI_hide_write_post();
         }
@@ -303,38 +303,63 @@ function UI_set_fileupload() {
     });
 
     $('input:file[name=file-input]').change(function() {
-        $('.drag-file-note').hide();
-        var files = this.files;
-        for (var i = 0; i < files.length; ++i) {
-            upload_file(files[i], function(uploadSuccess, id) {
-                if (uploadSuccess) {
-                    console.log('File upload success! id = ' + id);
-                } else {
-                    console.log('File upload failed!');
-                }
-            }, function(event) {
-                console.log(event.loaded + " / " + event.total);
-            });
-        }
+        UI_start_upload(this.files, $('.attach-area'));
         this.value = '';
     });
 
     $('.attach-area').on('drop', function(event) {
         event.preventDefault();
         var files = event.originalEvent.dataTransfer.files;
-        for (var i = 0; i < files.length; ++i) {
-            upload_file(files[i], function(uploadSuccess, id) {
-                if (uploadSuccess) {
-                    console.log('File upload success! id = ' + id);
-                } else {
-                    console.log('File upload failed!');
-                }
-            }, function(event) {
-                console.log(event.loaded + " / " + event.total);
-            });
-        }
+        UI_start_upload(files, $(this));
         event.stopPropagation();
     });
+}
+
+function UI_start_upload(files, node) {
+    for (var i = 0; i < files.length; ++i) {
+        var file = files[i];
+        var fileNode = UI_generate_uploading_file_entry(file);
+
+        node.children('.file-list').append(fileNode);
+        fileNode.find('.close').click(function() {
+            $(this).closest('.file-li').hide(500, function() {
+                $(this).remove();
+            });
+        });
+
+        if (file.size > bbs_settings.max_file_size) {
+            fileNode.find('.file-upload-progress')
+                    .replaceWith($('<span>').append(bbs_string.upload_file_toolarge)
+                                            .addClass('upload-failed-area'));
+            fileNode.removeAttr('file-id');
+        } else {
+            upload_file(file, fileNode, function(uploadSuccess, node, fileInfo) {
+                if (uploadSuccess) {
+                    node.find('.file-upload-progress')
+                        .hide(500, function() {
+                            $(this).remove();
+                        });
+                    node.find('.file-upload-text')
+                        .empty().append(convertBytes(fileInfo.size));
+                    node.attr('file-id', fileInfo.id)
+                        .attr('file-name', fileInfo.name);
+                } else {
+                    node.find('.file-upload-progress')
+                        .replaceWith($('<span>').append(bbs_string.upload_file_failed)
+                                                .addClass('upload-failed-area'));
+                    node.remove('.file-upload-text')
+                        .removeAttr('file-id')
+                        .removeAttr('file-name');
+                }
+            }, function(event, node, filesize) {
+                var percent = event.loaded / event.total;
+                node.find('.bar').css('width', (100 * percent) + '%');
+                node.find('.file-upload-text').empty()
+                    .append(convertBytes(percent * filesize) + ' / ' 
+                          + convertBytes(filesize));
+            });
+        }
+    }
 }
 
 
@@ -441,6 +466,27 @@ function UI_prepare_post_modal(){
 }
 
 function UI_write_post(){
+    // If there is any file upload not finishing, do not post.
+    var attach_list = [];
+    var upload_finished = true;
+    $('.file-list').children().each(function() {
+        var id = $(this).attr('file-id');
+        var name = $(this).attr('file-name');
+        if (typeof(id) == 'undefined' || id == null ||
+            typeof(name) == 'undefined' || name == null) {
+            alert(bbs_string.upload_not_finished);
+            upload_finished = false;
+        } else {
+            attach_list.push({
+                name: name,
+                store_id: id
+            });
+        }
+    });
+    if (!upload_finished) {
+        return;
+    }
+
     var title = $('#write-post-title').val();
     var qmd_type = $('input:radio[name=qmd-type]:checked').val();
     var qmd_num = $('input:text[name=qmd-number]').val();
@@ -458,10 +504,20 @@ function UI_write_post(){
     }
     var type = $('#write-post-panel').attr('post-type');
 
+    var post_info = {
+        type: type,
+        title: title,
+        content: content,
+        qmd: qmd_num,
+        anony: anony,
+        attach: attach_list
+    };
+
     UI_hide_write_post();
     UI_show_backdrop();
 
-    writePost(type, title, content, qmd_num, anony, UI_update);
+    $('.file-list').empty();
+    writePost(post_info, UI_update);
 }
 
 function UI_hide_backdrop(){
@@ -832,6 +888,23 @@ function UI_generate_other_attach_code(data) {
         attachDiv.append(attachSubDiv);
     }
     return attachDiv;
+}
+
+function UI_generate_uploading_file_entry(file) {
+    var filename = file.name;
+    if (filename.length > 15) {
+        filename = filename.substr(0, 15) + '...';
+    }
+    var entryNode = $('<div>').addClass('file-wrapper')
+                              .append($('<i>').addClass('icon-file'))
+                              .append($('<span>').addClass('filename-area')
+                                                 .append(filename))
+                              .append($('<div>').addClass('progress progress-striped active file-upload-progress')
+                                                .append($('<div>').addClass('bar').css('width', '0')))
+                              .append($('<span>').addClass('file-upload-text'))
+                              .append($('<button>').attr('type', 'button').addClass('close cancel-button')
+                                                   .append('×'));
+    return $('<li>').addClass('file-li').append(entryNode);
 }
 
 function UI_register_hotkeys(){

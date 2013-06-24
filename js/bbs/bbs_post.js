@@ -166,24 +166,25 @@ function getQuote(mode, callback_func){
     });
 }
 
-function writePost(type, title, content, qmd_id, anonym, callback_func){
+function writePost(post_info, callback_func){
     var data = {
         session : bbs_session,
-        title : title,
-        content: content + '\n\n' + bbs_string.send_source,
-        signature_id : qmd_id,
-        anonymous: (anonym ? 1 : 0)
+        title : post_info.title,
+        content: post_info.content + '\n\n' + bbs_string.send_source,
+        signature_id : post_info.qmd,
+        anonymous: (post_info.anony ? 1 : 0),
+        attachments: JSON.stringify(post_info.attach)
     };
     var popNum = -1;
     var boardPathTerm = bbs_path.getLastTermWithType(bbs_type.path.board);
     var postPathTerm = bbs_path.getLastTermWithType(bbs_type.path.post);
-    if (type == bbs_type.write_post.new) {
+    if (post_info.type == bbs_type.write_post.new) {
         popNum = -1;
         if (boardPathTerm == null || postPathTerm != null){
             return;
         }
         data.board = boardPathTerm.name;
-    } else if (type == bbs_type.write_post.reply) {
+    } else if (post_info.type == bbs_type.write_post.reply) {
         popNum = -2;
         if (boardPathTerm == null){
             return;
@@ -216,7 +217,7 @@ function writePost(type, title, content, qmd_id, anonym, callback_func){
             content : 'post_publish_success'
         };
         UI_hide_backdrop();
-        if (type == bbs_type.write_post.new) {
+        if (post_info.type == bbs_type.write_post.new) {
             view_board(boardPathTerm.name, -1, -1, callback_func, 'click', popNum);
         } else {
             var currentId = postPathTerm.data.id;

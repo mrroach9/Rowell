@@ -17,6 +17,14 @@ function convertTime(msec, offset) {
     return newTime;
 }
 
+function convertBytes(nBytes) {
+    if (nBytes < 524288) {
+        return (nBytes / 1024).toFixed(1) + 'KB';
+    } else {
+        return (nBytes / 1048576).toFixed(1) + 'MB';
+    }
+}
+
 function getTimeStr(sec) {
     var newTime = convertTime(sec * 1000, 8);
     var dateStr = newTime.toDateString();

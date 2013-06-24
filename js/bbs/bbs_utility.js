@@ -37,7 +37,7 @@ function clear_unread(board_name, callback_func) {
     });
 }
 
-function upload_file(file, callback_func, progress_func) {
+function upload_file(file, node, callback_func, progress_func) {
     if (typeof(file) == 'undefined' || file == null) {
         return;
     }
@@ -48,7 +48,9 @@ function upload_file(file, callback_func, progress_func) {
         xhr: function() {
             myXhr = $.ajaxSettings.xhr();
             if(myXhr.upload && progress_func){
-                myXhr.upload.addEventListener('progress', progress_func, false);
+                myXhr.upload.addEventListener('progress', function(event){
+                    progress_func(event, node, file.size);
+                }, false);
             }
             return myXhr;
         },
@@ -58,7 +60,7 @@ function upload_file(file, callback_func, progress_func) {
         }
     };
     request_settings = setAjaxParam(request_settings);
-    // For file upload, do not set a time out.
+    // For file upload, do not set timeout.
     request_settings.timeout = undefined;
 
     var fr = new FileReader();
@@ -68,12 +70,15 @@ function upload_file(file, callback_func, progress_func) {
         var resp = $.ajax(request_settings);
         resp.success(function(response) {
             var json = JSON.parse(response);
-            callback_func(true, json.id);
+            callback_func(true, node, {
+                id: json.id, 
+                size: file.size,
+                name: file.name});
         });
 
         resp.fail(function(jqXHR, textStatus) {
             //TODO: add error handler
-            callback_func(false);
+            callback_func(false, node);
         });
     };
     fr.readAsDataURL(file);
