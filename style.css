@@ -330,30 +330,34 @@ input[type="file"].fileuploadbox {
   top: 45%;
   left: 0px;
   position: absolute;
-  width: 30px;
-  overflow: hidden;
+  width: 20px;
+/*  overflow: hidden;*/
 /*  border: 1px solid green;*/
-  background: lightblue;
-  text-align: center;
+/*  background: lightblue;*/
+/*  text-align: center;*/
   padding-top: 10px;
   padding-bottom: 10px;
+  padding-right: 0px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 .xmpp-user-list {
   overflow: auto;
-  height: 100%;
+  height: 95%;
   left: 30px;
   position: absolute;
-/*  border-left: 1px solid blue;*/
   background: #F0F0F0;
   width: 100%;
+  border: 1px solid lightgray;
+  border-radius: 4px 0px 0px 4px;
 }
 
 .xmpp-panel {
+  top: 120px;
   position: fixed;
-  height: 93%;
-  width: 230px;
-  top: 40px;
+  height: 80%;
+  width: 270px;
   right: 0px;
   overflow: hidden;
 }
@@ -369,13 +373,67 @@ input[type="file"].fileuploadbox {
 
 .xmpp-user:hover {
   background: lightblue;
-  width: 100%;
+}
+
+.xmpp-chat {
+  position: fixed;
+  bottom: 0px;
+  height: 300px;
+  border: 1px solid lightgray;
+/*  padding: 5px;*/
+  width: 185px;
+  background: white;
+  opacity: 0.95;
+/*  box-shadow: 0px 3px 7px rgba(0, 0, 0, 0.3);*/
+  border-radius: 6px 6px 0px 0px;
 }
 
 .xmpp-user {
-  width: 100%;
+/*  width: 225px; */
+  position: relative;
   overflow: hidden;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  padding-left: 5px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  padding-left: 6px;
+  border-bottom: 1px solid lightgray;
+}
+
+.xmpp-chat-text {
+  height: 255px;
+  padding: 0px;
+  width: 100%;
+  border: 0px solid lightgray;
+  resize: none;
+}
+
+.xmpp-chat-input {
+  height: 20px;
+  padding: 0px;
+  width: 100%;
+  left: 0px;
+  position: absolute;
+  bottom: 0px;
+  border: 0px solid lightgray;
+  margin-bottom: 0px;
+  resize: none;
+}
+
+.xmpp-chat-title {
+  height: 25px;
+}
+
+.xmpp-chat-title-text {
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  background: lightgray;
+}
+
+.xmpp-chat-title-close {
+  position: absolute;
+  right: 0px;
+  margin: 5px;
+  top: 0px;
 }
