@@ -58,7 +58,9 @@ var bbs_query = {
     }
 };
 
-bbs_query.auth.auth += bbs_query.client_id + '&redirect_uri=' + encodeURIComponent(website_address);
+bbs_query.auth.auth += bbs_query.client_id + 
+                     + '&client_secret=' + bbs_query.client_secret
+                     + '&redirect_uri=' + encodeURIComponent(website_address);
 
 var bbs_type = {
     path : {

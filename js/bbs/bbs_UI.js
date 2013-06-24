@@ -273,7 +273,7 @@ function UI_register_func(){
 
     $('#publish-post-button').click(UI_write_post);
 
-    $(document).on('click', '.cancel-button', function(){
+    $(document).on('click', '#write-post-panel .cancel-button', function(){
         if (confirm(bbs_string.confirm_cancel_post)) {
             UI_hide_write_post();
         }
@@ -516,7 +516,7 @@ function UI_write_post(){
 
     UI_hide_write_post();
     UI_show_backdrop();
-    
+
     writePost(post_info, UI_update);
 }
 
