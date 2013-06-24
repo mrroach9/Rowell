@@ -273,7 +273,7 @@ function UI_register_func(){
 
     $('#publish-post-button').click(UI_write_post);
 
-    $(document).on('click', '.close-write-post', function(){
+    $(document).on('click', '.cancel-button', function(){
         if (confirm(bbs_string.confirm_cancel_post)) {
             UI_hide_write_post();
         }
@@ -366,6 +366,7 @@ function UI_start_upload(files, node) {
 function UI_hide_write_post(){
     $('#write-post-panel').modal('hide');
     $('.attach-area').hide();
+    $('.file-list').empty();
     bbs_topmost_stack.pop();
 }
 
@@ -515,8 +516,7 @@ function UI_write_post(){
 
     UI_hide_write_post();
     UI_show_backdrop();
-
-    $('.file-list').empty();
+    
     writePost(post_info, UI_update);
 }
 
@@ -902,7 +902,7 @@ function UI_generate_uploading_file_entry(file) {
                               .append($('<div>').addClass('progress progress-striped active file-upload-progress')
                                                 .append($('<div>').addClass('bar').css('width', '0')))
                               .append($('<span>').addClass('file-upload-text'))
-                              .append($('<button>').attr('type', 'button').addClass('close cancel-button')
+                              .append($('<button>').attr('type', 'button').addClass('close')
                                                    .append('×'));
     return $('<li>').addClass('file-li').append(entryNode);
 }

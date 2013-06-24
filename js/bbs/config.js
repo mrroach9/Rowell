@@ -153,7 +153,7 @@ var bbs_settings = {
     max_post_count  :   999,
     max_mail_count  :   999,
     mail_count      :   20,
-    max_file_size   :   10485760
+    max_file_size   :   2097151
 };
 
 var accounts9_session_cookie = 'accounts9_session';

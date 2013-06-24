@@ -55,12 +55,9 @@ Rowell已在Firefox 8.0及以上版本，Chrome 16及以上版本，IE 10及以�
 
 目前已知的Bug：
 
-* 文件拖拽上传可能对某些文件管理器在Firefox下无法使用，已测试可以使用的版本有：
-  * Windows 7/8 下的IE10+
-  * Windows/Mac OS X/Nautilus/Dolphin/PCManFM/Thunar 下的 Chrome
-  * Mac OS X下的Safari
-  经测试无法使用的版本有：
-  * PCManFM/Thunar下的Firefox
+* 文件拖拽上传可能对某些文件管理器在Firefox下无法使用，可能受到影响的文件管理器包括：
+  * Dolphin
+  * Thunar
 
 * 可能来自pybbs的bug：多文件上传时可能存在上传结束但请求不结束的情况，导致上传无法结束，如遇到此情况请点击“x”删除上传并重新尝试。
 
