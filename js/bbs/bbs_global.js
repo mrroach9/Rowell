@@ -5,10 +5,10 @@ var bbs_loading_show = false;
 
 // The info and data of current post to be published
 var bbs_post_info = {
-	can_anony	:	false,
-	sig_id		:	-1,
-	quote		: 	'',
-	type		: 	''
+    can_anony   :   false,
+    sig_id      :   -1,
+    quote       :   '',
+    type        :   ''
 };
 
 // The session obtained from server
@@ -25,6 +25,6 @@ var bbs_path = new Path();
 
 // Sticky posts of current board being read.
 var bbs_sticky = {
-	name		:	'',
-	posts		:	[],
+    name        :   '',
+    posts       :   [],
 };
