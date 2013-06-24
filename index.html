@@ -392,18 +392,18 @@
                             </div>
                         </div>
                         <div class='attach-area hide' id='fileupload'>
-                            <div>
-                                <span>
-                                    拖拽文件至此处开始上传，或点击按钮添加文件。
+                            <span class='drag-file-note'>
+                                拖拽文件至此处开始上传，或点击按钮添加文件。
+                            </span>
+                            <div class='pull-right add-file-button'>
+                                <span class="btn btn-success fileinput-button">
+                                    <i class="icon-plus icon-white"></i>
+                                    <span>添加文件...</span>
+                                    <input class='fileuploadbox' type="file" name="file-input" multiple>
                                 </span>
-                                <div class='pull-right'>
-                                    <span class="btn btn-success fileinput-button">
-                                        <i class="icon-plus icon-white"></i>
-                                        <span>添加文件...</span>
-                                        <input class='fileuploadbox' type="file" name="files[]" multiple="">
-                                    </span>
-                                </div>
                             </div>
+                            <ul class='file-list'>
+                            </ul>
                         </div>
                         <div class='control-group'>
                             内容：<textarea class='input-xlarge' id='write-post-content'></textarea>
@@ -491,7 +491,6 @@
 
     <!-- Placed at the end of the document so the pages load faster -->
     <script src='./js/jquery/jquery.min.js'></script>
-    <script src='./js/jquery/jquery.ui.widget.js'></script>
     <script src='./js/jquery/jquery.cookie.js'></script>
     <script src='./js/jquery/jquery.purl.js'></script>
     <script src='./js/jquery/jquery.xmpp.js'></script>

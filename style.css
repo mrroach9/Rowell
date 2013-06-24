@@ -18,7 +18,9 @@ body {
     margin-top : 2px;
 }
 
-.alert.alert-info {
+.alert.alert-info,
+.alert.alert-error,
+.alert.alert-block {
     margin-bottom : 0px;
     height : 16px;
 }
@@ -274,11 +276,60 @@ p#notification-content {
     background-color : #F5F5F5;
     border-radius: 5px;
     border: thin dashed #999999;
-    width : 553px;
+    min-height: 70px;
     margin-top : -3px;
     margin-left : 50px;
     margin-bottom : 15px;
-    padding: 10px 5px 50px 10px;
+    padding: 10px 5px 10px 10px;
+}
+
+.file-list {
+    margin-top: 20px;
+    margin-left: 10px;
+    list-style-type: none;
+}
+
+.file-wrapper {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.add-file-button {
+    margin-right: 10px;
+}
+
+.drag-file-note {
+    padding-top: 5px;
+    padding-left: 5px;
+}
+
+.file-wrapper > * {
+    display: inline-block;
+}
+
+.file-wrapper > .close.cancel-button {
+    margin-right: 20px;
+}
+
+.file-upload-progress {
+    width: 250px;
+    vertical-align: middle;
+    margin-left:  5px;
+    margin-right: 5px;
+    margin-bottom: 0;
+}
+
+.filename-area {
+    width: 120px;
+    margin-left: 2px;
+    margin-right: 5px;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.file-upload-text {
+    margin-left: 5px;
+    margin-right: 5px;
 }
 
 .anony-checkbox {
@@ -320,6 +371,11 @@ input[type="file"].fileuploadbox {
 .no-add-attach-area,
 .no-anonymous-area {
     color   : red;
+}
+
+.upload-failed-area {
+    color   : red;
+    margin-left : 20px;
 }
 
 .left-pad-text {
