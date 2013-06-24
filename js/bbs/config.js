@@ -19,7 +19,10 @@ var bbs_string = {
     attach_other_text   :   '本帖附带文件如下：',
     attach_other_tooltip:   '下载文件',
     confirm_cancel_post :   '确定舍弃当前未发布文章吗？',
-    confirm_delete_post :   '确定删除该文章吗？'
+    confirm_delete_post :   '确定删除该文章吗？',
+    upload_file_failed  :   '文件上传失败',
+    upload_file_toolarge:   '文件过大，无法上传',
+    upload_not_finished :   '文件上传尚未结束，无法发表该贴。'
 };
 
 var bbs_query = {
@@ -149,7 +152,8 @@ var bbs_settings = {
     post_count      :   20,
     max_post_count  :   999,
     max_mail_count  :   999,
-    mail_count      :   20
+    mail_count      :   20,
+    max_file_size   :   10485760
 };
 
 var accounts9_session_cookie = 'accounts9_session';
