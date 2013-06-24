@@ -448,7 +448,7 @@
                             //xmpp.messageHandler(data);
 							var response = $(xmpp.fixBody(data));
 							options.jid = response.find("jid").text().split('/')[0];
-							this.jid = options.jid;
+							$.xmpp.jid = options.jid;
                             xmpp.rid++;
                             text = "<body rid='"+xmpp.rid+"' xmlns='http://jabber.org/protocol/httpbind' sid='"+xmpp.sid+"'><iq type='set' id='_session_auth_2' xmlns='jabber:client'><session xmlns='urn:ietf:params:xml:ns:xmpp-session'/></iq></body>";
                             $.post(url,text,function(data){
