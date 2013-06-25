@@ -30,7 +30,7 @@ var bbs_query = {
     client_id           :   0,
     client_secret       :   0,
     auth : {
-        auth            :   '/auth/auth?response_type=token&client_id=',
+        auth            :   '/auth/auth?response_type=token',
         token           :   '/auth/token',
         session_verify  :   '/session/verify'
     },
@@ -58,7 +58,9 @@ var bbs_query = {
     }
 };
 
-bbs_query.auth.auth += bbs_query.client_id + '&redirect_uri=' + encodeURIComponent(website_address);
+bbs_query.auth.auth += '&client_id=' + bbs_query.client_id.toString()
+                     + '&client_secret=' + bbs_query.client_secret.toString()
+                     + '&redirect_uri=' + encodeURIComponent(website_address);
 
 var bbs_type = {
     path : {
@@ -153,7 +155,7 @@ var bbs_settings = {
     max_post_count  :   999,
     max_mail_count  :   999,
     mail_count      :   20,
-    max_file_size   :   10485760
+    max_file_size   :   2097151
 };
 
 var accounts9_session_cookie = 'accounts9_session';

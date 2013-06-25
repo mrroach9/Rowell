@@ -18,7 +18,9 @@ body {
     margin-top : 2px;
 }
 
-.alert.alert-info {
+.alert.alert-info,
+.alert.alert-error,
+.alert.alert-block {
     margin-bottom : 0px;
     height : 16px;
 }
@@ -314,13 +316,22 @@ p#notification-content {
 .file-upload-progress {
     width: 250px;
     vertical-align: middle;
-    margin-left:  10px;
-    margin-right: 10px;
+    margin-left:  5px;
+    margin-right: 5px;
     margin-bottom: 0;
 }
 
 .filename-area {
     width: 120px;
+    margin-left: 2px;
+    margin-right: 5px;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.file-upload-text {
+    margin-left: 5px;
+    margin-right: 5px;
 }
 
 .anony-checkbox {
