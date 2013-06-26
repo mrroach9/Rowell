@@ -41,7 +41,7 @@ function xmpp_connect() {
     $('#xmpp-panel').show();
     xmpp_show_loading(bbs_string.xmpp_connecting);
     $.xmpp.connect({
-        resource: bbs_query.xmpp_resource,
+        resource: bbs_query.xmpp_resource + bbs_session.substr(0, 4),
     domain: bbs_query.xmpp_domain,
     token: bbs_session,
     url: bbs_query.bosh_url,
