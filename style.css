@@ -387,6 +387,8 @@ input[type="file"].fileuploadbox {
   left: 0px;
   position: absolute;
   width: 20px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
 /*  overflow: hidden;*/
 /*  border: 1px solid green;*/
 /*  background: lightblue;*/
