@@ -66,6 +66,20 @@ function xmpp_connected() {
 
 function xmpp_iq(iq) {
     console.log(iq);
+    var xiq = $(iq);
+    if (xiq.attr("type") == "result") {
+        if (xiq.children(0).get(0).tagName == "QUERY") {
+            var query = xiq.children(0);
+            if (xiq.children(0).attr("xmlns") == "jabber:iq:roster") {
+                var roster = [];
+                $.each(query.find("item"), function(i, item) {
+                    var jItem = $(item);
+                    roster.push({name: jItem.attr("name"), subscription: jItem.attr("subscription"), jid: jItem.attr("jid")});
+                });
+                xmpp_roster(roster);
+            }
+        }
+    }
 }
 
 function xmpp_message(message) {
