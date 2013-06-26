@@ -263,8 +263,8 @@
                 if(callback != null)
                     callback(data);
 
-                if(xmpp.onDisconnect != null)
                     xmpp.connected = false;
+                if(xmpp.onDisconnect != null)
                     xmpp.onDisconnect(data);
 
             }, 'text');
@@ -517,7 +517,7 @@
                             if(body.children().length > 0) {
                                 xmpp.messageHandler(data);
                             }
-                            if ( xmpp.connections === 0 ) {
+                            if ( xmpp.connections === 0 && xmpp.connected ) {
                                 xmpp.listen();
                             }
                       },
@@ -525,6 +525,11 @@
                             if(xmpp.onError != null){
                                 xmpp.onError({error: errorThrown, data:textStatus});
                             }
+                            console.log("listen() error: " + errorThrown);
+                            $.xmpp.__lastAjaxRequest.abort();
+                            $.xmpp.connections = $.xmpp.connections - 1;
+                            $.xmpp.listening = false;
+                            $.xmpp.connected = false
                       },
                       dataType: 'text'
                     });
