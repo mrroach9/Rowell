@@ -25,11 +25,21 @@ function xmpp_panel_toggle() {
     xmpp_panel_closed = !xmpp_panel_closed;
 }
 
+function xmpp_show_loading(text) {
+    $('#xmpp-loading').show();
+    $('#xmpp-loading-text').html(text);
+}
+
 function xmpp_disconnected() {
     console.log("Disconnected");
+    xmpp_user_list = {}
+    $('#xmpp-user-list').empty();
+    xmpp_show_loading(bbs_string.xmpp_disconnected);
 }
 
 function xmpp_connect() {
+    $('#xmpp-panel').show();
+    xmpp_show_loading(bbs_string.xmpp_connecting);
     $.xmpp.connect({
         resource: bbs_query.xmpp_resource,
     domain: bbs_query.xmpp_domain,
@@ -47,6 +57,7 @@ function xmpp_connect() {
 }
 
 function xmpp_connected() {
+    xmpp_show_loading(bbs_string.xmpp_connected);
     $.xmpp.getRoster(xmpp_roster);
     $.xmpp.setPresence(null);
     console.log("Connected");
@@ -67,6 +78,7 @@ function xmpp_message(message) {
 }
 
 function xmpp_presence(presence) {
+    $('#xmpp-loading').hide();
     console.log("New presence of " + presence.from + " is " + presence.type +
             " status: " + presence.status + " show: " + presence.show);
     var jid = presence.from;
@@ -142,6 +154,7 @@ function xmpp_error(error) {
     console.log("Error: "+error.error);
     xmpp_user_list = {}
     $('#xmpp-user-list').empty();
+    xmpp_show_loading(bbs_string.xmpp_error);
     setTimeout(function() { xmpp_connect(); }, 5000);
 }
 
@@ -261,7 +274,7 @@ function xmpp_chat_close_click(jid_bare) {
 }
 
 function xmpp_ui_init() {
-
+    $('#xmpp-panel').hide();
 }
 
 function xmpp_roster(rosters) {
