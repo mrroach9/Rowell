@@ -521,4 +521,13 @@ input[type="file"].fileuploadbox {
     z-index: 2013;
 }
 
+.xmpp-main-title {
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  background: lightgray;
+}
+
 
