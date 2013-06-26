@@ -105,6 +105,10 @@ function xmpp_presence(presence) {
         return;
     }
     var jid_bare = jid_split[0];
+    if (jid_bare == $.xmpp.jid && resource.startsWith($.xmpp.resource)) {
+        console.log("omit presence from myself");
+        return;
+    }
     var name = jid_bare.split('@')[0]
     var domain = jid_bare.split('@')[1].replace(/\./g, '_');
     var div_id = 'xmpp-user-' + name + '-' + domain;
