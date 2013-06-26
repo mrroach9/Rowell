@@ -698,7 +698,19 @@
             var id = e.attr('id');
             var from = e.attr('from');
             var to = e.attr('to');
-            xmpp.sendCommand("<iq from='"+to+"' to='"+from+"' id='"+id+"' type='result'/>");
+            var ret = "<iq";
+            if (typeof(to) != "undefined") {
+                ret += " from='" + to + "'";
+            }
+            if (typeof(from) != "undefined") {
+                ret += " to='" + to + "'";
+            }
+            if (typeof(id) != "undefined") {
+                ret += " id='" + id + "'";
+            }
+            ret += " type='result'/>";
+
+            xmpp.sendCommand(ret);
         }
     }
 })(jQuery);
