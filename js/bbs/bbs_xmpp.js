@@ -117,7 +117,7 @@ function xmpp_presence(presence) {
 //    var show = "[online]";
     var show = '<div style="background:green;">&nbsp;</div>';
     var status = "";
-    if (typeof(presence.status) != "undefined") {
+    if (typeof(presence.status) != "undefined" && presence.status != null) {
         status = '(' + presence.status + ')';
     }
     if (typeof(presence.show) != "undefined") {
@@ -130,7 +130,7 @@ function xmpp_presence(presence) {
         } else if (presence.show == "xa") {
             show = '<div style="background:yellow;">&nbsp;</div>';
         } else {
-            show = '[' + presence.show + ']';
+            show = '<div style="background:green;">&nbsp;</div>';
         }
     }
     if (jid_bare in xmpp_user_list) {
