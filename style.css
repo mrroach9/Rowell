@@ -1,3 +1,11 @@
+/* Import fonts */
+@font-face {
+  font-family: 'RowellaSans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('RowellaSans'), url(fonts/RowellaSans.ttf) format('ttf');
+}
+
 /* Main area sizes */
 
 body {
@@ -116,6 +124,9 @@ pre.post-view-area {
     min-height: 380px;
     font-size: 12px;
     line-height: 12px;
+}
+tt {
+    font-family: RowellaSans, monospace;
 }
 
 tr.board-entry,
