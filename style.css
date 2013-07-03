@@ -3,7 +3,7 @@
   font-family: 'RowellaSans';
   font-style: normal;
   font-weight: 400;
-  src: local('RowellaSans'), url(fonts/RowellaSans.ttf) format('ttf');
+  src: local('RowellaSans'), url(fonts/RowellaSans.ttf) format('truetype');
 }
 
 /* Main area sizes */
