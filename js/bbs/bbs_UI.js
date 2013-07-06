@@ -288,6 +288,7 @@ function UI_register_func(){
     });
 
     window.onresize = UI_onresize;
+    window.onfocus = UI_onfocus;
     xmpp_ui_init();
 }
 
@@ -916,4 +917,8 @@ function UI_register_hotkeys(){
 
 function UI_onresize(){
     xmpp_onresize();
+}
+
+function UI_onfocus() {
+    xmpp_onfocus();
 }

@@ -2,6 +2,11 @@ var xmpp_panel_closed = false;
 var xmpp_chat_windows = {};
 var xmpp_chat_windows_id = {};
 var xmpp_chat_min = {};
+var xmpp_title_original = "";
+var xmpp_title_alternative = "";
+var xmpp_title_changing = false;
+var xmpp_title_using_alternative = false;
+var XMPP_TITLE_CHANGE_INTERVAL = 1000;
 
 function xmpp_jid_normalize(jid) {
     return jid.replace(/[\.@\/]/g, '_');
@@ -16,6 +21,11 @@ function xmpp_onresize(){
     }
     xmpp_adjust_height();
 }
+
+function xmpp_onfocus() {
+    xmpp_end_title_change();
+}
+
 function xmpp_adjust_height() {
     var user_list_height = $('#xmpp-panel-main').height()
         - $('#xmpp-main-title').height() - 9;
@@ -98,6 +108,9 @@ function xmpp_message(message) {
     var text = message.from.split('@')[0] + ": " + message.body;
     xmpp_create_chat_window(message.from);
     xmpp_append_msg_log(message.from, text);
+    if (!document.hasFocus()) {
+        xmpp_start_title_change('【' + user + '】');
+    }
 }
 
 function xmpp_presence(presence) {
@@ -331,4 +344,42 @@ function xmpp_roster(rosters) {
         entry = rosters[id];
         console.log("friend " + id + ": " + entry.name + "(" + entry.jid + ")");
     }
+}
+
+function xmpp_start_title_change(new_title) {
+    if (xmpp_title_original == "") {
+        xmpp_title_alternative = new_title + document.title;
+        xmpp_title_original = document.title;
+    } else {
+        xmpp_title_alternative = new_title + xmpp_title_original;
+    }
+    xmpp_enable_title_change();
+}
+
+function xmpp_end_title_change() {
+    xmpp_disable_title_change();
+    if (xmpp_title_original != "") {
+        document.title = xmpp_title_original;
+    }
+}
+
+function xmpp_enable_title_change() {
+    if (xmpp_title_changing) return;
+    xmpp_title_changing = true;
+    setTimeout(xmpp_title_change_timer, XMPP_TITLE_CHANGE_INTERVAL);
+}
+
+function xmpp_disable_title_change() {
+    xmpp_title_changing = false;
+}
+
+function xmpp_title_change_timer() {
+    if (!xmpp_title_changing) return;
+    if (xmpp_title_using_alternative) {
+        document.title = xmpp_title_original;
+    } else {
+        document.title = xmpp_title_alternative;
+    }
+    xmpp_title_using_alternative = !xmpp_title_using_alternative;
+    setTimeout(xmpp_title_change_timer, XMPP_TITLE_CHANGE_INTERVAL);
 }
