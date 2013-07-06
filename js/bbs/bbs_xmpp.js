@@ -6,6 +6,8 @@ var xmpp_title_alternative = "";
 var xmpp_title_changing = false;
 var xmpp_title_using_alternative = false;
 var XMPP_TITLE_CHANGE_INTERVAL = 1000;
+var XMPP_CHAT_TITLE_ACTIVE_COLOR = '#5BB75B';
+var XMPP_CHAT_TITLE_INACTIVE_COLOR = 'rgb(91, 191, 222)';
 
 function xmpp_jid_normalize(jid) {
     return jid.replace(/[\.@\/]/g, '_');
@@ -110,6 +112,7 @@ function xmpp_message(message) {
     if (!document.hasFocus()) {
         xmpp_start_title_change('【' + user + '】');
     }
+    xmpp_focus_window(message.from);
 }
 
 function xmpp_presence(presence) {
@@ -263,7 +266,15 @@ function xmpp_create_chat_window(jid_bare) {
             '<textarea readonly class="xmpp-chat-text" id="xmpp-chat-' + jid_normal + '-text"/>' +
             '<textarea class="xmpp-chat-input"id="xmpp-chat-' + jid_normal + '-input"/>' +
         '</div>';
+
+    var window_info = {id: id, jid: jid_bare, minimized: false, active: false};
+    xmpp_chat_windows[jid_bare] = window_info;
+    xmpp_chat_windows_id[id] = window_info
+
     $('#xmpp-panel').append(window_div);
+    $('#xmpp-chat-' + jid_normal).focusin(function() {
+        xmpp_highlight_off(jid_bare);
+    });
     $('#xmpp-chat-' + jid_normal + '-close').click(function() {
         xmpp_chat_close_click(jid_bare);
     });
@@ -290,10 +301,6 @@ function xmpp_create_chat_window(jid_bare) {
     }).focusout(function() {
         bbs_topmost_stack.pop();
     }).focus();
-
-    var window_info = {id: id, jid: jid_bare, minimized: false};
-    xmpp_chat_windows[jid_bare] = window_info;
-    xmpp_chat_windows_id[id] = window_info
 }
 
 function xmpp_get_my_name() {
@@ -380,4 +387,31 @@ function xmpp_title_change_timer() {
     }
     xmpp_title_using_alternative = !xmpp_title_using_alternative;
     setTimeout(xmpp_title_change_timer, XMPP_TITLE_CHANGE_INTERVAL);
+}
+
+function xmpp_highlight_off_all() {
+    for (jid_bare in xmpp_chat_windows) {
+        if (xmpp_chat_windows[jid_bare].active) {
+            xmpp_highlight_off(jid_bare);
+        }
+    }
+}
+
+function xmpp_highlight_off(jid_bare) {
+    var chat = $('#xmpp-chat-' + xmpp_jid_normalize(jid_bare) + '-title');
+    chat.css({'background': XMPP_CHAT_TITLE_INACTIVE_COLOR});
+    xmpp_chat_windows[jid_bare].active = false;
+}
+
+function xmpp_highlight_on(jid_bare) {
+    var chat = $('#xmpp-chat-' + xmpp_jid_normalize(jid_bare) + '-title');
+    chat.css({'background': XMPP_CHAT_TITLE_ACTIVE_COLOR});
+    xmpp_chat_windows[jid_bare].active = true;
+}
+
+function xmpp_focus_window(jid_bare) {
+    var chat = $('#xmpp-chat-' + xmpp_jid_normalize(jid_bare));
+    if (!chat.is(":focus") && chat.children(":focus").length == 0) {
+        xmpp_highlight_on(jid_bare);
+    }
 }
