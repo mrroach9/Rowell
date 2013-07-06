@@ -1,6 +1,7 @@
 var xmpp_panel_closed = false;
 var xmpp_chat_windows = {};
 var xmpp_chat_windows_id = {};
+var xmpp_chat_min = {};
 
 function xmpp_jid_normalize(jid) {
     return jid.replace(/[\.@\/]/g, '_');
@@ -236,6 +237,8 @@ function xmpp_create_chat_window(jid_bare) {
                 + '<div class="xmpp-chat-title-text">' + name + '</div>' +
                 '<button class="close xmpp-chat-title-close" id="xmpp-chat-' +
                 jid_normal + '-close" type="button">×</button>' +
+                '<button class="close xmpp-chat-title-min" id="xmpp-chat-' +
+                jid_normal + '-min" type="button">&#8210;</button>' +
             '</div>' +
             '<textarea readonly class="xmpp-chat-text" id="xmpp-chat-' + jid_normal + '-text"/>' +
             '<textarea class="xmpp-chat-input"id="xmpp-chat-' + jid_normal + '-input"/>' +
@@ -243,6 +246,9 @@ function xmpp_create_chat_window(jid_bare) {
     $('#xmpp-panel').append(window_div);
     $('#xmpp-chat-' + jid_normal + '-close').click(function() {
         xmpp_chat_close_click(jid_bare);
+    });
+    $('#xmpp-chat-' + jid_normal + '-min').click(function() {
+        xmpp_chat_min_click(jid_bare);
     });
     $(input_div).keypress(function(event) {
         if (event.which == 13) {
@@ -288,7 +294,19 @@ function xmpp_chat_close_click(jid_bare) {
     var info = xmpp_chat_windows[jid_bare];
     delete xmpp_chat_windows[jid_bare];
     delete xmpp_chat_windows_id[info.id];
+    delete xmpp_chat_min[jid_bare];
     xmpp_order_chat_window();
+}
+
+function xmpp_chat_min_click(jid_bare) {
+    var chat_id = '#xmpp-chat-' + xmpp_jid_normalize(jid_bare);
+    if (jid_bare in xmpp_chat_min) {
+        $(chat_id).animate({'bottom': 0});
+        delete xmpp_chat_min[jid_bare];
+    } else {
+        $(chat_id).animate({'bottom': -275});
+        xmpp_chat_min[jid_bare] = 1;
+    }
 }
 
 function xmpp_ui_init() {

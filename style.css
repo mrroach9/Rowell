@@ -495,7 +495,18 @@ input[type="file"].fileuploadbox {
 .xmpp-chat-title-close {
   position: absolute;
   right: 0px;
-  margin: 5px;
+  margin: 1px;
+  padding: 4px !important;
+  width: 20px;
+  top: 0px;
+}
+
+.xmpp-chat-title-min {
+  position: absolute;
+  right: 21px;
+  margin: 1px;
+  width: 20px;
+  padding: 4px !important;
   top: 0px;
 }
 
