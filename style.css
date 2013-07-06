@@ -386,7 +386,8 @@ input[type="file"].fileuploadbox {
   top: 45%;
   left: 0px;
   position: absolute;
-  width: 20px;
+  width: 18px;
+  z-index: 1;
   border-top-right-radius: 0px;
   border-bottom-right-radius: 0px;
 /*  overflow: hidden;*/
@@ -401,7 +402,6 @@ input[type="file"].fileuploadbox {
 }
 
 .xmpp-panel-main {
-  overflow: auto;
   height: 95%;
   left: 30px;
   position: absolute;
@@ -563,6 +563,13 @@ input[type="file"].fileuploadbox {
   background: lightgray;
 }
 
+.xmpp-panel-main {
+  box-shadow: 0 0 5px 0 gray;
+}
+
+.xmpp-main-content {
+  overflow: auto;
+}
 
 .xmpp-show-online {
     background: #5BB75B;

@@ -24,7 +24,7 @@ var bbs_string = {
     upload_file_toolarge:   '文件过大，无法上传',
     upload_not_finished :   '文件上传尚未结束，无法发表该贴。',
     xmpp_connecting     :   '正在连接...',
-    xmpp_connected      :   '已连接，正在获取好友列表...',
+    xmpp_connected      :   '正在获取好友列表...',
     xmpp_disconnected   :   '已断开连接。',
     xmpp_error          :   '连接错误，将在5秒后重试...'
 };
