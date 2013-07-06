@@ -14,6 +14,13 @@ function xmpp_onresize(){
     } else {
         $('#xmpp-panel').css({left: width - 270, right: ''});
     }
+    xmpp_adjust_height();
+}
+function xmpp_adjust_height() {
+    var user_list_height = $('#xmpp-panel-main').height()
+        - $('#xmpp-main-title').height() - 9;
+    $('#xmpp-main-content').css({height: user_list_height});
+    $('#xmpp-loading').css({height: user_list_height});
 }
 
 function xmpp_panel_toggle() {
@@ -27,6 +34,7 @@ function xmpp_panel_toggle() {
 }
 
 function xmpp_show_loading(text) {
+    xmpp_adjust_height();
     $('#xmpp-loading').show();
     $('#xmpp-loading-text').html(text);
 }
