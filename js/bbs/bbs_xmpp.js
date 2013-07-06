@@ -213,7 +213,7 @@ function xmpp_order_chat_window() {
         var info = xmpp_chat_windows_id[id];
         if (info.id != new_id) {
             $('#xmpp-chat-' + xmpp_jid_normalize(info.jid)).
-                css({left: xmpp_get_chat_left(new_id)});
+                animate({left: xmpp_get_chat_left(new_id)});
             info.id = new_id;
             xmpp_chat_windows[info.jid].id = new_id;
             xmpp_chat_windows_id[new_id] = info;
@@ -224,7 +224,7 @@ function xmpp_order_chat_window() {
 }
 
 function xmpp_get_chat_left(id) {
-    var chat_width = 200;
+    var chat_width = 215;
     var panel_width = 270;
     var panel_left = $('#xmpp-panel').position().left;
     var my_left = panel_left - chat_width * (id + 1);
@@ -299,6 +299,7 @@ function xmpp_append_msg_log(jid_bare, text) {
 
 function xmpp_chat_close_click(jid_bare) {
     $('#xmpp-chat-' + xmpp_jid_normalize(jid_bare)).remove();
+    $(this).remove();
     var info = xmpp_chat_windows[jid_bare];
     delete xmpp_chat_windows[jid_bare];
     delete xmpp_chat_windows_id[info.id];
