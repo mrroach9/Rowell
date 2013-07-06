@@ -335,7 +335,7 @@ function xmpp_chat_min_click(jid_bare) {
         $(chat_id).animate({'bottom': 0});
         xmpp_chat_windows[jid_bare].minimized = false;
     } else {
-        $(chat_id).animate({'bottom': -275});
+        $(chat_id).animate({'bottom': -277});
         xmpp_chat_windows[jid_bare].minimized = true;
     }
 }
