@@ -554,3 +554,26 @@ input[type="file"].fileuploadbox {
 }
 
 
+.xmpp-show-online {
+    background: #5BB75B;
+}
+
+.xmpp-show-chat {
+    background: #5BB75B;
+}
+
+.xmpp-show-dnd {
+    background: #DA4F49;
+}
+
+.xmpp-show-away {
+    background: #FBB450;
+}
+
+.xmpp-show-xa {
+    background: #F89406;
+}
+
+.xmpp-show-default {
+    background: #5BC0DE;
+}

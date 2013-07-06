@@ -124,22 +124,22 @@ function xmpp_presence(presence) {
     var show_id = div_id + "-show";
     var status_id = div_id + "-status";
 //    var show = "[online]";
-    var show = '<div style="background:green;">&nbsp;</div>';
+    var show = '<div class="xmpp-show-online">&nbsp;</div>';
     var status = "";
     if (typeof(presence.status) != "undefined" && presence.status != null) {
         status = '(' + presence.status + ')';
     }
     if (typeof(presence.show) != "undefined") {
         if (presence.show == "chat") {
-            show = '<div style="background:lightgreen;">&nbsp;</div>';
+            show = '<div class="xmpp-show-chat">&nbsp;</div>';
         } else if (presence.show == "dnd") {
-            show = '<div style="background:red;">&nbsp;</div>';
+            show = '<div class="xmpp-show-dnd">&nbsp;</div>';
         } else if (presence.show == "away") {
-            show = '<div style="background:orange;">&nbsp;</div>';
+            show = '<div class="xmpp-show-away">&nbsp;</div>';
         } else if (presence.show == "xa") {
-            show = '<div style="background:yellow;">&nbsp;</div>';
+            show = '<div class="xmpp-show-xa">&nbsp;</div>';
         } else {
-            show = '<div style="background:green;">&nbsp;</div>';
+            show = '<div class="xmpp-show-default">&nbsp;</div>';
         }
     }
     if (jid_bare in xmpp_user_list) {
