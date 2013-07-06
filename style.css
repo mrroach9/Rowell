@@ -491,6 +491,7 @@ input[type="file"].fileuploadbox {
 
 .xmpp-chat-title {
   height: 25px;
+  cursor: pointer;
 }
 
 .xmpp-chat-title-text {

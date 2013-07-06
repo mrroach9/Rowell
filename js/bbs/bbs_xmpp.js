@@ -255,7 +255,11 @@ function xmpp_create_chat_window(jid_bare) {
     $('#xmpp-chat-' + jid_normal + '-close').click(function() {
         xmpp_chat_close_click(jid_bare);
     });
-    $('#xmpp-chat-' + jid_normal + '-min').click(function() {
+    // covered by title bar
+/*    $('#xmpp-chat-' + jid_normal + '-min').click(function() {
+        xmpp_chat_min_click(jid_bare);
+    });*/
+    $('#xmpp-chat-' + jid_normal + '-title').click(function() {
         xmpp_chat_min_click(jid_bare);
     });
     $(input_div).keypress(function(event) {
