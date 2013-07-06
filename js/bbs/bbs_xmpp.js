@@ -1,7 +1,6 @@
 var xmpp_panel_closed = false;
 var xmpp_chat_windows = {};
 var xmpp_chat_windows_id = {};
-var xmpp_chat_min = {};
 var xmpp_title_original = "";
 var xmpp_title_alternative = "";
 var xmpp_title_changing = false;
@@ -292,7 +291,7 @@ function xmpp_create_chat_window(jid_bare) {
         bbs_topmost_stack.pop();
     }).focus();
 
-    var window_info = {id: id, jid: jid_bare};
+    var window_info = {id: id, jid: jid_bare, minimized: false};
     xmpp_chat_windows[jid_bare] = window_info;
     xmpp_chat_windows_id[id] = window_info
 }
@@ -320,18 +319,17 @@ function xmpp_chat_close_click(jid_bare) {
     var info = xmpp_chat_windows[jid_bare];
     delete xmpp_chat_windows[jid_bare];
     delete xmpp_chat_windows_id[info.id];
-    delete xmpp_chat_min[jid_bare];
     xmpp_order_chat_window();
 }
 
 function xmpp_chat_min_click(jid_bare) {
     var chat_id = '#xmpp-chat-' + xmpp_jid_normalize(jid_bare);
-    if (jid_bare in xmpp_chat_min) {
+    if (xmpp_chat_windows[jid_bare].minimized) {
         $(chat_id).animate({'bottom': 0});
-        delete xmpp_chat_min[jid_bare];
+        xmpp_chat_windows[jid_bare].minimized = false;
     } else {
         $(chat_id).animate({'bottom': -275});
-        xmpp_chat_min[jid_bare] = 1;
+        xmpp_chat_windows[jid_bare].minimized = true;
     }
 }
 
