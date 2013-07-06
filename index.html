@@ -485,16 +485,18 @@
         <div class='xmpp-panel-handle btn btn-info btn-large' onclick='xmpp_panel_toggle();'>
             喝<br/>茶<br/>聊<br/>天
         </div>
-        <div class='xmpp-panel-main'>
-            <div class='xmpp-main-title'>好友列表</div>
-            <div class='xmpp-loading' id='xmpp-loading'>
-                <div class='xmpp-loading-text' id='xmpp-loading-text'>
+        <div class='xmpp-panel-main' id='xmpp-panel-main'>
+            <div class='xmpp-main-title' id='xmpp-main-title'>好友列表</div>
+            <div class='xmpp-main-content' id='xmpp-main-content'>
+                <div class='xmpp-loading' id='xmpp-loading'>
+                    <div class='xmpp-loading-img'>
+                        <img class='loading-logo' src='./img/loading.gif'></img>
+                    </div>
+                    <div class='xmpp-loading-text' id='xmpp-loading-text'>
+                    </div>
                 </div>
-                <div class='xmpp-loading-img'>
-                    <img class='loading-logo' src='./img/loading.gif'></img>
+                <div class='xmpp-user-list' id='xmpp-user-list'>
                 </div>
-            </div>
-            <div class='xmpp-user-list' id='xmpp-user-list'>
             </div>
         </div>
     </div>

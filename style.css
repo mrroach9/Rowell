@@ -510,28 +510,38 @@ input[type="file"].fileuploadbox {
   top: 0px;
 }
 
+.xmpp-loading {
+    position: absolute;
+/*    left: 60px;
+    top: 40%;*/
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    background: rgb(0,0,0);
+    background: rgba(0, 0, 0, 0.6);
+    border-bottom-left-radius: 3px;
+}
+
 .xmpp-loading-img {
-    background: black;
+/*    background: black;
     border-radius: 15px;
     height: 80px;
-    width: 80px;
+    width: 80px;*/
+    top: 100px;
     position: absolute;
-    left: 25px;
+    left: 100px;
     opacity: 0.6;
+    width: 40px;
 }
 
 .xmpp-loading-text {
-    margin-bottom: 30px;
-    width: 100%;
+    margin-top: 80px;
+    width: 250px;
     text-align: center;
-}
-
-.xmpp-loading {
     position: absolute;
-    left: 60px;
-    top: 40%;
-    width: 130px;
-    z-index: 2013;
+    top: 100px;
+    color: white;
+    font-size: 14px;
 }
 
 .xmpp-main-title {
