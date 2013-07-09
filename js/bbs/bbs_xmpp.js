@@ -383,6 +383,7 @@ function xmpp_ui_init() {
     $('#xmpp-panel').hide();
     $('#xmpp-panel-handle').click(xmpp_panel_toggle);
     xmpp_onresize();
+    $(document).click(xmpp_global_click);
 }
 
 function xmpp_roster(rosters) {
@@ -454,5 +455,13 @@ function xmpp_focus_window(jid_bare) {
     var chat = $('#xmpp-chat-' + xmpp_jid_normalize(jid_bare));
     if (!chat.is(":focus") && chat.children(":focus").length == 0) {
         xmpp_highlight_on(jid_bare);
+    }
+}
+
+function xmpp_global_click(e) {
+    if (window.innerWidth >= 1600) return;
+    if (xmpp_panel_closed) return;
+    if ($(e.target).closest('#xmpp-panel').length == 0) {
+        xmpp_panel_toggle();
     }
 }
