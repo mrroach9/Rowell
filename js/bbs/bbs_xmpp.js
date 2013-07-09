@@ -28,10 +28,16 @@ function xmpp_onfocus() {
 }
 
 function xmpp_adjust_height() {
-    var user_list_height = $('#xmpp-panel-main').height()
-        - $('#xmpp-main-title').height() - 9;
+    var panel_height = window.innerHeight - 125;
+    $('#xmpp-panel').css({height: panel_height});
+    var main_height = window.innerHeight - 135;
+    $('#xmpp-panel-main').css({height: main_height});
+    var user_list_height = main_height - $('#xmpp-main-title').height() - 9;
     $('#xmpp-main-content').css({height: user_list_height});
     $('#xmpp-loading').css({height: user_list_height});
+
+    var handle_top = panel_height / 2 - 47;
+    $('#xmpp-panel-handle').css({top: handle_top});
 }
 
 function xmpp_panel_toggle() {
@@ -365,6 +371,7 @@ function xmpp_chat_min_click(jid_bare) {
 
 function xmpp_ui_init() {
     $('#xmpp-panel').hide();
+    $('#xmpp-panel-handle').click(xmpp_panel_toggle);
 }
 
 function xmpp_roster(rosters) {
