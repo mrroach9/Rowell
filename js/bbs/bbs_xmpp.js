@@ -299,7 +299,7 @@ function xmpp_create_chat_window(jid_bare) {
     xmpp_chat_windows_id[id] = window_info
 
     $('#xmpp-panel').append(window_div);
-    $('#xmpp-chat-' + jid_normal).focusin(function() {
+    $('#xmpp-chat-' + jid_normal).click(function() {
         xmpp_highlight_off(jid_bare);
     });
     $('#xmpp-chat-' + jid_normal + '-close').click(function() {
