@@ -108,7 +108,7 @@ function xmpp_message(message) {
 //    alert("New message of " + user + ": "+message.body);
     var text = message.from.split('@')[0] + ": " + message.body;
     xmpp_create_chat_window(message.from);
-    xmpp_append_msg_log(message.from, text);
+    xmpp_append_msg_log(message.from, text, false);
     if (!document.hasFocus()) {
         xmpp_start_title_change('【' + user + '】');
     }
@@ -274,7 +274,7 @@ function xmpp_create_chat_window(jid_bare) {
                 '<button class="close xmpp-chat-title-min" id="xmpp-chat-' +
                 jid_normal + '-min" type="button">&#8210;</button>' +
             '</div>' +
-            '<textarea readonly class="xmpp-chat-text" id="xmpp-chat-' + jid_normal + '-text"/>' +
+            '<div class="xmpp-chat-text" id="xmpp-chat-' + jid_normal + '-text"/>' +
             '<textarea class="xmpp-chat-input"id="xmpp-chat-' + jid_normal + '-input"/>' +
         '</div>';
 
@@ -300,7 +300,7 @@ function xmpp_create_chat_window(jid_bare) {
         if (event.which == 13) {
             var msg = $(this).val();
             xmpp_send($(this).parent().attr('jid'), msg);
-            xmpp_append_msg_log(jid_bare, xmpp_get_my_name() + ": " + msg);
+            xmpp_append_msg_log(jid_bare, xmpp_get_my_name() + ": " + msg, true);
             $(this).val('');
             return false;
         } else if (event.keyCode == 27) {
@@ -318,16 +318,28 @@ function xmpp_get_my_name() {
     return $.xmpp.jid.split('@')[0];
 }
 
-function xmpp_append_msg_log(jid_bare, text) {
+function xmpp_append_msg_log(jid_bare, text, mine) {
     var chat_id = '#xmpp-chat-' + xmpp_jid_normalize(jid_bare) + '-text';
     var chat_text = $(chat_id);
-    var log = chat_text.val();
+
+    var msg_div = '<div class="';
+    if (mine) {
+        msg_div += 'xmpp-chat-text-mine';
+    } else {
+        msg_div += 'xmpp-chat-text-other';
+    }
+    msg_div += '" ></div>';
+    var msg = $(msg_div);
+    msg.text(text);
+    chat_text.append(msg);
+
+/*    var log = chat_text.val();
     if (log) {
         log += "\n" + text;
     } else {
         log = text;
     }
-    chat_text.val(log);
+    chat_text.val(log);*/
     chat_text.scrollTop(chat_text[0].scrollHeight);
 }
 

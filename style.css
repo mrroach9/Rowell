@@ -466,15 +466,19 @@ input[type="file"].fileuploadbox {
 }
 
 .xmpp-chat-text {
-  height: 245px;
+  height: 240px;
   padding: 5px;
   width: 190px;
-  border: 0px solid lightgray;
-  resize: none;
+  border: 0px;
+  overflow: auto;
+  padding-bottom: 10px;
 }
 
-.xmpp-chat-text[readonly] {
-  cursor: text;
+.xmpp-chat-text-mine {
+}
+
+.xmpp-chat-text-other {
+  font-weight: bold;
 }
 
 .xmpp-chat-input {
