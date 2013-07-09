@@ -302,6 +302,9 @@ function xmpp_create_chat_window(jid_bare) {
     $('#xmpp-chat-' + jid_normal).click(function() {
         xmpp_highlight_off(jid_bare);
     });
+    $('#xmpp-chat-' + jid_normal).focusin(function() {
+        xmpp_highlight_off(jid_bare);
+    });
     $('#xmpp-chat-' + jid_normal + '-close').click(function() {
         xmpp_chat_close_click(jid_bare);
     });
