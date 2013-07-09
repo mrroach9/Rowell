@@ -633,6 +633,7 @@ function UI_update(){
     UI_hide_backdrop();
     UI_hide_loading();
     $('#logged-panel').show();
+    xmpp_onresize();
 }
 
 function UI_notify_update(msg){

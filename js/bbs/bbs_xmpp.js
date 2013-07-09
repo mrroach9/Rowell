@@ -5,6 +5,7 @@ var xmpp_title_original = "";
 var xmpp_title_alternative = "";
 var xmpp_title_changing = false;
 var xmpp_title_using_alternative = false;
+var xmpp_panel_left = 0;
 var XMPP_TITLE_CHANGE_INTERVAL = 1000;
 var XMPP_CHAT_TITLE_ACTIVE_COLOR = '#5BB75B';
 var XMPP_CHAT_TITLE_INACTIVE_COLOR = 'rgb(91, 191, 222)';
@@ -16,10 +17,11 @@ function xmpp_jid_normalize(jid) {
 function xmpp_onresize(){
     var width = $('body').prop('clientWidth');
     if (xmpp_panel_closed) {
-        $('#xmpp-panel').css({left: width - 70, right: ''});
+        xmpp_panel_left = width - 30;
     } else {
-        $('#xmpp-panel').css({left: width - 270, right: ''});
+        xmpp_panel_left = width - 270;
     }
+    $('#xmpp-panel').css({left: xmpp_panel_left, right: ''});
     xmpp_adjust_height();
     xmpp_order_chat_window(false);
 }
@@ -44,11 +46,13 @@ function xmpp_adjust_height() {
 function xmpp_panel_toggle() {
     var left = $('#xmpp-panel').offset().left;
     if (xmpp_panel_closed) {
-        $('#xmpp-panel').css({left: left}).animate({'left': left - 240}, 500);
+        xmpp_panel_left = left - 240;
     } else {
-        $('#xmpp-panel').css({left: left}).animate({'left': left + 240}, 500);
+        xmpp_panel_left = left + 240;
     }
+    $('#xmpp-panel').css({left: left}).animate({'left': xmpp_panel_left}, 500);
     xmpp_panel_closed = !xmpp_panel_closed;
+    xmpp_order_chat_window(true);
 }
 
 function xmpp_show_loading(text) {
@@ -264,7 +268,7 @@ function xmpp_order_chat_window(use_ani) {
 function xmpp_get_chat_left(id) {
     var chat_width = 215;
     var panel_width = 270;
-    var panel_left = $('#xmpp-panel').position().left;
+    var panel_left = xmpp_panel_left;
     var my_left = panel_left - chat_width * (id + 1);
     return my_left;
 }
@@ -378,6 +382,7 @@ function xmpp_chat_min_click(jid_bare) {
 function xmpp_ui_init() {
     $('#xmpp-panel').hide();
     $('#xmpp-panel-handle').click(xmpp_panel_toggle);
+    xmpp_onresize();
 }
 
 function xmpp_roster(rosters) {
