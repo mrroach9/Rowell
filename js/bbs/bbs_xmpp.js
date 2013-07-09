@@ -312,7 +312,7 @@ function xmpp_create_chat_window(jid_bare) {
     $('#xmpp-chat-' + jid_normal + '-title').click(function() {
         xmpp_chat_min_click(jid_bare);
     });
-    $(input_div).keypress(function(event) {
+    $(input_div).keydown(function(event) {
         if (event.which == 13) {
             var msg = $(this).val();
             xmpp_send($(this).parent().attr('jid'), msg);
