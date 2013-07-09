@@ -183,7 +183,18 @@ function xmpp_presence(presence) {
         '</tr></table>'+
         '</div>'
 
-        $('#xmpp-user-list').append(user_div);
+        var inserted = false;
+        for (var i = 0; i < $('#xmpp-user-list').children().length; i++) {
+            var child = $($('#xmpp-user-list').children().get(i));
+            if (child.attr('jid').toLowerCase() > jid_bare.toLowerCase()) {
+                $(user_div).insertBefore(child);
+                inserted = true;
+                break;
+            }
+        }
+        if (!inserted) {
+            $('#xmpp-user-list').append(user_div);
+        }
         $('#' + div_id).click(function() {
             xmpp_user_click($(this).attr('jid'));
         });
