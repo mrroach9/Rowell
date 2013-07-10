@@ -140,7 +140,7 @@ function xmpp_presence(presence) {
         return;
     }
     var jid_bare = jid_split[0];
-    if (jid_bare == $.xmpp.jid && resource.startsWith($.xmpp.resource)) {
+    if (jid_bare == $.xmpp.jid && resource.indexOf($.xmpp.resource) == 0) {
         console.log("omit presence from myself");
         return;
     }
