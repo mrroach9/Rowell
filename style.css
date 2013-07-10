@@ -420,7 +420,6 @@ input[type="file"].fileuploadbox {
   height: 80%;
   width: 270px;
   right: 0px;
-  overflow: hidden;
 }
 
 .xmpp-user-status {
