@@ -31,8 +31,8 @@ var bbs_string = {
 
 var bbs_query = {
     server              :   'https://bbs.net9.org:8080',
-    client_id           :   'rowell-henryhu',
-    client_secret       :   '6c0b3e673516de3b',
+    client_id           :   0,
+    client_secret       :   0,
     xmpp_domain         :   'bbs.net9.org',
     bosh_url            :   'http://www.henryhu.net:5280/http-bind',
     xmpp_resource       :   'Rowell',
