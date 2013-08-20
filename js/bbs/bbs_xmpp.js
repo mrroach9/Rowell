@@ -93,6 +93,7 @@ function xmpp_connected() {
     $.xmpp.setPresence(null);
     console.log("Connected");
     xmpp_user_list = {};
+    $('#xmpp-user-list').empty();
 }
 
 function xmpp_iq(iq) {
