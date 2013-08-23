@@ -114,6 +114,8 @@ pre.post-view-area {
     margin-bottom: 10px;
     margin-right: 10px; 
     min-height: 380px;
+    font-size: 13px;
+    line-height: 16px;
 }
 
 tr.board-entry,
