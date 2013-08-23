@@ -114,6 +114,8 @@ pre.post-view-area {
     margin-bottom: 10px;
     margin-right: 10px; 
     min-height: 380px;
+    font-size: 13px;
+    line-height: 16px;
 }
 
 tr.board-entry,
@@ -380,4 +382,222 @@ input[type="file"].fileuploadbox {
 
 .left-pad-text {
     margin-left : 30px;
+}
+
+.xmpp-panel-handle {
+  top: 45%;
+  left: 0px;
+  position: absolute;
+  width: 18px;
+  z-index: 1;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+/*  overflow: hidden;*/
+/*  border: 1px solid green;*/
+/*  background: lightblue;*/
+/*  text-align: center;*/
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-right: 0px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.xmpp-panel-main {
+  height: 95%;
+  left: 30px;
+  position: absolute;
+  background: #F0F0F0;
+  width: 100%;
+  border: 1px solid lightgray;
+  border-radius: 4px 0px 0px 4px;
+}
+
+.xmpp-user-list {
+}
+
+.xmpp-panel {
+  top: 120px;
+  position: fixed;
+  height: 80%;
+  width: 270px;
+  right: 0px;
+}
+
+.xmpp-user-status {
+    white-space:nowrap;
+}
+
+.xmpp-user-show {
+  width: 16px;
+  margin-right: 5px;
+  height: 16px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.xmpp-user:hover {
+  background: lightblue;
+}
+
+.xmpp-user {
+/*  width: 225px; */
+  position: relative;
+  overflow: hidden;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  padding-left: 6px;
+  border-bottom: 1px solid lightgray;
+  cursor: pointer;
+}
+
+.xmpp-chat {
+  position: fixed;
+  bottom: 0px;
+  height: 300px;
+  border: 1px solid lightgray;
+/*  padding: 5px;*/
+  width: 200px;
+  background: white;
+  opacity: 0.95;
+/*  box-shadow: 0px 3px 7px rgba(0, 0, 0, 0.3);*/
+  border-radius: 6px 6px 0px 0px;
+  box-shadow: 0 0 5px 0 gray;
+  z-index: 3;
+}
+
+.xmpp-chat-text {
+  height: 240px;
+  padding: 5px;
+  width: 190px;
+  border: 0px;
+  overflow: auto;
+  padding-bottom: 10px;
+  background: #F0F0F6;
+}
+
+.xmpp-chat-text-mine {
+}
+
+.xmpp-chat-text-other {
+  font-weight: bold;
+}
+
+.xmpp-chat-input {
+  height: 20px;
+  padding: 0px;
+  width: 100%;
+  left: 0px;
+  position: absolute;
+  bottom: 0px;
+  border: 0px solid lightgray;
+  margin-bottom: 0px;
+  resize: none;
+}
+
+.xmpp-chat-title {
+  height: 25px;
+  cursor: pointer;
+  background: rgb(91, 191, 222);
+}
+
+.xmpp-chat-title-text {
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 10px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.xmpp-chat-title-close {
+  position: absolute;
+  right: 0px;
+  margin: 1px;
+  padding: 4px !important;
+  width: 20px;
+  top: 0px;
+}
+
+.xmpp-chat-title-min {
+  position: absolute;
+  right: 21px;
+  margin: 1px;
+  width: 20px;
+  padding: 4px !important;
+  top: 0px;
+}
+
+.xmpp-loading {
+    position: absolute;
+/*    left: 60px;
+    top: 40%;*/
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    background: rgb(0,0,0);
+    background: rgba(0, 0, 0, 0.6);
+    border-bottom-left-radius: 3px;
+}
+
+.xmpp-loading-img {
+/*    background: black;
+    border-radius: 15px;
+    height: 80px;
+    width: 80px;*/
+    top: 100px;
+    position: absolute;
+    left: 100px;
+    opacity: 0.6;
+    width: 40px;
+}
+
+.xmpp-loading-text {
+    margin-top: 80px;
+    width: 250px;
+    text-align: center;
+    position: absolute;
+    top: 100px;
+    color: white;
+    font-size: 14px;
+}
+
+.xmpp-main-title {
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  background: lightgray;
+}
+
+.xmpp-panel-main {
+  box-shadow: 0 0 5px 0 gray;
+}
+
+.xmpp-main-content {
+  overflow: auto;
+}
+
+.xmpp-show-online {
+    background: #5BB75B;
+}
+
+.xmpp-show-chat {
+    background: #5BB75B;
+}
+
+.xmpp-show-dnd {
+    background: #DA4F49;
+}
+
+.xmpp-show-away {
+    background: #F89406;
+}
+
+.xmpp-show-xa {
+    background: #FBB450;
+}
+
+.xmpp-show-default {
+    background: #5BC0DE;
 }

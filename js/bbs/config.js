@@ -4,9 +4,9 @@ var bbs_string = {
     favboard_name       :   '收藏夹',
     allboard_name       :   '所有版面',
     mailbox_name        :   '站内信',
-    title               :   '9# BBS - Rowell v0.3.0',
-    version             :   '0.3.0',
-    send_source         :   '[Sent from Rowell v0.3.0]',
+    title               :   '9# BBS - Rowell v0.3.1',
+    version             :   '0.3.1',
+    send_source         :   '[Sent from Rowell v0.3.1]',
     unimpltd_title      :   '矮油',
     unimpltd_text       :   '此功能尚未实现，我们将在后续版本中添加，敬请谅解。',
     entry_folder        :   '[目录]',
@@ -22,13 +22,21 @@ var bbs_string = {
     confirm_delete_post :   '确定删除该文章吗？',
     upload_file_failed  :   '文件上传失败',
     upload_file_toolarge:   '文件过大，无法上传',
-    upload_not_finished :   '文件上传尚未结束，无法发表该贴。'
+    upload_not_finished :   '文件上传尚未结束，无法发表该贴。',
+    xmpp_connecting     :   '正在连接...',
+    xmpp_connected      :   '正在获取好友列表...',
+    xmpp_disconnected   :   '已断开连接。',
+    xmpp_error          :   '连接错误，将在5秒后重试...'
 };
 
 var bbs_query = {
     server              :   'https://bbs.net9.org:8080',
     client_id           :   0,
     client_secret       :   0,
+    xmpp_domain         :   'bbs.net9.org',
+    bosh_url            :   'http://www.henryhu.net:5280/http-bind',
+    xmpp_resource       :   'Rowell',
+    xmpp_wait           :   300,
     auth : {
         auth            :   '/auth/auth?response_type=token',
         token           :   '/auth/token',
