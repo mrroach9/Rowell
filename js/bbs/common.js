@@ -58,10 +58,12 @@ function getQueryString() {
 
 function ansi2html(content) {
     // add color to reference
-    refertitle = new RegExp('\n(【 .* 】)', 'g');
-    refercontent = new RegExp('\n(\: .*)', 'g');
+    var refertitle = new RegExp('\n(【 .* 】)', 'g');
+    var refercontent = new RegExp('\n(\: .*)', 'g');
+    var refercontent2 = new RegExp('\n(> .*)', 'g');
     content = content.replace(refertitle, '\n\u001b[1;33m$1\u001b[m');
     content = content.replace(refercontent, '\n\u001b[36m$1\u001b[m');
+    content = content.replace(refercontent2, '\n\u001b[36m$1\u001b[m');
 
     content = html_encode(content);
 
