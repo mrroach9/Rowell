@@ -252,6 +252,11 @@ p#notification-content {
     width : 560px;
     height : 260px;
     resize : none;
+    word-break: break-all;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+    font-size: 13px;
 }
 
 .write-post-option {
