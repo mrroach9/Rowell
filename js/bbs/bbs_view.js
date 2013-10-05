@@ -39,6 +39,14 @@ function view_boardlist(type, index, folder_name, callback_func, popNum){
         bbs_path.push(pathTerm);
         callback_func();
     });
+
+    resp.fail(function(jqXHR, response) {
+        var msg = {
+            type : 'error',
+            content : 'network_error'
+        };
+        UI_notify_update(msg);
+    });
 }
 
 function view_board(board_name, start, end, callback_func, source, popNum){
