@@ -146,6 +146,9 @@ function view_sticky_post_list(board_name, callback_func) {
 
     resp.success(function(response){
         var postlist = extractPostInfo(response);
+        for (var i = 0; i < postlist.length; ++i) {
+            postlist[i].read = true;
+        }
         bbs_sticky.name = board_name;
         bbs_sticky.posts = postlist;
         callback_func();
