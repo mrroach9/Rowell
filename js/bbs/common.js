@@ -72,9 +72,9 @@ function ansi2html(content) {
     content = filter.toHtml(content);
 
     // set the content to be fixed-width
-    content = '<tt>' + content + '</tt>';
+    content = '<span>' + content + '</span>';
     monospacett = new RegExp('\n', 'g');
-    content = content.replace(monospacett, '</tt>\n<tt>');
+    content = content.replace(monospacett, '</span>\n<span>');
 
     return content;
 }
