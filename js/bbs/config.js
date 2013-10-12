@@ -118,6 +118,10 @@ var bbs_type = {
     cookie : {
         session     :   'bbs_session',
         error_session   :   'SESSION_ERROR'
+    },
+    storage : {
+        sketch      :   'bbs_recent_sketch',
+        sketch_title:   'bbs_recent_sketch_title'
     }
 };
 

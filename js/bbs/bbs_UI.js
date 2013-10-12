@@ -255,7 +255,6 @@ function UI_register_func(){
 */
 
     // Clear unreads
-
     $(document).on('click', '.clear-board-unread', function(){
         UI_set_loading();
         var pathTerm = bbs_path.getLastTermWithType(bbs_type.path.board);
@@ -267,6 +266,14 @@ function UI_register_func(){
         clear_unread('', UI_update);
     });
 
+    UI_register_func_post_modal();
+
+    window.onresize = UI_onresize;
+    window.onfocus = UI_onfocus;
+    xmpp_ui_init();
+}
+
+function UI_register_func_post_modal() {
     $(document).on('click', '#add-attachment-link', function(){
         $('div.attach-area').show();
     });
@@ -287,9 +294,18 @@ function UI_register_func(){
         }
     });
 
-    window.onresize = UI_onresize;
-    window.onfocus = UI_onfocus;
-    xmpp_ui_init();
+    $('#load-sketch-link').click(function() {
+        var content = localStorage[bbs_type.storage.sketch];
+        var title = localStorage[bbs_type.storage.sketch_title];
+        if (typeof(content) == 'undefined' || content == '') {
+            return;
+        }
+        if (typeof(title) == 'undefined') {
+            title = '';
+        }
+        $('#write-post-title').val(title);
+        $('#write-post-content').val(content);
+    });
 }
 
 
@@ -444,6 +460,7 @@ function UI_prepare_post_modal(){
         $('input:text[name=qmd-number]').attr('disabled', true);
         $('input:radio[name=qmd-type][value=random]').attr('checked', true);
     }
+
     if (bbs_post_info.can_anony) {
         $('.no-anonymous-area').hide();
         $('.anonymous-area').show();
@@ -458,6 +475,12 @@ function UI_prepare_post_modal(){
         $('.no-add-attach-area').show();
         $('.add-attach-area').hide();
     }
+    if (typeof(localStorage[bbs_type.storage.sketch]) == 'undefined') {
+        $('.load-sketch-area').hide();
+    } else {
+        $('.load-sketch-area').show();
+    }
+
     $('.anony-checkbox').attr('checked', false);
     $('#write-post-board').text(bbs_path.getBoard().name);
     $('#write-post-panel').modal({
