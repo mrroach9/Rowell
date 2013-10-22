@@ -606,3 +606,40 @@ input[type="file"].fileuploadbox {
 .xmpp-show-default {
     background: #5BC0DE;
 }
+
+/* Widgets */
+
+.unread-area {
+  background-color: red;
+  display: block;
+  position: absolute;
+}
+
+.unread-area.small {
+  border-radius: 4px;
+  width: 8px;
+  height: 8px;
+  right: 4px;
+  top: 8px;
+}
+
+.unread-area.medium {
+  border-radius: 5px;
+  width: 10px;
+  height: 10px;
+  right: 5px;
+  top: 10px;
+}
+
+.unread-area.large {
+  border-radius: 6px;
+  width: 12px;
+  height: 12px;
+  right: 6px;
+  top: 12px;
+}
+
+.unread-inside {
+  display: block;
+  position: relative;
+}

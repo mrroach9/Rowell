@@ -23,6 +23,10 @@ var bbs_topmost_stack = new Array();
 // Path structure of bbs reading
 var bbs_path = new Path();
 
+// All widgets (e.g. unread icons) initialized in the page, registered 
+// here with a unique string name.
+var bbs_widget = {};
+
 // Sticky posts of current board being read.
 var bbs_sticky = {
     name        :   '',

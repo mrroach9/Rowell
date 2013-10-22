@@ -47,6 +47,70 @@ function UI_register_func(){
 
     $(document).on('click', '.path-term', UI_path_click);
 
+    // Notifications and contributer lists
+
+    $('#notification-close-button').click(function(){
+        $('#notification').fadeOut();
+    });
+
+    $('#notification').click(function(){
+        $(this).fadeOut();
+    });
+
+    $('#ctrbtr-link').click(function() {
+        $('#ctrbtr-list').modal('toggle');
+    })
+
+    $('#ctrbtr-list .cancel-button').click(function() {
+        $('#ctrbtr-list').modal('hide');
+    })
+
+    // Posting, mailing and replying
+
+    $(document).on('click', '.reply-post-button', function(){
+        var type = $(this).attr('type');
+        postPrepare(bbs_type.write_post.reply, function(){
+            getQuote(type, UI_prepare_post_modal);
+        });
+    });
+
+    $(document).on('click', '.delete-post-button', function(){
+        if (confirm(bbs_string.confirm_delete_post)) {
+            UI_set_loading();
+            delPost(UI_update, -2);
+        }
+    });
+
+    $(document).on('click', '.new-post-normal', function(){
+        postPrepare(bbs_type.write_post.new, UI_prepare_post_modal);
+    });
+/*
+    $(document).on('click', '.new-mail-normal', function(){
+        mailPrepare(bbs_type.write_mail.new, UI_prepare_mail_modal);
+    });
+*/
+
+    // Clear unreads
+    $(document).on('click', '.clear-board-unread', function(){
+        UI_set_loading();
+        var pathTerm = bbs_path.getLastTermWithType(bbs_type.path.board);
+        clear_unread(pathTerm.name, UI_update);
+    });
+
+    $(document).on('click', '.clear-all-unread', function(){
+        UI_set_loading();
+        clear_unread('', UI_update);
+    });
+
+    UI_register_func_navigation();
+    UI_register_func_post_modal();
+
+    window.onresize = UI_onresize;
+    window.onfocus = UI_onfocus;
+    xmpp_ui_init();
+}
+
+function UI_register_func_navigation() {
     // Linear navigations
 
     $('#board-table .last-page-button').click(function(){
@@ -210,67 +274,6 @@ function UI_register_func(){
         UI_set_loading();
         view_post_sametopic(UI_update, 'latest');
     });
-
-    // Notifications and contributer lists
-
-    $('#notification-close-button').click(function(){
-        $('#notification').fadeOut();
-    });
-
-    $('#notification').click(function(){
-        $(this).fadeOut();
-    });
-
-    $('#ctrbtr-link').click(function() {
-        $('#ctrbtr-list').modal('toggle');
-    })
-
-    $('#ctrbtr-list .cancel-button').click(function() {
-        $('#ctrbtr-list').modal('hide');
-    })
-
-    // Posting, mailing and replying
-
-    $(document).on('click', '.reply-post-button', function(){
-        var type = $(this).attr('type');
-        postPrepare(bbs_type.write_post.reply, function(){
-            getQuote(type, UI_prepare_post_modal);
-        });
-    });
-
-    $(document).on('click', '.delete-post-button', function(){
-        if (confirm(bbs_string.confirm_delete_post)) {
-            UI_set_loading();
-            delPost(UI_update, -2);
-        }
-    });
-
-    $(document).on('click', '.new-post-normal', function(){
-        postPrepare(bbs_type.write_post.new, UI_prepare_post_modal);
-    });
-/*
-    $(document).on('click', '.new-mail-normal', function(){
-        mailPrepare(bbs_type.write_mail.new, UI_prepare_mail_modal);
-    });
-*/
-
-    // Clear unreads
-    $(document).on('click', '.clear-board-unread', function(){
-        UI_set_loading();
-        var pathTerm = bbs_path.getLastTermWithType(bbs_type.path.board);
-        clear_unread(pathTerm.name, UI_update);
-    });
-
-    $(document).on('click', '.clear-all-unread', function(){
-        UI_set_loading();
-        clear_unread('', UI_update);
-    });
-
-    UI_register_func_post_modal();
-
-    window.onresize = UI_onresize;
-    window.onfocus = UI_onfocus;
-    xmpp_ui_init();
 }
 
 function UI_register_func_post_modal() {
@@ -307,7 +310,6 @@ function UI_register_func_post_modal() {
         $('#write-post-content').val(content);
     });
 }
-
 
 function UI_set_fileupload() {
     $('*').on('dragenter', function(event) {
@@ -380,7 +382,6 @@ function UI_start_upload(files, node) {
         }
     }
 }
-
 
 function UI_hide_write_post(){
     $('#write-post-panel').modal('hide');
@@ -566,8 +567,24 @@ function UI_retrieve_session(){
     verifySession(bbs_session, true, UI_login_finished);
 }
 
+function UI_set_unread() {
+    var mailUnread = 
+        new Unread('small', $('#mailbox-nav-label').parent(), 6000);
+    mailUnread.check = function(self) {
+        // TODO: add new mail check code;
+        self.show(true);
+        console.log('Checked');
+    };
+    mailUnread.schedule();
+    bbs_widget['mail-unread'] = mailUnread;
+}
+
 function UI_init() {
     UI_show_backdrop();
+
+    UI_register_func();
+    UI_register_hotkeys();
+    UI_set_fileupload();
 
     $('#login-path').attr('href', bbs_query.server + bbs_query.auth.auth);
     //$('a#bbs-login-path').attr('href', bbs_query.server + bbs_query.auth.auth);
@@ -593,6 +610,9 @@ function UI_login_finished(result){
         $('#unlogged-navbar').hide();
         $('#unlogged-panel').hide();
         $('#logged-navbar').show();
+
+        UI_set_unread();
+
         view_boardlist(bbs_type.entry.favboard, -1, '', UI_update, 0);
         xmpp_connect();
     } else {
@@ -777,8 +797,7 @@ function UI_maindiv_update(pathTerm) {
         $('#mail-view').show();
         bbs_topmost_stack.push('#mail-view');
     }
-}
-        
+}      
 
 function UI_generate_mail_entry(entry, type){
     var newPostNode = $('<span>').addClass('badge badge-important new-post-mark').append('new');
