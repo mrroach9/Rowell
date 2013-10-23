@@ -18,6 +18,7 @@ function view_mail(id, callback_func, source, popNum) {
         var mail = extractMailContent(response);
         var pathTerm = new PathTerm(bbs_type.path.mail, mail.title, mail);
         bbs_path.push(pathTerm);
+        bbs_widget['mail-unread'].forceCheck();
         callback_func();
     });
 

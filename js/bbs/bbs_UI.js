@@ -569,7 +569,7 @@ function UI_retrieve_session(){
 
 function UI_set_unread() {
     var mailUnread = 
-        new Unread('small', $('#mailbox-nav-label').parent(), 6000);
+        new Unread('small', $('#mailbox-nav-label').parent(), 30000);
     mailUnread.check = function(self) {
         check_new_mail(function(has_new) {
             self.show(has_new);

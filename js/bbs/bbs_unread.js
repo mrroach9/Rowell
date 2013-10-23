@@ -24,6 +24,7 @@ Unread = function (size, parent, freq) {
     this.check = function (self) {};
     this.freq_ = freq;
     this.intervalTask_ = undefined;
+    this.node.hide();
     return this;
 };
 
