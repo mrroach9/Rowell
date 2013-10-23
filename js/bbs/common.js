@@ -37,7 +37,7 @@ function getTimeStr(sec) {
 function setAjaxParam(ajax_request) {
     ajax_request.cache = false;
     ajax_request.dataType = 'text';
-    ajax_request.timeout = 5000;
+    ajax_request.timeout = 6000;
     return ajax_request;
 }
 

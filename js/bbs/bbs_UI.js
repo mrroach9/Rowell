@@ -571,9 +571,9 @@ function UI_set_unread() {
     var mailUnread = 
         new Unread('small', $('#mailbox-nav-label').parent(), 6000);
     mailUnread.check = function(self) {
-        // TODO: add new mail check code;
-        self.show(true);
-        console.log('Checked');
+        check_new_mail(function(has_new) {
+            self.show(has_new);
+        });
     };
     mailUnread.schedule();
     bbs_widget['mail-unread'] = mailUnread;
