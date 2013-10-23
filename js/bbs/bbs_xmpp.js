@@ -89,7 +89,7 @@ function xmpp_connect() {
 
 function xmpp_connected() {
     xmpp_show_loading(bbs_string.xmpp_connected);
-    $.xmpp.getRoster(xmpp_roster);
+//    $.xmpp.getRoster(xmpp_roster);
     $.xmpp.setPresence(null);
     console.log("Connected");
     xmpp_user_list = {};
