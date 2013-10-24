@@ -486,9 +486,11 @@
                  $.xmpp.onDisconnect()
              }
              
-             $.xmpp.__lastAjaxRequest.abort();
+            if ($.xmpp.__lastAjaxRequest != null) {
+                 $.xmpp.__lastAjaxRequest.abort();
+            }
 //             $.xmpp.connections = $.xmpp.connections - 1;
-//			 console.log("connection-- = " + $.xmpp.connections + ": networkError");
+//             console.log("connection-- = " + $.xmpp.connections + ": networkError");
              $.xmpp.listening = false;
              $.xmpp.connected = false
              
@@ -509,7 +511,7 @@
                     //
                     this.rid = this.rid+1;
                     xmpp.connections = xmpp.connections + 1;
-					console.log("connection++ = " + xmpp.connections + ": listen");
+                    console.log("connection++ = " + xmpp.connections + ": listen");
                     xmpp.__lastAjaxRequest = $.ajax({
                       type: "POST",
                       url: this.url,
@@ -574,7 +576,9 @@
                     $.xmpp.onError({error: errorThrown, data:textStatus});
                 }
                 console.log("sendCommand() error: " + errorThrown);
-                $.xmpp.__lastAjaxRequest.abort();
+				if ($.xmpp.__lastAjaxRequest != null) {
+					$.xmpp.__lastAjaxRequest.abort();
+				}
                 $.xmpp.connections = $.xmpp.connections - 1;
                 console.log("connection-- = " + $.xmpp.connections + ": sendCommand.error");
                 $.xmpp.listening = false;
