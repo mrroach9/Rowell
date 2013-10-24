@@ -145,7 +145,7 @@
 
                 if(response.find("mechanism:contains('BBSAUTH')").length){
                     xmpp.loginToken(options);
-				}else if(response.find("mechanism:contains('PLAIN')").length){
+                }else if(response.find("mechanism:contains('PLAIN')").length){
                     xmpp.loginPlain(options);
                 }else if(response.find("mechanism:contains('DIGEST-MD5')").length){
                     xmpp.loginDigestMD5(options);
@@ -606,9 +606,9 @@
                     self.onError({error: errorThrown, data:textStatus});
                 }
                 console.log("sendCommand() error: " + errorThrown);
-				if (self.__lastAjaxRequest != null) {
-					self.__lastAjaxRequest.abort();
-				}
+                if (self.__lastAjaxRequest != null) {
+                    self.__lastAjaxRequest.abort();
+                }
                 self.connections = self.connections - 1;
                 if (self.debug) {
                     console.log("connection-- = " + self.connections + ": sendCommand.error");
