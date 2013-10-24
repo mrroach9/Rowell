@@ -115,7 +115,9 @@ function xmpp_iq(iq) {
 }
 
 function xmpp_message(message) {
-    console.log("New message of " + message.from + ": "+message.body);
+    if ($.xmpp.debug) {
+        console.log("New message of " + message.from + ": "+message.body);
+    }
     var user = message.from.split('@')[0];
 //    alert("New message of " + user + ": "+message.body);
     var text = message.from.split('@')[0] + ": " + message.body;
@@ -129,8 +131,10 @@ function xmpp_message(message) {
 
 function xmpp_presence(presence) {
     $('#xmpp-loading').hide();
-    console.log("New presence of " + presence.from + " is " + presence.type +
-            " status: " + presence.status + " show: " + presence.show);
+    if ($.xmpp.debug) {
+        console.log("New presence of " + presence.from + " is " + presence.type +
+                " status: " + presence.status + " show: " + presence.show);
+    }
     var jid = presence.from;
     var jid_split = jid.split('/');
     var resource = "";
@@ -142,7 +146,9 @@ function xmpp_presence(presence) {
     }
     var jid_bare = jid_split[0];
     if (jid_bare == $.xmpp.jid && resource.indexOf($.xmpp.resource) == 0) {
-        console.log("omit presence from myself");
+        if ($.xmpp.debug) {
+            console.log("omit presence from myself");
+        }
         return;
     }
     var name = jid_bare.split('@')[0]
@@ -233,7 +239,9 @@ function xmpp_send(to, message) {
 }
 
 function xmpp_sent(to, msg, data) {
-    console.log("message sent to " + to + ": " + msg);
+    if ($.xmpp.debug) {
+        console.log("message sent to " + to + ": " + msg);
+    }
 //    xmpp_append_msg_log(xmpp_jid_normalize(to), "<" + msg + " sent>");
 }
 
@@ -396,7 +404,9 @@ function xmpp_ui_init() {
 function xmpp_roster(rosters) {
     for (id in rosters) {
         entry = rosters[id];
-        console.log("friend " + id + ": " + entry.name + "(" + entry.jid + ")");
+        if ($.xmpp.debug) {
+            console.log("friend " + id + ": " + entry.name + "(" + entry.jid + ")");
+        }
     }
 }
 
