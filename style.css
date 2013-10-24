@@ -114,6 +114,8 @@ pre.post-view-area {
     margin-bottom: 10px;
     margin-right: 10px; 
     min-height: 380px;
+    font-size: 13px;
+    line-height: 16px;
 }
 
 tr.board-entry,
@@ -250,6 +252,11 @@ p#notification-content {
     width : 560px;
     height : 260px;
     resize : none;
+    word-break: break-all;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+    font-size: 13px;
 }
 
 .write-post-option {
@@ -598,4 +605,41 @@ input[type="file"].fileuploadbox {
 
 .xmpp-show-default {
     background: #5BC0DE;
+}
+
+/* Widgets */
+
+.unread-area {
+  background-color: red;
+  display: block;
+  position: absolute;
+}
+
+.unread-area.small {
+  border-radius: 4px;
+  width: 8px;
+  height: 8px;
+  right: 4px;
+  top: 8px;
+}
+
+.unread-area.medium {
+  border-radius: 5px;
+  width: 10px;
+  height: 10px;
+  right: 5px;
+  top: 10px;
+}
+
+.unread-area.large {
+  border-radius: 6px;
+  width: 12px;
+  height: 12px;
+  right: 6px;
+  top: 12px;
+}
+
+.unread-inside {
+  display: block;
+  position: relative;
 }

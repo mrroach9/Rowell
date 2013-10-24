@@ -389,6 +389,11 @@
                                 <span class='left-pad-text no-add-attach-area hide'>
                                     不支持附件
                                 </span>
+                                <span class="left-pad-text load-sketch-area hide">
+                                    <a class='' href='javascript:void(0)' id='load-sketch-link'>
+                                        载入草稿
+                                    </a>
+                                </span>
                             </div>
                         </div>
                         <div class='attach-area hide' id='fileupload'>
@@ -436,7 +441,13 @@
             <p>按常用ID字母序排列。</p>
             <ul>
                 <li>
+                    <a href="https://github.com/askzy" target="_blank">askzy</a>
+                </li>
+                <li>
                     <a href="https://github.com/BYVoid" target="_blank">BYVoid</a>
+                </li>
+                <li>
+                    <a href="https://github.com/HenryHu" target="_blank">henryhu</a>
                 </li>
                 <li>
                     <a href="https://github.com/hs3180" target="_blank">huangs</a>
@@ -521,12 +532,10 @@
     <script src='./js/bbs/bbs_utility.js'></script>
     <script src='./js/bbs/bbs_global.js'></script>
     <script src='./js/bbs/bbs_xmpp.js'></script>
+    <script src='./js/bbs/bbs_unread.js'></script>
 
     <script type='text/javascript'>
             $(document).ready(function(){
-                UI_register_func();
-                UI_register_hotkeys();
-                UI_set_fileupload();
                 UI_init();
                 UI_retrieve_session();
             });

@@ -37,7 +37,7 @@ function getTimeStr(sec) {
 function setAjaxParam(ajax_request) {
     ajax_request.cache = false;
     ajax_request.dataType = 'text';
-    ajax_request.timeout = 5000;
+    ajax_request.timeout = 6000;
     return ajax_request;
 }
 
@@ -58,10 +58,12 @@ function getQueryString() {
 
 function ansi2html(content) {
     // add color to reference
-    refertitle = new RegExp('\n(【 .* 】)', 'g');
-    refercontent = new RegExp('\n(\: .*)', 'g');
+    var refertitle = new RegExp('\n(【 .* 】)', 'g');
+    var refercontent = new RegExp('\n(\: .*)', 'g');
+    var refercontent2 = new RegExp('\n(> .*)', 'g');
     content = content.replace(refertitle, '\n\u001b[1;33m$1\u001b[m');
     content = content.replace(refercontent, '\n\u001b[36m$1\u001b[m');
+    content = content.replace(refercontent2, '\n\u001b[36m$1\u001b[m');
 
     content = html_encode(content);
 
@@ -70,9 +72,9 @@ function ansi2html(content) {
     content = filter.toHtml(content);
 
     // set the content to be fixed-width
-    content = '<tt>' + content + '</tt>';
+    content = '<span>' + content + '</span>';
     monospacett = new RegExp('\n', 'g');
-    content = content.replace(monospacett, '</tt>\n<tt>');
+    content = content.replace(monospacett, '</span>\n<span>');
 
     return content;
 }

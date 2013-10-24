@@ -4,9 +4,9 @@ var bbs_string = {
     favboard_name       :   '收藏夹',
     allboard_name       :   '所有版面',
     mailbox_name        :   '站内信',
-    title               :   '9# BBS - Rowell v0.3.0',
-    version             :   '0.3.0',
-    send_source         :   '[Sent from Rowell v0.3.0]',
+    title               :   '9# BBS - Rowell v0.3.1',
+    version             :   '0.3.1',
+    send_source         :   '[Sent from Rowell v0.3.1]',
     unimpltd_title      :   '矮油',
     unimpltd_text       :   '此功能尚未实现，我们将在后续版本中添加，敬请谅解。',
     entry_folder        :   '[目录]',
@@ -31,14 +31,14 @@ var bbs_string = {
 
 var bbs_query = {
     server              :   'https://bbs.net9.org:8080',
-    client_id           :   'rowell-henryhu',
-    client_secret       :   '6c0b3e673516de3b',
+    client_id           :   0,
+    client_secret       :   0,
     xmpp_domain         :   'bbs.net9.org',
     bosh_url            :   'http://www.henryhu.net:5280/http-bind',
     xmpp_resource       :   'Rowell',
     xmpp_wait           :   300,
     auth : {
-        auth            :   '/auth/auth?response_type=token&client_id=',
+        auth            :   '/auth/auth?response_type=token',
         token           :   '/auth/token',
         session_verify  :   '/session/verify'
     },
@@ -66,7 +66,9 @@ var bbs_query = {
     }
 };
 
-bbs_query.auth.auth += bbs_query.client_id + '&redirect_uri=' + encodeURIComponent(website_address);
+bbs_query.auth.auth += '&client_id=' + bbs_query.client_id.toString()
+                     + '&client_secret=' + bbs_query.client_secret.toString()
+                     + '&redirect_uri=' + encodeURIComponent(website_address);
 
 var bbs_type = {
     path : {
@@ -116,6 +118,10 @@ var bbs_type = {
     cookie : {
         session     :   'bbs_session',
         error_session   :   'SESSION_ERROR'
+    },
+    storage : {
+        sketch      :   'bbs_recent_sketch',
+        sketch_title:   'bbs_recent_sketch_title'
     }
 };
 

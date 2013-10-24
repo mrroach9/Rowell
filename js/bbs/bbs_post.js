@@ -167,6 +167,11 @@ function getQuote(mode, callback_func){
 }
 
 function writePost(post_info, callback_func){
+    // Save sketch before posting. If the post is published successfully, 
+    // the sketch will be removed.
+    localStorage[bbs_type.storage.sketch] = post_info.content;
+    localStorage[bbs_type.storage.sketch_title] = post_info.title;
+
     var data = {
         session : bbs_session,
         title : post_info.title,
@@ -212,11 +217,11 @@ function writePost(post_info, callback_func){
 
     var resp = $.ajax(request_settings);
     resp.success(function(response){
-        var msg = {
-            type : 'info',
-            content : 'post_publish_success'
-        };
-        UI_hide_backdrop();
+        // Remove sketch
+        localStorage.removeItem(bbs_type.storage.sketch);
+        localStorage.removeItem(bbs_type.storage.sketch_title);
+
+        // Load board.
         if (post_info.type == bbs_type.write_post.new) {
             view_board(boardPathTerm.name, -1, -1, callback_func, 'click', popNum);
         } else {
@@ -227,6 +232,14 @@ function writePost(post_info, callback_func){
                 view_board(boardPathTerm.name, -1, currentId + 3, callback_func, 'click', popNum);
             }
         }
+
+        // Update UI and notification
+        var msg = {
+            type : 'info',
+            content : 'post_publish_success'
+        };
+        UI_hide_backdrop();
+
         UI_notify_update(msg);
     });
 
