@@ -80,6 +80,7 @@
         _jsTimeout: null, //Used to save the javascript timeout
         _timeoutMilis: 500,
         __lastAjaxRequest: null,
+        errorCount: 0,
         
         /**
         * Connect to the server
@@ -221,7 +222,7 @@
             xmpp.rid = xmpp.rid + 1;
             this.listening = true;
             xmpp.connections = xmpp.connections + 1;
-			console.log("connection++ = " + xmpp.connections + ": disconnectSync");
+            console.log("connection++ = " + xmpp.connections + ": disconnectSync");
             var msg = "<body rid='"+ this.rid +"' xmlns='http://jabber.org/protocol/httpbind' sid='"+ this.sid +"' type='terminate'><presence xmlns='jabber:client' type='unavailable'/></body>";
             $.ajax({
                 type: 'POST',
@@ -229,7 +230,7 @@
                 data: msg,
                 success: function(data){
                     xmpp.connections = xmpp.connections - 1;
-					console.log("connection-- = " + xmpp.connections + ": disconnectSync");
+                    console.log("connection-- = " + xmpp.connections + ": disconnectSync");
                     xmpp.messageHandler(data);
                     xmpp.listening = false;
                     //Do not listen anymore!
@@ -254,11 +255,11 @@
             xmpp.rid = xmpp.rid + 1;
             this.listening = true;
             xmpp.connections = xmpp.connections + 1;
-			console.log("connection++ = " + xmpp.connections + ": disconnect");
+            console.log("connection++ = " + xmpp.connections + ": disconnect");
             var msg = "<body rid='"+ this.rid +"' xmlns='http://jabber.org/protocol/httpbind' sid='"+ this.sid +"' type='terminate'><presence xmlns='jabber:client' type='unavailable'/></body>";
             $.post(this.url,msg,function(data){
                 xmpp.connections = xmpp.connections - 1;
-				console.log("connection-- = " + xmpp.connections + ": disconnect");
+                console.log("connection-- = " + xmpp.connections + ": disconnect");
                 xmpp.messageHandler(data);
                 xmpp.listening = false;
                 //Do not listen anymore!
@@ -515,7 +516,7 @@
                       data: "<body rid='"+this.rid+"' xmlns='http://jabber.org/protocol/httpbind' sid='"+this.sid+"'></body>",
                       success: function(data){
                             xmpp.connections = xmpp.connections - 1;
-							console.log("connection-- = " + xmpp.connections + ": listen.success");
+                            console.log("connection-- = " + xmpp.connections + ": listen.success");
                             xmpp.listening = false;
                             var body = $(xmpp.fixBody(data));
                             //When timeout the connections are 0
@@ -535,9 +536,10 @@
                             console.log("listen() error: " + errorThrown);
                             $.xmpp.__lastAjaxRequest.abort();
                             $.xmpp.connections = $.xmpp.connections - 1;
-							console.log("connection-- = " + $.xmpp.connections + ": listen.error");
+                            console.log("connection-- = " + $.xmpp.connections + ": listen.error");
                             $.xmpp.listening = false;
-                            $.xmpp.connected = false
+                            $.xmpp.connected = false;
+                            $.xmpp.errorCount = $.xmpp.errorCount + 1;
                       },
                       dataType: 'text'
                     });
@@ -556,12 +558,12 @@
             this.rid = this.rid + 1;
             this.listening = true;
             this.connections = this.connections + 1;
-			console.log("connection++ = " + this.connections + ": sendCommand");
+            console.log("connection++ = " + this.connections + ": sendCommand");
             var command = "<body rid='"+this.rid+"' xmlns='http://jabber.org/protocol/httpbind' sid='"+this.sid+"'>"+ rawCommand+"</body>";
 
             $.post(self.url,command,function(data){
                 self.connections = self.connections - 1;
-				console.log("connection-- = " + $.xmpp.connections + ": sendCommand");
+                console.log("connection-- = " + $.xmpp.connections + ": sendCommand");
                 self.messageHandler(data);
                 self.listening = false;
                 self.listen();
@@ -576,7 +578,8 @@
                 $.xmpp.connections = $.xmpp.connections - 1;
                 console.log("connection-- = " + $.xmpp.connections + ": sendCommand.error");
                 $.xmpp.listening = false;
-                $.xmpp.connected = false
+                $.xmpp.connected = false;
+                $.xmpp.errorCount = $.xmpp.errorCount + 1;
             });
         },
 
