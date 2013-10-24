@@ -220,7 +220,10 @@ function xmpp_error(error) {
     xmpp_user_list = {}
     $('#xmpp-user-list').empty();
     xmpp_show_loading(bbs_string.xmpp_error);
-    setTimeout(function() { xmpp_connect(); }, 5000);
+    setTimeout(function() {
+        console.log("xmpp error. reconnecting...");
+        xmpp_connect();
+    }, 5000);
 }
 
 function xmpp_send(to, message) {

@@ -486,8 +486,8 @@
              }
              
              $.xmpp.__lastAjaxRequest.abort();
-             $.xmpp.connections = $.xmpp.connections - 1;
-			 console.log("connection-- = " + $.xmpp.connections + ": networkError");
+//             $.xmpp.connections = $.xmpp.connections - 1;
+//			 console.log("connection-- = " + $.xmpp.connections + ": networkError");
              $.xmpp.listening = false;
              $.xmpp.connected = false
              
@@ -534,8 +534,8 @@
                             }
                             console.log("listen() error: " + errorThrown);
                             $.xmpp.__lastAjaxRequest.abort();
-							console.log("connection-- = " + $.xmpp.connections + ": listen.error");
                             $.xmpp.connections = $.xmpp.connections - 1;
+							console.log("connection-- = " + $.xmpp.connections + ": listen.error");
                             $.xmpp.listening = false;
                             $.xmpp.connected = false
                       },
@@ -561,13 +561,23 @@
 
             $.post(self.url,command,function(data){
                 self.connections = self.connections - 1;
-				console.log("connection-- = " + this.connections + ": sendCommand");
+				console.log("connection-- = " + $.xmpp.connections + ": sendCommand");
                 self.messageHandler(data);
                 self.listening = false;
                 self.listen();
                 if(callback != null)
                         callback(data);
-            }, 'text');
+            }, 'text').fail(function(XMLHttpRequest, textStatus, errorThrown) {
+                if($.xmpp.onError != null){
+                    $.xmpp.onError({error: errorThrown, data:textStatus});
+                }
+                console.log("sendCommand() error: " + errorThrown);
+                $.xmpp.__lastAjaxRequest.abort();
+                $.xmpp.connections = $.xmpp.connections - 1;
+                console.log("connection-- = " + $.xmpp.connections + ": sendCommand.error");
+                $.xmpp.listening = false;
+                $.xmpp.connected = false
+            });
         },
 
         /**
