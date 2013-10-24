@@ -1,4 +1,5 @@
 /*
+ *      vim: expandtab
  *      jquery.xmpp.js
  *
  *      Copyright 2011 Alvaro Garcia <maxpowel@gmail.com>
@@ -206,10 +207,11 @@
 
             this._timeoutMilis = xmpp.wait * 1000;
 
-            if(options.onConnect != null)
-                xmpp.connected = true;
+            xmpp.connected = true;
+            if(options.onConnect != null) {
+                options.onConnect();
+            }
 
-            options.onConnect();
             xmpp.listen();
         },
         
@@ -364,10 +366,11 @@
                                         xmpp.rid++;
                                         var msg = "<body rid='"+xmpp.rid+"' xmlns='http://jabber.org/protocol/httpbind' sid='"+xmpp.sid+"'><iq type='set' id='_session_auth_2' xmlns='jabber:client'><session xmlns='urn:ietf:params:xml:ns:xmpp-session'/></iq></body>";
                                         $.post(this.url,msg,function(data){
-                                            if(options.onConnect != null)
-                                                xmpp.connected = true;
+                                            xmpp.connected = true;
 
-                                            options.onConnect(data);
+                                            if(options.onConnect != null) {
+                                                options.onConnect(data);
+                                            }
                                             xmpp.listen();
                                         }, 'text');
                                     }, 'text');
@@ -419,10 +422,11 @@
                             xmpp.rid++;
                             text = "<body rid='"+xmpp.rid+"' xmlns='http://jabber.org/protocol/httpbind' sid='"+xmpp.sid+"'><iq type='set' id='_session_auth_2' xmlns='jabber:client'><session xmlns='urn:ietf:params:xml:ns:xmpp-session'/></iq></body>";
                             $.post(url,text,function(data){
-                                if(options.onConnect != null)
-                                    xmpp.connected = true;
+                                xmpp.connected = true;
 
-                                options.onConnect(data);
+                                if(options.onConnect != null) {
+                                    options.onConnect(data);
+                                }
                                 xmpp.listen();
                             }, 'text');
                         }, 'text');
@@ -436,7 +440,7 @@
 
         loginToken: function(options){
             this.rid++;
-			var domain = options.domain;
+            var domain = options.domain;
             var xmpp = this;
             var text = "<body rid='"+this.rid+"' xmlns='http://jabber.org/protocol/httpbind' sid='"+this.sid+"'><auth xmlns='urn:ietf:params:xml:ns:xmpp-sasl' mechanism='BBSAUTH'>"+Base64.encode(options.token)+"</auth></body>";
             var url = this.url;
@@ -451,16 +455,16 @@
                         text ="<body rid='"+xmpp.rid+"' xmlns='http://jabber.org/protocol/httpbind' sid='"+xmpp.sid+"'><iq type='set' id='_bind_auth_2' xmlns='jabber:client'><bind xmlns='urn:ietf:params:xml:ns:xmpp-bind'><resource>" + xmpp.resource +"</resource></bind></iq></body>";
                         $.post(url,text,function(data){
                             //xmpp.messageHandler(data);
-							var response = $(xmpp.fixBody(data));
-							options.jid = response.find("jid").text().split('/')[0];
-							$.xmpp.jid = options.jid;
+                            var response = $(xmpp.fixBody(data));
+                            options.jid = response.find("jid").text().split('/')[0];
+                            $.xmpp.jid = options.jid;
                             xmpp.rid++;
                             text = "<body rid='"+xmpp.rid+"' xmlns='http://jabber.org/protocol/httpbind' sid='"+xmpp.sid+"'><iq type='set' id='_session_auth_2' xmlns='jabber:client'><session xmlns='urn:ietf:params:xml:ns:xmpp-session'/></iq></body>";
                             $.post(url,text,function(data){
-                                if(options.onConnect != null)
-                                    xmpp.connected = true;
-
-                                options.onConnect(data);
+                                xmpp.connected = true;
+                                if(options.onConnect != null) {
+                                    options.onConnect(data);
+                                }
                                 xmpp.listen();
                             }, 'text');
                         }, 'text');
