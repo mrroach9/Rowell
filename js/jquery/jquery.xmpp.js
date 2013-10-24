@@ -505,11 +505,11 @@
              if($.xmpp.onDisconnect != null){
                  $.xmpp.onDisconnect()
              }
-             
-            if ($.xmpp.__lastAjaxRequest != null) {
+
+             if ($.xmpp.__lastAjaxRequest != null) {
                  $.xmpp.__lastAjaxRequest.abort();
-            }
-            // already reduced in listen.error
+             }
+             // already reduced in listen.error
 //             $.xmpp.connections = $.xmpp.connections - 1;
 //             console.log("connection-- = " + $.xmpp.connections + ": networkError");
              $.xmpp.listening = false;
