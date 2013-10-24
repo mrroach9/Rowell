@@ -2,7 +2,65 @@
 
 body {
     padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+    /* Overriding Bootstrap */
+    line-height:18px;
 }
+
+/* Overriding Bootstrap */
+.alert {
+    font-size: 13px;
+    line-height: 16px;
+}
+
+.btn-group>.btn-large {
+    font-size: 15px;
+}
+
+.btn-large {
+    padding: 9px 14px;
+    font-size: 15px;
+    line-height: 18px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.popover-title {
+    font: bold 16px/20px helvetica;
+}
+.popover {
+    border: 1px #CCC solid;
+}
+
+h1 {
+    font-size: 30px;
+    line-height: 36px;
+    margin: 5px 0;
+}
+
+h2 {
+    font-size: 24px;
+    line-height: 36px;
+}
+
+h3 {
+    font-size: 18px;
+    line-height: 27px;
+}
+
+.form-horizontal input {
+  vertical-align: baseline;
+}
+
+.form-horizontal {
+  display: block;
+}
+
+.form-horizontal .control-group {
+  vertical-align: top;
+}
+
+/* End of Bootstrap Overriding */
 
 .container,
 .navbar-fixed-top .container,
@@ -114,8 +172,9 @@ pre.post-view-area {
     margin-bottom: 10px;
     margin-right: 10px; 
     min-height: 380px;
-    font-size: 13px;
-    line-height: 16px;
+    /* Overriding Bootstrap */
+    font-size: 14px;
+    line-height: 18px;
 }
 
 tr.board-entry,
@@ -268,15 +327,16 @@ p#notification-content {
     width : 30px;
 }
 
-
 #write-post-panel {
-    width: 668px;
+  width: 678px;
+  top: 9%;
+  left: 48%;
 }
 
 #write-post-panel .modal-body {
-    height : 408px;
-    max-height : 408px;
-    width : 638px;
+    height : 420px;
+    max-height : 420px;
+    width : 645px;
 }
 
 .attach-area {
@@ -619,24 +679,24 @@ input[type="file"].fileuploadbox {
   border-radius: 4px;
   width: 8px;
   height: 8px;
-  right: 4px;
-  top: 8px;
+  right: 8px;
+  top: 10px;
 }
 
 .unread-area.medium {
   border-radius: 5px;
   width: 10px;
   height: 10px;
-  right: 5px;
-  top: 10px;
+  right: 10px;
+  top: 13px;
 }
 
 .unread-area.large {
   border-radius: 6px;
   width: 12px;
   height: 12px;
-  right: 6px;
-  top: 12px;
+  right: 12px;
+  top: 16px;
 }
 
 .unread-inside {

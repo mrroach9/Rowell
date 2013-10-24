@@ -610,6 +610,7 @@ function UI_login_finished(result){
         $('#unlogged-navbar').hide();
         $('#unlogged-panel').hide();
         $('#logged-navbar').show();
+        $('#logged-panel').show();
 
         UI_set_unread();
 

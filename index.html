@@ -9,8 +9,8 @@
     <meta name='description' content=''>
     <meta name='author' content=''>
 
-    <link href='./css/bootstrap.css' rel='stylesheet'>
-    <link href='style.css' rel='stylesheet'>
+    <link href='./css/bootstrap.min.css' rel='stylesheet'>
+    <link href='./css/style.css' rel='stylesheet'>
 
     <link rel='shortcut icon' href='favicon.ico'>
 
@@ -30,7 +30,7 @@
 
 <body>
     <!-- Navigation bars for logged-in version and unlogged-in version -->
-    <div class='navbar navbar-fixed-top' id='unlogged-navbar'>
+    <div class='navbar navbar-fixed-top navbar-inverse' id='unlogged-navbar'>
         <div class='navbar-inner'>
             <div class='container'>
                 <div class='brand'>
@@ -48,7 +48,7 @@
         </div>
     </div>
 
-    <div class='navbar navbar-fixed-top hide' id='logged-navbar'>
+    <div class='navbar navbar-fixed-top navbar-inverse hide' id='logged-navbar'>
       <div class='navbar-inner'>
         <div class='container'>
           <div class='brand'>
@@ -255,10 +255,10 @@
                     <thead class='board-table-head'>
                         <th width='60px'>帖数</th>
                         <th width='42px'>未读</th>
-                        <th width='160px'>版名</th>
+                        <th width='150px'>版名</th>
                         <th>版面中文名</th>
-                        <th width='30px'>在线</th>
-                        <th width='200px'>版主</th>
+                        <th width='32px'>在线</th>
+                        <th width='220px'>版主</th>
                     </thead>
                     <tbody id='boardlist-table-body'>
                     </tbody>
