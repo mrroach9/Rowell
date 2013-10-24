@@ -461,6 +461,13 @@
                             xmpp.rid++;
                             text = "<body rid='"+xmpp.rid+"' xmlns='http://jabber.org/protocol/httpbind' sid='"+xmpp.sid+"'><iq type='set' id='_session_auth_2' xmlns='jabber:client'><session xmlns='urn:ietf:params:xml:ns:xmpp-session'/></iq></body>";
                             $.post(url,text,function(data){
+                                var resp = $(xmpp.fixBody(data));
+                                if (resp.attr('type') == 'terminate') {
+                                    if (options.onError != null) {
+                                        options.onError({error: "Server terminated connection: " + resp.attr('condition'), data: data});
+                                    }
+                                    return;
+                                }
                                 xmpp.connected = true;
                                 if(options.onConnect != null) {
                                     options.onConnect(data);
@@ -470,8 +477,8 @@
                         }, 'text');
                     }, 'text');
                 }else{
-                            if(options.onError != null)
-                                options.onError({error: "Invalid credentials", data:data});
+                    if(options.onError != null)
+                        options.onError({error: "Invalid credentials", data:data});
                 }
             }, 'text');
         },
