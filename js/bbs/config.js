@@ -170,8 +170,6 @@ var bbs_settings = {
     max_file_size   :   2097151
 };
 
-var accounts9_session_cookie = 'accounts9_session';
-
 var accounts9 = {
     server      : 'https://account.net9.org',
     client_id   : 'AicTWsI7iS-ZD53Z4AI8ev2PhjU',
@@ -181,7 +179,8 @@ var accounts9 = {
     access_token    : '/api/access_token',
     userinfo        : '/api/userinfo',
     bbsuserinfo     : '/api/bbsuserinfo',
+    session_cookie  : 'accounts9_session'
 };
 
-accounts9.auth += '?redirect_uri=' + encodeURIComponent(website_address + '/login_accounts9.html');
+accounts9.auth += '?redirect_uri=' + encodeURIComponent(website_address);
 accounts9.auth += '&client_id=' + accounts9.client_id;

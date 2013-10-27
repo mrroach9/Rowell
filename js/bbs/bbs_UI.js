@@ -555,18 +555,6 @@ function UI_show_backdrop(){
     $('#global-backdrop').show();
 }
 
-function UI_retrieve_session(){
-    bbs_session = $.url().param('access_token');
-    if (typeof(bbs_session) == 'undefined') {
-        bbs_session = $.cookie(bbs_type.cookie.session);
-        if (bbs_session == null || typeof(bbs_session) == 'undefined' ||
-            bbs_session == bbs_type.cookie.error_session) {
-            bbs_session = null;
-        }       
-    }
-    verifySession(bbs_session, true, UI_login_finished);
-}
-
 function UI_set_unread() {
     var mailUnread = 
         new Unread('small', $('#mailbox-nav-label').parent(), 30000);
@@ -586,9 +574,8 @@ function UI_init() {
     UI_register_hotkeys();
     UI_set_fileupload();
 
-    $('#login-path').attr('href', bbs_query.server + bbs_query.auth.auth);
-    //$('a#bbs-login-path').attr('href', bbs_query.server + bbs_query.auth.auth);
-    //$('a#accounts9-login-path').attr('href', accounts9.server + accounts9.auth);
+    $('a#login-bbs').attr('href', bbs_query.server + bbs_query.auth.auth);
+    $('a#login-accounts9').attr('href', accounts9.server + accounts9.auth);
     $(document).attr("title", bbs_string.title);
 
     $('.unimplemented').popover({
@@ -627,6 +614,7 @@ function UI_login_finished(result){
 
 function UI_logout(){
     removeSessionCookie();
+    Accounts9.removeSessionCookie();
     bbs_topmost_stack.splice(0);
     $('#unlogged-navbar').show();
     $('#unlogged-panel').show();

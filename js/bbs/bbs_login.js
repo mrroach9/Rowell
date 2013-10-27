@@ -85,3 +85,49 @@ function setSessionCookie(session, update){
 function removeSessionCookie(){
     $.cookie(bbs_type.cookie.session, null);
 }
+
+function retrieve_session(){
+    // check if bbs session is in query string in the URL or stored in cookie. If so,
+    // verify the session and finish login.
+    bbs_session = $.url().param('access_token') || $.cookie(bbs_type.cookie.session);
+    if (bbs_session) {
+        verifySession(bbs_session, true, UI_login_finished);
+        return;
+    }
+
+    // If no bbs session code found, check if there is Accounts9 code or session
+    // in URL or cookie, if so, get bbs session code from accounts9 API and
+    // finish login.
+    var getToken = function (err, accessToken) {
+        if (err){
+            verifySession(null, true, UI_login_finished);
+            return;
+        }
+        $.cookie(Accounts9.session_cookie, accessToken, {expires: 14});
+        Accounts9.getBBSUser(accessToken, function (err, bbsUser) {
+            if (err) {
+                verifySession(null, true, UI_login_finished);
+                return;
+            }
+            if (!bbsUser) {
+                location.href = accounts9.server + accounts9.connect;
+            }
+            bbs_session = bbsUser.accessToken;
+            verifySession(bbs_session, true, UI_login_finished);
+        });       
+    }
+    var accounts9_code = $.url().param('code');
+    if (accounts9_code) {
+        Accounts9.getAccessToken(accounts9_code, getToken);
+        return;
+    }
+
+    var accounts9_access_token = $.cookie(Accounts9.session_cookie);
+    if (accounts9_access_token) {
+        getToken(null, accounts9_access_token);
+        return;
+    }
+
+    // If none is found, finished the login anyway.
+    verifySession(bbs_session, true, UI_login_finished);
+}
