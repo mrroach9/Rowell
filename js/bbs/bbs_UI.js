@@ -24,25 +24,21 @@ function UI_register_func(){
     $(document).on('click', '.mail-entry', function(){
         UI_set_loading();
         view_mail($(this).attr('mail-id'), UI_update, 'click');
-        location.href = '#';
     });
     
     $(document).on('click', '.board-entry', function(){
         UI_set_loading();
         view_board($(this).attr('board-name'), -1, -1, UI_update, 'click');
-        location.href = '#';
     });
 
     $(document).on('click', '.folder-entry', function(){
         UI_set_loading();
         view_boardlist(bbs_type.entry.folder, $(this).attr('index'), $(this).attr('folder-name'), UI_update);
-        location.href='#';
     });
 
     $(document).on('click', '.post-entry', function() {
         UI_set_loading();
         view_post($(this).attr('post-id'), $(this).attr('type'), UI_update, 'click');
-        location.href='#';
     });
 
     $(document).on('click', '.path-term', UI_path_click);
@@ -133,10 +129,6 @@ function UI_register_func_navigation() {
     $('#board-table .prev-page-button').click(function(){
         UI_set_loading();
         view_board_prev_page(UI_update);
-    });
-
-    $('.button-bar button').click(function() {
-        location.href = '#';
     });
 
     $('.jump-to-post-button').click(function(){
@@ -666,6 +658,7 @@ function UI_update(){
     UI_hide_loading();
     $('#logged-panel').show();
     xmpp_onresize();
+    location.href = '#';
 }
 
 function UI_notify_update(msg){
@@ -692,7 +685,7 @@ function UI_subnavbar_update(path) {
     var arrow = '<li><i class="icon-chevron-right right-arrow" id="boardlist-board-nav-arrow"></i></li>';
     var d = path.depth();
     for (var i = 0; i < d; ++i) {
-        var term = '<li><a href="#" class="path-term" path-id=' + i + '>'
+        var term = '<li><a href="javascript:void(0)" class="path-term" path-id=' + i + '>'
                          + path.pathList[i].name
                          + '</a></li>';
         if (i != 0) {
