@@ -19,28 +19,6 @@ function UI_register_func(){
         view_mailbox(bbs_type.entry.mailbox, -1, -1, UI_update, 'click', 0);
     });
 
-    // In-view clicking navigations
-
-    $(document).on('click', '.mail-entry', function(){
-        UI_set_loading();
-        view_mail($(this).attr('mail-id'), UI_update, 'click');
-    });
-    
-    $(document).on('click', '.board-entry', function(){
-        UI_set_loading();
-        view_board($(this).attr('board-name'), -1, -1, UI_update, 'click');
-    });
-
-    $(document).on('click', '.folder-entry', function(){
-        UI_set_loading();
-        view_boardlist(bbs_type.entry.folder, $(this).attr('index'), $(this).attr('folder-name'), UI_update);
-    });
-
-    $(document).on('click', '.post-entry', function() {
-        UI_set_loading();
-        view_post($(this).attr('post-id'), $(this).attr('type'), UI_update, 'click');
-    });
-
     $(document).on('click', '.path-term', UI_path_click);
 
     // Notifications and contributer lists
@@ -331,7 +309,7 @@ function UI_set_fileupload() {
 function UI_start_upload(files, node) {
     for (var i = 0; i < files.length; ++i) {
         var file = files[i];
-        var fileNode = UI_generate_uploading_file_entry(file);
+        var fileNode = Widgets.uploadFile(file);
 
         node.children('.file-list').append(fileNode);
         fileNode.find('.close').click(function() {
@@ -719,7 +697,7 @@ function UI_maindiv_update(pathTerm) {
 
         $('#mailbox-table-body').empty();
         for (var i = 0; i < pathTerm.data.length; ++i) {
-            var entryNode = UI_generate_mail_entry(pathTerm.data[i], pathTerm.type);
+            var entryNode = Widgets.mailEntry(pathTerm.data[i], pathTerm.type);
             $('#mailbox-table-body').append(entryNode);
         }
         $('.jump-to-mail-input').attr('value', '');
@@ -732,7 +710,7 @@ function UI_maindiv_update(pathTerm) {
 
         $('#boardlist-table-body').empty();
         for (var i = 0; i < pathTerm.data.length; ++i) {
-            var entryNode = UI_generate_board_entry(pathTerm.data[i], pathTerm.type);
+            var entryNode = Widgets.boardEntry(pathTerm.data[i], pathTerm.type);
             $('#boardlist-table-body').append(entryNode);
         }
         $('#boardlist-table').show();
@@ -742,11 +720,11 @@ function UI_maindiv_update(pathTerm) {
         $('#board-table-body').empty();
 
         for (var i = 0; i < pathTerm.data.length; ++i) {
-            var entryNode = UI_generate_post_entry(pathTerm.data[i], false);
+            var entryNode = Widgets.postEntry(pathTerm.data[i], false);
             $('#board-table-body').append(entryNode);
         }
         for (var i = 0; i < bbs_sticky.posts.length; ++i) {
-            var entryNode = UI_generate_post_entry(bbs_sticky.posts[i], true);
+            var entryNode = Widgets.postEntry(bbs_sticky.posts[i], true);
             $('#board-table-body').append(entryNode);
         }
 
@@ -767,8 +745,8 @@ function UI_maindiv_update(pathTerm) {
         $('#post-view-area').empty();
         var content = linkify(pathTerm.data.content);
         $('#post-view-area').append(content)
-                            .append(UI_generate_pic_attach_code(pathTerm.data))
-                            .append(UI_generate_other_attach_code(pathTerm.data));
+                            .append(Widgets.picAttach(pathTerm.data))
+                            .append(Widgets.miscAttach(pathTerm.data));
         $('#post-view').show();
         bbs_topmost_stack.push('#post-view');
 
@@ -779,161 +757,6 @@ function UI_maindiv_update(pathTerm) {
         $('#mail-view').show();
         bbs_topmost_stack.push('#mail-view');
     }
-}      
-
-function UI_generate_mail_entry(entry, type){
-    var newPostNode = $('<span>').addClass('badge badge-important new-post-mark').append('new');
-    if (type != bbs_type.path.mailbox) {
-        return '';
-    }
-    var entryNode = $('<tr>').attr('href', '').addClass('mail-entry').attr('mail-id', entry.id)
-                    .append($('<td>').append(entry.id))
-                    .append($('<td>').addClass('board-table-center')
-                            .append((typeof(entry.read) == 'undefined' || entry.read) ? '' : newPostNode))
-                    .append($('<td>').append(entry.owner))
-                    .append($('<td>').append(entry.posttime))
-                    .append($('<td>').append(entry.title));
-    return entryNode;
-}
-
-function UI_generate_board_entry(entry, type){
-    var newPostNode = $('<span>').addClass('badge badge-important new-post-mark').append('new');
-    var entryNode = $('<tr>').attr('href', '');
-
-    if (type == bbs_type.path.allboard) {
-        entryNode.addClass('board-entry').attr('board-name', entry.name)
-                 .append($('<td>').append(entry.total))
-                 .append($('<td>').addClass('board-table-center')
-                         .append(((entry.isdir || entry.read) ? '' : newPostNode)))
-                 .append($('<td>').append(entry.name))
-                 .append($('<td>').append(entry.desc))
-                 .append($('<td>').append(entry.currentusers))
-                 .append($('<td>').append(entry.BM));
-    } else if (entry.type == bbs_type.entry.folder) {
-        entryNode.addClass('folder-entry').attr('folder-name', entry.name).attr('index', entry.index)
-                 .append($('<td>'))
-                 .append($('<td>').addClass('board-table-center'))
-                 .append($('<td>').append(bbs_string.entry_folder))
-                 .append($('<td>').append(entry.name))
-                 .append($('<td>')).append($('<td>'));
-    } else if (entry.type == bbs_type.entry.board) {
-        entryNode.addClass('board-entry').attr('board-name', entry.binfo.name)
-                 .append($('<td>').append(entry.binfo.total))
-                 .append($('<td>').addClass('board-table-center')
-                         .append(((typeof(entry.binfo.read) == 'undefined' || entry.binfo.read) 
-                                  ? '' : newPostNode)))
-                 .append($('<td>').append(entry.binfo.name))
-                 .append($('<td>').append(entry.binfo.desc))
-                 .append($('<td>').append(entry.binfo.currentusers))
-                 .append($('<td>').append(entry.binfo.BM));
-    } else {
-        return '';
-    }
-    return entryNode;
-}
-
-function UI_generate_post_entry(entry, is_sticky){
-    var attachLogoNode = $('<img>').attr('src', './img/attach-small.png')
-                                 .addClass('attach-logo');
-
-    var class_name = 'post-entry';
-    var mNode = $('<span>').addClass('badge badge-important post-mark post-mark-m').append('m');
-    var gNode = $('<span>').addClass('badge badge-important post-mark post-mark-g').append('g');
-    var newPostNode = $('<span>').addClass('badge badge-important new-post-mark').append('new');
-
-    var markM = false;
-    var markG = false;
-    if ($.inArray(bbs_type.post_mark.m, entry.flags) >= 0) {
-        class_name = 'post-entry marked-post-entry';
-        markM = true;
-    }
-    if ($.inArray(bbs_type.post_mark.g, entry.flags) >= 0) {
-        class_name = 'post-entry marked-post-entry';
-        markG = true;
-    }
-
-    var entryNode = $('<tr>').attr('href', '').addClass(class_name)
-                             .attr('post-id', entry.id)
-                             .attr('type', 
-                                   (is_sticky ? bbs_type.post_list_mode.sticky 
-                                              : bbs_type.post_list_mode.normal))
-                             .append($('<td>').append((is_sticky ? bbs_string.entry_sticky : entry.id)))
-                             .append($('<td>').addClass('board-table-center').append(
-                                     (typeof(entry.read) == 'undefined' || entry.read) ? '' : newPostNode))
-                             .append($('<td>').append(entry.owner))
-                             .append($('<td>').append(entry.posttime))
-                             .append($('<td>').append(entry.title)
-                                              .append(entry.attachment > 0 ? attachLogoNode : '')
-                                              .append(markM ? mNode : '')
-                                              .append(markG ? gNode : ''));
-    if (is_sticky) {
-        entryNode.addClass('sticky');
-    }
-    return entryNode;
-}
-
-function UI_generate_pic_attach_code(data) {
-    if (data.picattach.length <= 0) {
-        return '';
-    }
-    var attachDiv = $('<div>').addClass('pic-attach-area').append(bbs_string.attach_pic_text);
-    var attachList = $('<ul>').addClass('thumbnails');
-    
-    var attach_link = data.attachlink + '&a=';
-    
-    for (var id in data.picattach) {
-        var attach = data.picattach[id];
-        var attachLi = $('<li>').addClass('span2');
-        var attachA = $('<a>').attr('href', attach_link + attach.offset)
-                                    .attr('title', attach.name + '\n' + bbs_string.attach_pic_tooltip)
-                                    .attr('target', '_blank')
-                                    .addClass('thumbnail');
-        var attachImg = $('<img>').attr('src', attach_link + attach.offset + '&thumbnail=160x1000')
-                                  .attr('alt', attach.name);
-        attachList.append(attachLi.append(attachA.append(attachImg)));
-    }
-    attachDiv.append(attachList);
-
-    return attachDiv;
-}
-
-function UI_generate_other_attach_code(data) {
-    if (data.otherattach.length <= 0) {
-        return '';
-    }
-    var attachDiv = $('<div>').addClass('other-attach-area')
-                              .append(bbs_string.attach_other_text);
-    var attach_link = data.attachlink + '&a=';
-    
-    for (var id in data.otherattach) {
-        var attach = data.otherattach[id];
-        var attachSubDiv = $('<div>').addClass('well')
-                           .append($('<i>').addClass('icon-file'))
-                           .append(attach.name)
-                           .append($('<br>'))
-                           .append($('<a>').attr('href', attach_link + attach.offset)
-                                           .attr('target', '_blank')
-                                           .append(bbs_string.attach_other_tooltip));
-        attachDiv.append(attachSubDiv);
-    }
-    return attachDiv;
-}
-
-function UI_generate_uploading_file_entry(file) {
-    var filename = file.name;
-    if (filename.length > 15) {
-        filename = filename.substr(0, 15) + '...';
-    }
-    var entryNode = $('<div>').addClass('file-wrapper')
-                              .append($('<i>').addClass('icon-file'))
-                              .append($('<span>').addClass('filename-area')
-                                                 .append(filename))
-                              .append($('<div>').addClass('progress progress-striped active file-upload-progress')
-                                                .append($('<div>').addClass('bar').css('width', '0')))
-                              .append($('<span>').addClass('file-upload-text'))
-                              .append($('<button>').attr('type', 'button').addClass('close')
-                                                   .append('×'));
-    return $('<li>').addClass('file-li').append(entryNode);
 }
 
 function UI_register_hotkeys(){

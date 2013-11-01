@@ -207,6 +207,41 @@ table.table,
   background-color: #F0F5B0;
 }
 
+td.post-title-td {
+  display: block;
+  position: relative;
+}
+
+.mini-bar {
+  display: block;
+  position: absolute;
+  right: 8px;
+  top: 4px;
+  width: 210px;
+}
+
+.mini-bar-dot {
+  display: block;
+  border-radius: 9px;
+  height: 18px;
+  width: 18px;
+  background-color: #BBB;
+  float: right;
+  margin: 5px 0 5px 7px;
+}
+
+.mini-bar-ul {
+  display: block;
+  list-style: none;
+  float: right;
+}
+
+.mini-bar-li {
+  display: list-item;  
+  float: right;
+  padding-left: 5px;
+}
+
 .new-post-mark {
     padding-left : 7px;
     padding-right: 7px;
@@ -539,6 +574,7 @@ input[type="file"].fileuploadbox {
   overflow: auto;
   padding-bottom: 10px;
   background: #F0F0F6;
+  font-size: 13px;
 }
 
 .xmpp-chat-text-mine {
