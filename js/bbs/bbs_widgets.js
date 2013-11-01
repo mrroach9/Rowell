@@ -221,11 +221,11 @@ Widgets.postMiniBar = function(entry) {
                               .append('删除');
     btnList.append($('<li>').addClass('mini-bar-li')
                             .append(delBtn));
-    var repBtn = $('<button>').addClass('btn btn-small btn-warning')
+    var repBtn = $('<button>').addClass('btn btn-small btn-warning unimplemented')
                               .append('转载');
     btnList.append($('<li>').addClass('mini-bar-li')
                             .append(repBtn));
-    var edtBtn = $('<button>').addClass('btn btn-small btn-primary')
+    var edtBtn = $('<button>').addClass('btn btn-small btn-primary unimplemented')
                               .append('编辑');
     btnList.append($('<li>').addClass('mini-bar-li')
                             .append(edtBtn));
@@ -233,6 +233,28 @@ Widgets.postMiniBar = function(entry) {
     miniBar.append(dot).append(btnList);
     btnList.hide();
     dot.css('opacity', 0.1);
+
+    // These unimplemented popover are just temporary code, will be removed.
+    $('.unimplemented').popover({
+        trigger: 'hover',
+        placement: 'bottom',
+        title: bbs_string.unimpltd_title,
+        content: bbs_string.unimpltd_text,
+        container: 'body'
+    });
+
+    miniBar.click(function() {
+        return false;
+    })
+
+    delBtn.click(function() {
+        var boardPathTerm = bbs_path.getLastTermWithType(bbs_type.path.board);
+        if (boardPathTerm == null) {
+            return;
+        }
+        UI_set_loading();
+        delPost(boardPathTerm.name, entry.id, entry.xid, UI_update, -1);
+    });
 
     dot.mouseenter(function() {
         btnList.show();

@@ -51,7 +51,21 @@ function UI_register_func(){
     $(document).on('click', '.delete-post-button', function(){
         if (confirm(bbs_string.confirm_delete_post)) {
             UI_set_loading();
-            delPost(UI_update, -2);
+
+            var boardPathTerm = bbs_path.getLastTermWithType(bbs_type.path.board);
+            var postPathTerm = bbs_path.getLastTermWithType(bbs_type.path.post);
+            if (boardPathTerm == null){
+                return;
+            }
+            if (postPathTerm == null) {
+                postPathTerm = bbs_path.getLastTermWithType(bbs_type.path.sticky_post);
+                if (postPathTerm != null) {
+                } else {
+                    return;
+                }
+            }
+            delPost(boardPathTerm.name, postPathTerm.data.id,
+                    postPathTerm.data.xid, UI_update, -2);
         }
     });
 
@@ -504,7 +518,8 @@ function UI_init() {
         trigger: 'hover',
         placement: 'bottom',
         title: bbs_string.unimpltd_title,
-        content: bbs_string.unimpltd_text
+        content: bbs_string.unimpltd_text,
+        container: 'body'
     });
 
     bbs_topmost_stack.splice(0);

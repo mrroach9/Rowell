@@ -1,5 +1,5 @@
 function html_encode(str){
-    return $('#html-encoder').text(str).html();
+    return $('<div>').text(str).html();
 }
 
 function linkify(text) {
