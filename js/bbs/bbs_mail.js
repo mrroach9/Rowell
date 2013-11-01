@@ -18,6 +18,7 @@ function view_mail(id, callback_func, source, popNum) {
         var mail = extractMailContent(response);
         var pathTerm = new PathTerm(bbs_type.path.mail, mail.title, mail);
         bbs_path.push(pathTerm);
+        bbs_widget['mail-unread'].forceCheck();
         callback_func();
     });
 
@@ -178,6 +179,25 @@ function view_prev_mail(callback_func) {
         return;
     }
     view_mail(pathTerm.data.id - 1, callback_func, 'prev', -1);
+}
+
+function check_new_mail(callback_func) {
+    var request_settings = {
+        type: 'GET',
+        data: {
+            session: bbs_session,
+            folder: bbs_type.view_mailbox.inbox,
+            count: 1
+        },
+        url: bbs_query.server + bbs_query.view.mailbox
+    };
+    request_settings = setAjaxParam(request_settings);
+    var resp = $.ajax(request_settings);
+
+    resp.success(function(response){
+        var maillist = extractMailInfo(response);
+        callback_func(!maillist[0].read);
+    }); 
 }
 
 function extractMailContent(contentStr) {

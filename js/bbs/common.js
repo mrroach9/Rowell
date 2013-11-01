@@ -1,5 +1,5 @@
 function html_encode(str){
-    return $('#html-encoder').text(str).html();
+    return $('<div>').text(str).html();
 }
 
 function linkify(text) {
@@ -37,7 +37,7 @@ function getTimeStr(sec) {
 function setAjaxParam(ajax_request) {
     ajax_request.cache = false;
     ajax_request.dataType = 'text';
-    ajax_request.timeout = 5000;
+    ajax_request.timeout = 6000;
     return ajax_request;
 }
 
@@ -72,9 +72,9 @@ function ansi2html(content) {
     content = filter.toHtml(content);
 
     // set the content to be fixed-width
-    content = '<tt>' + content + '</tt>';
+    content = '<span>' + content + '</span>';
     monospacett = new RegExp('\n', 'g');
-    content = content.replace(monospacett, '</tt>\n<tt>');
+    content = content.replace(monospacett, '</span>\n<span>');
 
     return content;
 }

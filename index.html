@@ -9,8 +9,8 @@
     <meta name='description' content=''>
     <meta name='author' content=''>
 
-    <link href='./css/bootstrap.css' rel='stylesheet'>
-    <link href='style.css' rel='stylesheet'>
+    <link href='./css/bootstrap.min.css' rel='stylesheet'>
+    <link href='./css/style.css' rel='stylesheet'>
 
     <link rel='shortcut icon' href='favicon.ico'>
 
@@ -30,7 +30,7 @@
 
 <body>
     <!-- Navigation bars for logged-in version and unlogged-in version -->
-    <div class='navbar navbar-fixed-top' id='unlogged-navbar'>
+    <div class='navbar navbar-fixed-top navbar-inverse' id='unlogged-navbar'>
         <div class='navbar-inner'>
             <div class='container'>
                 <div class='brand'>
@@ -38,17 +38,31 @@
                 </div>
                 <div class='nav-collapse'>
                     <ul class='nav'>
-                        <!--
-                        <li><a data-toggle='modal' href='#login-panel'>登录</a></li>
-                        -->
-                        <li><a href='' id='login-path'>登录</a></li>
+                        <li class='dropdown'>
+                            <a class='dropdown-toggle' data-toggle='dropdown' href='javascript:void(0)'>
+                                登录
+                                <b class='caret'></b>
+                            </a>
+                            <ul class='dropdown-menu'>
+                                <li>
+                                    <a href='' id='login-bbs'>
+                                        使用酒井BBS账号登录
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href='' id='login-accounts9'>
+                                        使用Accounts9账号登录
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class='navbar navbar-fixed-top hide' id='logged-navbar'>
+    <div class='navbar navbar-fixed-top navbar-inverse hide' id='logged-navbar'>
       <div class='navbar-inner'>
         <div class='container'>
           <div class='brand'>
@@ -56,12 +70,12 @@
           </div>
           <div class='nav-collapse'>
             <ul class='nav'>
-              <li><a href='#' id='favboard-nav-label'>收藏夹</a></li>
-              <li><a href='#' id='allboard-nav-label'>所有版面</a></li>
-              <li><a href='#' id='mailbox-nav-label'>站内信</a></li>
+              <li><a href='javascript:void(0)' id='favboard-nav-label'>收藏夹</a></li>
+              <li><a href='javascript:void(0)' id='allboard-nav-label'>所有版面</a></li>
+              <li><a href='javascript:void(0)' id='mailbox-nav-label'>站内信</a></li>
               <li><a href='javascript:void(0)' class='unimplemented'>设置</a></li>
               <li><a>已登录</a></li>
-              <li><a href='#' id='logout-button'>退出</a></li>
+              <li><a href='javascript:void(0)' id='logout-button'>退出</a></li>
             </ul>
             <ul class='nav pull-right'>
                 <li>
@@ -81,29 +95,6 @@
           </div>
         </div>
     </div>
-
-    <!-- Login window -->
-    <!-- Since the webpage login_accounts9.html and relevant scripts are missing, the
-         feature of logging in with accounts9 has to be temperarily removed from v0.3.0.
-
-    <div class='modal hide' id='login-panel'>
-        <div class='modal-header'>
-            <button type='button' class='close' data-dismiss='modal'>&times;</button>
-            <h3>选择登录方式</h3>
-        </div>
-        <div class='modal-body'>
-            <p><a id="bbs-login-path" href="">使用酒井账号登录</a></p>
-            <p>
-                <a id="accounts9-login-path" href="">
-                    <img src="./img/accounts9-login.png" alt="Login with Accounts9">
-                </a>
-            </p>
-        </div>
-        <div class='modal-footer'>
-            <a class='btn' data-dismiss='modal'>关闭</a>
-        </div>
-    </div>
-    -->
 
     <!-- Main part of unlogged-in panel -->
     <div class='container' id='unlogged-panel'>
@@ -173,7 +164,7 @@
                                 </button>
                                 <ul class='dropdown-menu'>
                                     <li>
-                                        <a href='#' class='clear-board-unread'>清除未读标记 (f)</a>
+                                        <a href='javascript:void(0)' class='clear-board-unread'>清除未读标记 (f)</a>
                                     </li>
                                     <li>
                                         <a href='javascript:void(0)' class='view-board-note unimplemented'>查看本版备忘录 (Tab)</a>
@@ -207,7 +198,7 @@
                                 </button>
                                 <ul class='dropdown-menu'>
                                     <li>
-                                        <a href='#' class='clear-all-unread'>清除全站未读标记</a>
+                                        <a href='javascript:void(0)' class='clear-all-unread'>清除全站未读标记</a>
                                     </li>
                                 </ul>
                             </div>
@@ -228,7 +219,7 @@
                         <button class='btn btn-success jump-to-mail-button'>跳转</button>
                     </span>
                 </div>
-                <table class='table table-striped table-bordered'>
+                <table class='table table-striped table-bordered table-hover'>
                     <thead class='mailbox-table-head'>
                         <th width='60px'>编号</th>
                         <th width='42px'>未读</th>
@@ -251,14 +242,14 @@
                 </div>
             </div>
             <div id='boardlist-table' class='hide display-area'>
-                <table class='table table-striped table-bordered'>
+                <table class='table table-striped table-bordered table-hover'>
                     <thead class='board-table-head'>
                         <th width='60px'>帖数</th>
                         <th width='42px'>未读</th>
-                        <th width='160px'>版名</th>
+                        <th width='150px'>版名</th>
                         <th>版面中文名</th>
-                        <th width='30px'>在线</th>
-                        <th width='200px'>版主</th>
+                        <th width='32px'>在线</th>
+                        <th width='220px'>版主</th>
                     </thead>
                     <tbody id='boardlist-table-body'>
                     </tbody>
@@ -276,7 +267,7 @@
                         <button class='btn btn-success jump-to-post-button'>跳转</button>
                     </span>
                 </div>
-                <table class='table table-striped table-bordered'>
+                <table class='table table-striped table-bordered table-hover'>
                     <thead class='board-table-head'>
                         <th width='60px'>编号</th>
                         <th width='42px'>未读</th>
@@ -320,16 +311,16 @@
                     <button class='btn btn-success next-post-button'>下一篇</button>
                     <button class='btn btn-info st-next-button'>同主题下一篇</button>
                     <span class='dropdown st-nav-menu'>
-                        <a class='dropdown-toggle' data-toggle='dropdown' href='#'>
+                        <a class='dropdown-toggle' data-toggle='dropdown' href='javascript:void(0)'>
                             更多选项
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a href='#' class='st-head-button'>阅读主题贴</a>
+                                <a href='javascript:void(0)' class='st-head-button'>阅读主题贴</a>
                             </li>
                             <li>
-                                <a href='#' class='st-latest-button'>同主题最新</a>
+                                <a href='javascript:void(0)' class='st-latest-button'>同主题最新</a>
                             </li>
                         </ul>
                     </span>
@@ -344,16 +335,16 @@
                     <button class='btn btn-success next-post-button'>下一篇</button>
                     <button class='btn btn-info st-next-button'>同主题下一篇</button>
                     <span class='dropdown st-nav-menu'>
-                        <a class='dropdown-toggle' data-toggle='dropdown' href='#'>
+                        <a class='dropdown-toggle' data-toggle='dropdown' href='javascript:void(0)'>
                             更多选项
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a href='#' class='st-head-button'>阅读主题贴</a>
+                                <a href='javascript:void(0)' class='st-head-button'>阅读主题贴</a>
                             </li>
                             <li>
-                                <a href='#' class='st-latest-button'>同主题最新</a>
+                                <a href='javascript:void(0)' class='st-latest-button'>同主题最新</a>
                             </li>
                         </ul>
                     </span>
@@ -388,6 +379,11 @@
                                 </span>
                                 <span class='left-pad-text no-add-attach-area hide'>
                                     不支持附件
+                                </span>
+                                <span class="left-pad-text load-sketch-area hide">
+                                    <a class='' href='javascript:void(0)' id='load-sketch-link'>
+                                        载入草稿
+                                    </a>
                                 </span>
                             </div>
                         </div>
@@ -485,7 +481,6 @@
             <img class='loading-logo' src='./img/loading.gif'></img>
         </div>
     </div>
-    <div id='html-encoder' class='hide'></div>
 
     <div class='xmpp-panel' id='xmpp-panel'>
         <div class='xmpp-panel-handle btn btn-info btn-large' id='xmpp-panel-handle'>
@@ -527,14 +522,14 @@
     <script src='./js/bbs/bbs_utility.js'></script>
     <script src='./js/bbs/bbs_global.js'></script>
     <script src='./js/bbs/bbs_xmpp.js'></script>
+    <script src='./js/bbs/bbs_unread.js'></script>
+    <script src='./js/bbs/accounts9.js'></script>
+    <script src='./js/bbs/bbs_widgets.js'></script>
 
     <script type='text/javascript'>
             $(document).ready(function(){
-                UI_register_func();
-                UI_register_hotkeys();
-                UI_set_fileupload();
                 UI_init();
-                UI_retrieve_session();
+                retrieve_session();
             });
     </script>
   </body>
