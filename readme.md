@@ -46,7 +46,7 @@ Rowell已在Firefox 8.0及以上版本，Chrome 16及以上版本，IE 10及以�
 
 * 新增：撰写文章时自动保存草稿功能。
 
-* 新增：原生支持Accounts9账号登录。
+* 新增：原生支持Accounts9账号登录（By BYVoid & Roach）。
 
 * 新增：启用全新域名 http://www.rowell9.com/
 
