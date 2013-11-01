@@ -200,7 +200,14 @@ Widgets.uploadFile = function (file) {
                               .append($('<span>').addClass('file-upload-text'))
                               .append($('<button>').attr('type', 'button').addClass('close')
                                                    .append('×'));
-    return $('<li>').addClass('file-li').append(entryNode);
+
+    entryNode = $('<li>').addClass('file-li').append(entryNode);
+    entryNode.find('.close').click(function() {
+        $(this).closest('.file-li').hide(500, function() {
+            $(this).remove();
+        });
+    });
+    return entryNode; 
 };
 
 // Creates a mini-bar for every post entry in post listing panel, providing quick
@@ -224,5 +231,16 @@ Widgets.postMiniBar = function(entry) {
                             .append(edtBtn));
 
     miniBar.append(dot).append(btnList);
+    btnList.hide();
+    dot.css('opacity', 0.1);
+
+    dot.mouseenter(function() {
+        btnList.show();
+        dot.css('opacity', 0.7);
+    });
+    miniBar.mouseleave(function() {
+        btnList.hide();
+        dot.css('opacity', 0.1);
+    });
     return miniBar;
 };
