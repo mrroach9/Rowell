@@ -155,7 +155,13 @@
                     }
 
                 }
-            }, 'text');
+            }, 'text').fail(function(XMLHttpRequest, textStatus, errorThrown) {
+                console.log("initial connect() error: " + errorThrown);
+                if(xmpp.onError != null){
+                    xmpp.onError({error: errorThrown, data:textStatus});
+                }
+                xmpp.errorCount = xmpp.errorCount + 1;
+            });
         },
         
         /**
@@ -482,14 +488,38 @@
                                     options.onConnect(data);
                                 }
                                 xmpp.listen();
-                            }, 'text');
-                        }, 'text');
-                    }, 'text');
+                            }, 'text').fail(function(XMLHttpRequest, textStatus, errorThrown) {
+                                if(xmpp.onError != null){
+                                    xmpp.onError({error: errorThrown, data:textStatus});
+                                }
+                                console.log("session create error: " + errorThrown);
+                                xmpp.errorCount = xmpp.errorCount + 1;
+                            });
+                        }, 'text').fail(function(XMLHttpRequest, textStatus, errorThrown) {
+                            if(xmpp.onError != null){
+                                xmpp.onError({error: errorThrown, data:textStatus});
+                            }
+                            console.log("bind error: " + errorThrown);
+                            xmpp.errorCount = xmpp.errorCount + 1;
+                        });
+                    }, 'text').fail(function(XMLHttpRequest, textStatus, errorThrown) {
+                        if(xmpp.onError != null){
+                            xmpp.onError({error: errorThrown, data:textStatus});
+                        }
+                        console.log("restart after auth error: " + errorThrown);
+                        xmpp.errorCount = xmpp.errorCount + 1;
+                    });
                 }else{
                     if(options.onError != null)
                         options.onError({error: "Invalid credentials", data:data});
                 }
-            }, 'text');
+            }, 'text').fail(function(XMLHttpRequest, textStatus, errorThrown) {
+                if(xmpp.onError != null){
+                    xmpp.onError({error: errorThrown, data:textStatus});
+                }
+                console.log("auth error: " + errorThrown);
+                xmpp.errorCount = xmpp.errorCount + 1;
+            });
         },
 
 
