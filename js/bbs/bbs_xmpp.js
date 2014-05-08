@@ -227,6 +227,7 @@ function xmpp_error(error) {
     xmpp_user_list = {}
     $('#xmpp-user-list').empty();
     xmpp_show_loading(bbs_string.xmpp_error);
+    $.xmpp.disconnectSync();
     setTimeout(function() {
         console.log("xmpp error. reconnecting...");
         xmpp_connect();

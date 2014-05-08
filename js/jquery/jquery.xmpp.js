@@ -248,14 +248,31 @@
                     xmpp.listening = false;
                     //Do not listen anymore!
                     //Two callbacks
-                    if(callback != null)
-                    callback(data);
-                    if(xmpp.onDisconnect != null)
+                    if(callback != null) {
+                        callback(data);
+                    }
+                    if(xmpp.onDisconnect != null) {
+                        xmpp.onDisconnect(data);
+                    }
                     xmpp.connected = false;
-                    xmpp.onDisconnect(data);
                 },
                 dataType: 'text',
                 async:false
+            }).fail(function(XMLHttpRequest, textStatus, errorThrown) {
+/*                if(xmpp.onError != null){
+                    xmpp.onError({error: errorThrown, data:textStatus});
+                }*/
+                console.log("disconnectSync() error: " + errorThrown);
+                if (xmpp.__lastAjaxRequest != null) {
+                    xmpp.__lastAjaxRequest.abort();
+                }
+                xmpp.connections = xmpp.connections - 1;
+                if (xmpp.debug) {
+                    console.log("connection-- = " + xmpp.connections + ": disconnectSync.error");
+                }
+                xmpp.listening = false;
+                xmpp.connected = false;
+                xmpp.errorCount = xmpp.errorCount + 1;
             });
         },
         
