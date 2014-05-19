@@ -574,8 +574,7 @@
                 xmpp = this;
                 if(xmpp.connections === 0) {
                     //To detect networks problems
-                    clearTimeout(xmpp._jsTimeout);
-                    xmpp._jsTimeout = setTimeout(xmpp.__networkError,xmpp._timeoutMilis);
+                    xmpp.refreshTimer();
                     //
                     this.rid = this.rid+1;
                     xmpp.connections = xmpp.connections + 1;
@@ -630,6 +629,8 @@
         */
         sendCommand: function(rawCommand, callback){
             var self = this;
+
+            self.refreshTimer();
 
             this.rid = this.rid + 1;
             this.listening = true;
@@ -817,6 +818,21 @@
             ret += " type='result'/>";
 
             xmpp.sendCommand(ret);
+        },
+
+        /**
+         * Reset the watchdog timer
+         */
+        refreshTimer: function() {
+            var xmpp = this;
+            if (xmpp.debug) {
+                console.log("clear timeout " + xmpp._jsTimeout);
+            }
+            clearTimeout(xmpp._jsTimeout);
+            xmpp._jsTimeout = setTimeout(xmpp.__networkError,xmpp._timeoutMilis);
+            if (xmpp.debug) {
+                console.log("new timeout set " + xmpp._jsTimeout);
+            }
         }
     }
 })(jQuery);
