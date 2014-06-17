@@ -47,3 +47,7 @@ Accounts9.getBBSUser = function (accessToken, callback) {
         callback(textStatus);
     });
 };
+
+Accounts9.removeSessionCookie = function () {
+    $.cookie(accounts9.session_cookie, null);
+};

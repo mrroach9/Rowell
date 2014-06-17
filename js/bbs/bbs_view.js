@@ -39,6 +39,14 @@ function view_boardlist(type, index, folder_name, callback_func, popNum){
         bbs_path.push(pathTerm);
         callback_func();
     });
+
+    resp.fail(function(jqXHR, response) {
+        var msg = {
+            type : 'error',
+            content : 'network_error'
+        };
+        UI_notify_update(msg);
+    });
 }
 
 function view_board(board_name, start, end, callback_func, source, popNum){
@@ -138,6 +146,9 @@ function view_sticky_post_list(board_name, callback_func) {
 
     resp.success(function(response){
         var postlist = extractPostInfo(response);
+        for (var i = 0; i < postlist.length; ++i) {
+            postlist[i].read = true;
+        }
         bbs_sticky.name = board_name;
         bbs_sticky.posts = postlist;
         callback_func();

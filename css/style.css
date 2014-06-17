@@ -2,7 +2,65 @@
 
 body {
     padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+    /* Overriding Bootstrap */
+    line-height:18px;
 }
+
+/* Overriding Bootstrap */
+.alert {
+    font-size: 13px;
+    line-height: 16px;
+}
+
+.btn-group>.btn-large {
+    font-size: 15px;
+}
+
+.btn-large {
+    padding: 9px 14px;
+    font-size: 15px;
+    line-height: 18px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.popover-title {
+    font: bold 16px/20px helvetica;
+}
+.popover {
+    border: 1px #CCC solid;
+}
+
+h1 {
+    font-size: 30px;
+    line-height: 36px;
+    margin: 5px 0;
+}
+
+h2 {
+    font-size: 24px;
+    line-height: 36px;
+}
+
+h3 {
+    font-size: 18px;
+    line-height: 27px;
+}
+
+.form-horizontal input {
+  vertical-align: baseline;
+}
+
+.form-horizontal {
+  display: block;
+}
+
+.form-horizontal .control-group {
+  vertical-align: top;
+}
+
+/* End of Bootstrap Overriding */
 
 .container,
 .navbar-fixed-top .container,
@@ -114,6 +172,7 @@ pre.post-view-area {
     margin-bottom: 10px;
     margin-right: 10px; 
     min-height: 380px;
+    /* Overriding Bootstrap */
     font-size: 13px;
     line-height: 13px;
 }
@@ -146,6 +205,41 @@ table.table,
 
 .table tbody tr.sticky:hover td {
   background-color: #F0F5B0;
+}
+
+td.post-title-td {
+  display: block;
+  position: relative;
+}
+
+.mini-bar {
+  display: block;
+  position: absolute;
+  right: 8px;
+  top: 4px;
+  width: 210px;
+}
+
+.mini-bar-dot {
+  display: block;
+  border-radius: 9px;
+  height: 18px;
+  width: 18px;
+  background-color: #BBB;
+  float: right;
+  margin: 5px 0 5px 7px;
+}
+
+.mini-bar-ul {
+  display: block;
+  list-style: none;
+  float: right;
+}
+
+.mini-bar-li {
+  display: list-item;  
+  float: right;
+  padding-left: 5px;
 }
 
 .new-post-mark {
@@ -252,6 +346,11 @@ p#notification-content {
     width : 560px;
     height : 260px;
     resize : none;
+    word-break: break-all;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+    font-size: 14px;
 }
 
 .write-post-option {
@@ -263,15 +362,16 @@ p#notification-content {
     width : 30px;
 }
 
-
 #write-post-panel {
-    width: 668px;
+  width: 678px;
+  top: 9%;
+  left: 48%;
 }
 
 #write-post-panel .modal-body {
-    height : 408px;
-    max-height : 408px;
-    width : 638px;
+    height : 420px;
+    max-height : 420px;
+    width : 645px;
 }
 
 .attach-area {
@@ -474,6 +574,7 @@ input[type="file"].fileuploadbox {
   overflow: auto;
   padding-bottom: 10px;
   background: #F0F0F6;
+  font-size: 13px;
 }
 
 .xmpp-chat-text-mine {
@@ -600,4 +701,41 @@ input[type="file"].fileuploadbox {
 
 .xmpp-show-default {
     background: #5BC0DE;
+}
+
+/* Widgets */
+
+.unread-area {
+  background-color: red;
+  display: block;
+  position: absolute;
+}
+
+.unread-area.small {
+  border-radius: 4px;
+  width: 8px;
+  height: 8px;
+  right: 8px;
+  top: 10px;
+}
+
+.unread-area.medium {
+  border-radius: 5px;
+  width: 10px;
+  height: 10px;
+  right: 10px;
+  top: 13px;
+}
+
+.unread-area.large {
+  border-radius: 6px;
+  width: 12px;
+  height: 12px;
+  right: 12px;
+  top: 16px;
+}
+
+.unread-inside {
+  display: block;
+  position: relative;
 }

@@ -1,61 +1,82 @@
-function Hotkey(keyCode, ctrl, alt, selector, target, trigger){
+Hotkey = function (keyCode, ctrl, alt, selector, target, trigger){
     this.keyCode = keyCode;
     this.ctrlPressed = ctrl;
     this.altPressed = alt;
     this.selector = selector;
     this.trigger = trigger;
     this.target = target;
+};
 
-    this.getMask = function() {
-        var code = 0;
-        code += this.ctrlPressed ? 1 : 0;
-        code += this.altPressed ? 2 : 0;
-        return code;
-    }
-}
+Hotkey.prototype.getMask = function() {
+    var code = 0;
+    code += this.ctrlPressed ? 1 : 0;
+    code += this.altPressed ? 2 : 0;
+    return code;
+};
 
-function HotkeyManager() {
+HotkeyManager = function () {
     this.hotkeyMap = new Array();
+};
 
-    this.add = function(hotkey) {
-        var code = hotkey.getMask();
-        var list = this.hotkeyMap[hotkey.selector];
+HotkeyManager.prototype.add = function(hotkey) {
+    var code = hotkey.getMask();
+    var list = this.hotkeyMap[hotkey.selector];
+    if (list == null) {
+        this.hotkeyMap[hotkey.selector] = new Array();
+    }
+    list = this.hotkeyMap[hotkey.selector][hotkey.keyCode];
+    if (list == null) {
+        this.hotkeyMap[hotkey.selector][hotkey.keyCode] = new Array(4);
+    };
+    list = this.hotkeyMap[hotkey.selector][hotkey.keyCode];
+    if (list[code] != null) {
+        return false;
+    } else {
+        this.hotkeyMap[hotkey.selector][hotkey.keyCode][code] = hotkey;
+    }
+    return true;
+};
+
+HotkeyManager.prototype.get = function(hotkey) {
+    var list = this.hotkeyMap[hotkey.selector];
+    if (list == null) return null;
+    list = list[hotkey.keyCode];
+    if (list == null) return null;
+    return list[hotkey.getMask()];
+};
+
+HotkeyManager.prototype.remove = function(hotkey) {
+    var list = this.hotkeyMap[hotkey.selector];
+    if (list == null) return false;
+    list = list[hotkey.keyCode];
+    if (list == null) return false;
+    this.hotkeyMap[hotkey.selector][hotkey.keyCode][hotkey.getMask()] = null;
+    return true;
+};
+
+HotkeyManager.prototype.triggerAll = function() {
+    var manager = this;
+    $(document).keyup(function(event) {
+        var keycode = event.keyCode;
+        var mask = 0;
+        mask += event.ctrlKey ? 1 : 0;
+        mask += event.altKey ? 2 : 0;
+        var selector = bbs_topmost_stack[bbs_topmost_stack.length - 1];
+        var list = manager.hotkeyMap[selector];
         if (list == null) {
-            this.hotkeyMap[hotkey.selector] = new Array();
+            return;
         }
-        list = this.hotkeyMap[hotkey.selector][hotkey.keyCode];
-        if (list == null) {
-            this.hotkeyMap[hotkey.selector][hotkey.keyCode] = new Array(4);
-        };
-        list = this.hotkeyMap[hotkey.selector][hotkey.keyCode];
-        if (list[code] != null) {
-            return false;
-        } else {
-            this.hotkeyMap[hotkey.selector][hotkey.keyCode][code] = hotkey;
+        var list = list[keycode];
+        if (list == null) return;
+        var hotkey = list[mask];
+        if (hotkey == null) return;
+        if (hotkey.selector != selector) {
+            return;
         }
-        return true;
-    };
-
-    this.get = function(hotkey) {
-        var list = this.hotkeyMap[hotkey.selector];
-        if (list == null) return null;
-        list = list[hotkey.keyCode];
-        if (list == null) return null;
-        return list[hotkey.getMask()];
-    };
-
-    this.remove = function(hotkey) {
-        var list = this.hotkeyMap[hotkey.selector];
-        if (list == null) return false;
-        list = list[hotkey.keyCode];
-        if (list == null) return false;
-        this.hotkeyMap[hotkey.selector][hotkey.keyCode][hotkey.getMask()] = null;
-        return true;
-    };
-
-    this.triggerAll = function() {
-        var manager = this;
-        $(document).keyup(function(event) {
+        $(hotkey.target).first().trigger(hotkey.trigger);
+        return false;
+    });
+    $(document).keydown(function(event) {
             var keycode = event.keyCode;
             var mask = 0;
             mask += event.ctrlKey ? 1 : 0;
@@ -72,36 +93,15 @@ function HotkeyManager() {
             if (hotkey.selector != selector) {
                 return;
             }
-            $(hotkey.target).first().trigger(hotkey.trigger);
             return false;
-        });
-        $(document).keydown(function(event) {
-                var keycode = event.keyCode;
-                var mask = 0;
-                mask += event.ctrlKey ? 1 : 0;
-                mask += event.altKey ? 2 : 0;
-                var selector = bbs_topmost_stack[bbs_topmost_stack.length - 1];
-                var list = manager.hotkeyMap[selector];
-                if (list == null) {
-                    return;
-                }
-                var list = list[keycode];
-                if (list == null) return;
-                var hotkey = list[mask];
-                if (hotkey == null) return;
-                if (hotkey.selector != selector) {
-                    return;
-                }
-                return false;
-        });
-    };
+    });
+};
 
-    this.untriggerAll = function() {
-        $(document).unbind('keypress');
-        $(document).unbind('keydown');
-        $(document).unbind('keyup');
-    };
-}
+HotkeyManager.prototype.untriggerAll = function() {
+    $(document).unbind('keypress');
+    $(document).unbind('keydown');
+    $(document).unbind('keyup');
+};
 
 function register_default_hotkeys(){
     // Ctrl + Enter(13)/w(87)/x(88) on #write-post-panel: Publish post;
