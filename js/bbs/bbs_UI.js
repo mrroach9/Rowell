@@ -19,34 +19,81 @@ function UI_register_func(){
         view_mailbox(bbs_type.entry.mailbox, -1, -1, UI_update, 'click', 0);
     });
 
-    // In-view clicking navigations
-
-    $(document).on('click', '.mail-entry', function(){
-        UI_set_loading();
-        view_mail($(this).attr('mail-id'), UI_update, 'click');
-        location.href = '#';
-    });
-    
-    $(document).on('click', '.board-entry', function(){
-        UI_set_loading();
-        view_board($(this).attr('board-name'), -1, -1, UI_update, 'click');
-        location.href = '#';
-    });
-
-    $(document).on('click', '.folder-entry', function(){
-        UI_set_loading();
-        view_boardlist(bbs_type.entry.folder, $(this).attr('index'), $(this).attr('folder-name'), UI_update);
-        location.href='#';
-    });
-
-    $(document).on('click', '.post-entry', function() {
-        UI_set_loading();
-        view_post($(this).attr('post-id'), $(this).attr('type'), UI_update, 'click');
-        location.href='#';
-    });
-
     $(document).on('click', '.path-term', UI_path_click);
 
+    // Notifications and contributer lists
+
+    $('#notification-close-button').click(function(){
+        $('#notification').fadeOut();
+    });
+
+    $('#notification').click(function(){
+        $(this).fadeOut();
+    });
+
+    $('#ctrbtr-link').click(function() {
+        $('#ctrbtr-list').modal('toggle');
+    })
+
+    $('#ctrbtr-list .cancel-button').click(function() {
+        $('#ctrbtr-list').modal('hide');
+    })
+
+    // Posting, mailing and replying
+
+    $(document).on('click', '.reply-post-button', function(){
+        var type = $(this).attr('type');
+        postPrepare(bbs_type.write_post.reply, function(){
+            getQuote(type, UI_prepare_post_modal);
+        });
+    });
+
+    $(document).on('click', '.delete-post-button', function(){
+        if (confirm(bbs_string.confirm_delete_post)) {
+            UI_set_loading();
+
+            var boardPathTerm = bbs_path.getLastTermWithType(bbs_type.path.board);
+            var postPathTerm = bbs_path.getLastTermWithType(bbs_type.path.post);
+            if (boardPathTerm == null){
+                return;
+            }
+            if (postPathTerm == null) {
+                postPathTerm = bbs_path.getLastTermWithType(bbs_type.path.sticky_post);
+                if (postPathTerm != null) {
+                } else {
+                    return;
+                }
+            }
+            delPost(boardPathTerm.name, postPathTerm.data.id,
+                    postPathTerm.data.xid, UI_update, -2);
+        }
+    });
+
+    $(document).on('click', '.new-post-normal', function(){
+        postPrepare(bbs_type.write_post.new, UI_prepare_post_modal);
+    });
+
+    // Clear unreads
+    $(document).on('click', '.clear-board-unread', function(){
+        UI_set_loading();
+        var pathTerm = bbs_path.getLastTermWithType(bbs_type.path.board);
+        clear_unread(pathTerm.name, UI_update);
+    });
+
+    $(document).on('click', '.clear-all-unread', function(){
+        UI_set_loading();
+        clear_unread('', UI_update);
+    });
+
+    UI_register_func_navigation();
+    UI_register_func_post_modal();
+
+    window.onresize = UI_onresize;
+    window.onfocus = UI_onfocus;
+    xmpp_ui_init();
+}
+
+function UI_register_func_navigation() {
     // Linear navigations
 
     $('#board-table .last-page-button').click(function(){
@@ -69,10 +116,6 @@ function UI_register_func(){
     $('#board-table .prev-page-button').click(function(){
         UI_set_loading();
         view_board_prev_page(UI_update);
-    });
-
-    $('.button-bar button').click(function() {
-        location.href = '#';
     });
 
     $('.jump-to-post-button').click(function(){
@@ -210,63 +253,9 @@ function UI_register_func(){
         UI_set_loading();
         view_post_sametopic(UI_update, 'latest');
     });
+}
 
-    // Notifications and contributer lists
-
-    $('#notification-close-button').click(function(){
-        $('#notification').fadeOut();
-    });
-
-    $('#notification').click(function(){
-        $(this).fadeOut();
-    });
-
-    $('#ctrbtr-link').click(function() {
-        $('#ctrbtr-list').modal('toggle');
-    })
-
-    $('#ctrbtr-list .cancel-button').click(function() {
-        $('#ctrbtr-list').modal('hide');
-    })
-
-    // Posting, mailing and replying
-
-    $(document).on('click', '.reply-post-button', function(){
-        var type = $(this).attr('type');
-        postPrepare(bbs_type.write_post.reply, function(){
-            getQuote(type, UI_prepare_post_modal);
-        });
-    });
-
-    $(document).on('click', '.delete-post-button', function(){
-        if (confirm(bbs_string.confirm_delete_post)) {
-            UI_set_loading();
-            delPost(UI_update, -2);
-        }
-    });
-
-    $(document).on('click', '.new-post-normal', function(){
-        postPrepare(bbs_type.write_post.new, UI_prepare_post_modal);
-    });
-/*
-    $(document).on('click', '.new-mail-normal', function(){
-        mailPrepare(bbs_type.write_mail.new, UI_prepare_mail_modal);
-    });
-*/
-
-    // Clear unreads
-
-    $(document).on('click', '.clear-board-unread', function(){
-        UI_set_loading();
-        var pathTerm = bbs_path.getLastTermWithType(bbs_type.path.board);
-        clear_unread(pathTerm.name, UI_update);
-    });
-
-    $(document).on('click', '.clear-all-unread', function(){
-        UI_set_loading();
-        clear_unread('', UI_update);
-    });
-
+function UI_register_func_post_modal() {
     $(document).on('click', '#add-attachment-link', function(){
         $('div.attach-area').show();
     });
@@ -287,11 +276,19 @@ function UI_register_func(){
         }
     });
 
-    window.onresize = UI_onresize;
-    window.onfocus = UI_onfocus;
-    xmpp_ui_init();
+    $('#load-sketch-link').click(function() {
+        var content = localStorage[bbs_type.storage.sketch];
+        var title = localStorage[bbs_type.storage.sketch_title];
+        if (typeof(content) == 'undefined' || content == '') {
+            return;
+        }
+        if (typeof(title) == 'undefined') {
+            title = '';
+        }
+        $('#write-post-title').val(title);
+        $('#write-post-content').val(content);
+    });
 }
-
 
 function UI_set_fileupload() {
     $('*').on('dragenter', function(event) {
@@ -321,14 +318,9 @@ function UI_set_fileupload() {
 function UI_start_upload(files, node) {
     for (var i = 0; i < files.length; ++i) {
         var file = files[i];
-        var fileNode = UI_generate_uploading_file_entry(file);
+        var fileNode = Widgets.uploadFile(file);
 
         node.children('.file-list').append(fileNode);
-        fileNode.find('.close').click(function() {
-            $(this).closest('.file-li').hide(500, function() {
-                $(this).remove();
-            });
-        });
 
         if (file.size > bbs_settings.max_file_size) {
             fileNode.find('.file-upload-progress')
@@ -365,7 +357,6 @@ function UI_start_upload(files, node) {
     }
 }
 
-
 function UI_hide_write_post(){
     $('#write-post-panel').modal('hide');
     $('.attach-area').hide();
@@ -388,44 +379,6 @@ function UI_hide_loading(){
     $('#loading-area').hide();
 }
 
-/*
-function UI_prepare_mail_modal(){
-    $('#write-post-panel').attr('post-type', bbs_post_info.type);
-    if (bbs_post_info.type == bbs_type.write_post.new) {
-        $('#write-post-title').val('');
-        $('#write-post-content').val('');
-    } else if (bbs_post_info.type == bbs_type.write_post.reply){
-        $('#write-post-title').val(bbs_post_info.quote.title);
-        $('#write-post-content').val(bbs_post_info.quote.content);
-    }
-    if (bbs_post_info.sig_id >= 0) {
-        $('input:text[name=qmd-number]').val(bbs_post_info.sig_id);
-        $('input:text[name=qmd-number]').attr('disabled', false);
-        $('input:radio[name=qmd-type][value=number]').attr('checked', true);
-    } else {
-        $('input:text[name=qmd-number]').val('');
-        $('input:text[name=qmd-number]').attr('disabled', true);
-        $('input:radio[name=qmd-type][value=random]').attr('checked', true);
-    }
-    if (bbs_post_info.can_anony) {
-        $('.no-anonymous-area').hide();
-        $('.anonymous-area').show();
-    } else {
-        $('.no-anonymous-area').show();
-        $('.anonymous-area').hide();
-    }
-    $('.anony-checkbox').attr('checked', false);
-    $('#write-post-board').text(bbs_path.getBoard().name);
-    $('#write-post-panel').modal({
-         keyboard: false,
-         backdrop: 'static',
-         show: false
-    });
-    $('#write-post-panel').modal('toggle');
-    bbs_topmost_stack.push('#write-post-panel');
-}
-*/
-
 function UI_prepare_post_modal(){
     $('#write-post-panel').attr('post-type', bbs_post_info.type);
     if (bbs_post_info.type == bbs_type.write_post.new) {
@@ -444,6 +397,7 @@ function UI_prepare_post_modal(){
         $('input:text[name=qmd-number]').attr('disabled', true);
         $('input:radio[name=qmd-type][value=random]').attr('checked', true);
     }
+
     if (bbs_post_info.can_anony) {
         $('.no-anonymous-area').hide();
         $('.anonymous-area').show();
@@ -458,6 +412,12 @@ function UI_prepare_post_modal(){
         $('.no-add-attach-area').show();
         $('.add-attach-area').hide();
     }
+    if (typeof(localStorage[bbs_type.storage.sketch]) == 'undefined') {
+        $('.load-sketch-area').hide();
+    } else {
+        $('.load-sketch-area').show();
+    }
+
     $('.anony-checkbox').attr('checked', false);
     $('#write-post-board').text(bbs_path.getBoard().name);
     $('#write-post-panel').modal({
@@ -531,31 +491,35 @@ function UI_show_backdrop(){
     $('#global-backdrop').show();
 }
 
-function UI_retrieve_session(){
-    bbs_session = $.url().param('access_token');
-    if (typeof(bbs_session) == 'undefined') {
-        bbs_session = $.cookie(bbs_type.cookie.session);
-        if (bbs_session == null || typeof(bbs_session) == 'undefined' ||
-            bbs_session == bbs_type.cookie.error_session) {
-            bbs_session = null;
-        }       
-    }
-    verifySession(bbs_session, true, UI_login_finished);
+function UI_set_unread() {
+    var mailUnread = 
+        new Unread('small', $('#mailbox-nav-label').parent(), 30000);
+    mailUnread.check = function(self) {
+        check_new_mail(function(has_new) {
+            self.show(has_new);
+        });
+    };
+    mailUnread.schedule();
+    bbs_widget['mail-unread'] = mailUnread;
 }
 
 function UI_init() {
     UI_show_backdrop();
 
-    $('#login-path').attr('href', bbs_query.server + bbs_query.auth.auth);
-    //$('a#bbs-login-path').attr('href', bbs_query.server + bbs_query.auth.auth);
-    //$('a#accounts9-login-path').attr('href', accounts9.server + accounts9.auth);
+    UI_register_func();
+    UI_register_hotkeys();
+    UI_set_fileupload();
+
+    $('a#login-bbs').attr('href', bbs_query.server + bbs_query.auth.auth);
+    $('a#login-accounts9').attr('href', accounts9.server + accounts9.auth);
     $(document).attr("title", bbs_string.title);
 
     $('.unimplemented').popover({
         trigger: 'hover',
         placement: 'bottom',
         title: bbs_string.unimpltd_title,
-        content: bbs_string.unimpltd_text
+        content: bbs_string.unimpltd_text,
+        container: 'body'
     });
 
     bbs_topmost_stack.splice(0);
@@ -570,6 +534,10 @@ function UI_login_finished(result){
         $('#unlogged-navbar').hide();
         $('#unlogged-panel').hide();
         $('#logged-navbar').show();
+        $('#logged-panel').show();
+
+        UI_set_unread();
+
         view_boardlist(bbs_type.entry.favboard, -1, '', UI_update, 0);
         xmpp_connect();
     } else {
@@ -583,6 +551,7 @@ function UI_login_finished(result){
 
 function UI_logout(){
     removeSessionCookie();
+    Accounts9.removeSessionCookie();
     bbs_topmost_stack.splice(0);
     $('#unlogged-navbar').show();
     $('#unlogged-panel').show();
@@ -634,6 +603,7 @@ function UI_update(){
     UI_hide_loading();
     $('#logged-panel').show();
     xmpp_onresize();
+    location.href = '#';
 }
 
 function UI_notify_update(msg){
@@ -660,7 +630,7 @@ function UI_subnavbar_update(path) {
     var arrow = '<li><i class="icon-chevron-right right-arrow" id="boardlist-board-nav-arrow"></i></li>';
     var d = path.depth();
     for (var i = 0; i < d; ++i) {
-        var term = '<li><a href="#" class="path-term" path-id=' + i + '>'
+        var term = '<li><a href="javascript:void(0)" class="path-term" path-id=' + i + '>'
                          + path.pathList[i].name
                          + '</a></li>';
         if (i != 0) {
@@ -694,7 +664,7 @@ function UI_maindiv_update(pathTerm) {
 
         $('#mailbox-table-body').empty();
         for (var i = 0; i < pathTerm.data.length; ++i) {
-            var entryNode = UI_generate_mail_entry(pathTerm.data[i], pathTerm.type);
+            var entryNode = Widgets.mailEntry(pathTerm.data[i], pathTerm.type);
             $('#mailbox-table-body').append(entryNode);
         }
         $('.jump-to-mail-input').attr('value', '');
@@ -707,7 +677,7 @@ function UI_maindiv_update(pathTerm) {
 
         $('#boardlist-table-body').empty();
         for (var i = 0; i < pathTerm.data.length; ++i) {
-            var entryNode = UI_generate_board_entry(pathTerm.data[i], pathTerm.type);
+            var entryNode = Widgets.boardEntry(pathTerm.data[i], pathTerm.type);
             $('#boardlist-table-body').append(entryNode);
         }
         $('#boardlist-table').show();
@@ -717,11 +687,11 @@ function UI_maindiv_update(pathTerm) {
         $('#board-table-body').empty();
 
         for (var i = 0; i < pathTerm.data.length; ++i) {
-            var entryNode = UI_generate_post_entry(pathTerm.data[i], false);
+            var entryNode = Widgets.postEntry(pathTerm.data[i], false);
             $('#board-table-body').append(entryNode);
         }
         for (var i = 0; i < bbs_sticky.posts.length; ++i) {
-            var entryNode = UI_generate_post_entry(bbs_sticky.posts[i], true);
+            var entryNode = Widgets.postEntry(bbs_sticky.posts[i], true);
             $('#board-table-body').append(entryNode);
         }
 
@@ -742,8 +712,8 @@ function UI_maindiv_update(pathTerm) {
         $('#post-view-area').empty();
         var content = linkify(pathTerm.data.content);
         $('#post-view-area').append(content)
-                            .append(UI_generate_pic_attach_code(pathTerm.data))
-                            .append(UI_generate_other_attach_code(pathTerm.data));
+                            .append(Widgets.picAttach(pathTerm.data))
+                            .append(Widgets.miscAttach(pathTerm.data));
         $('#post-view').show();
         bbs_topmost_stack.push('#post-view');
 
@@ -754,162 +724,6 @@ function UI_maindiv_update(pathTerm) {
         $('#mail-view').show();
         bbs_topmost_stack.push('#mail-view');
     }
-}
-        
-
-function UI_generate_mail_entry(entry, type){
-    var newPostNode = $('<span>').addClass('badge badge-important new-post-mark').append('new');
-    if (type != bbs_type.path.mailbox) {
-        return '';
-    }
-    var entryNode = $('<tr>').attr('href', '').addClass('mail-entry').attr('mail-id', entry.id)
-                    .append($('<td>').append(entry.id))
-                    .append($('<td>').addClass('board-table-center')
-                            .append((typeof(entry.read) == 'undefined' || entry.read) ? '' : newPostNode))
-                    .append($('<td>').append(entry.owner))
-                    .append($('<td>').append(entry.posttime))
-                    .append($('<td>').append(entry.title));
-    return entryNode;
-}
-
-function UI_generate_board_entry(entry, type){
-    var newPostNode = $('<span>').addClass('badge badge-important new-post-mark').append('new');
-    var entryNode = $('<tr>').attr('href', '');
-
-    if (type == bbs_type.path.allboard) {
-        entryNode.addClass('board-entry').attr('board-name', entry.name)
-                 .append($('<td>').append(entry.total))
-                 .append($('<td>').addClass('board-table-center')
-                         .append(((entry.isdir || entry.read) ? '' : newPostNode)))
-                 .append($('<td>').append(entry.name))
-                 .append($('<td>').append(entry.desc))
-                 .append($('<td>').append(entry.currentusers))
-                 .append($('<td>').append(entry.BM));
-    } else if (entry.type == bbs_type.entry.folder) {
-        entryNode.addClass('folder-entry').attr('folder-name', entry.name).attr('index', entry.index)
-                 .append($('<td>'))
-                 .append($('<td>').addClass('board-table-center'))
-                 .append($('<td>').append(bbs_string.entry_folder))
-                 .append($('<td>').append(entry.name))
-                 .append($('<td>')).append($('<td>'));
-    } else if (entry.type == bbs_type.entry.board) {
-        entryNode.addClass('board-entry').attr('board-name', entry.binfo.name)
-                 .append($('<td>').append(entry.binfo.total))
-                 .append($('<td>').addClass('board-table-center')
-                         .append(((typeof(entry.binfo.read) == 'undefined' || entry.binfo.read) 
-                                  ? '' : newPostNode)))
-                 .append($('<td>').append(entry.binfo.name))
-                 .append($('<td>').append(entry.binfo.desc))
-                 .append($('<td>').append(entry.binfo.currentusers))
-                 .append($('<td>').append(entry.binfo.BM));
-    } else {
-        return '';
-    }
-    return entryNode;
-}
-
-function UI_generate_post_entry(entry, is_sticky){
-    var attachLogoNode = $('<img>').attr('src', './img/attach-small.png')
-                                 .addClass('attach-logo');
-
-    var class_name = 'post-entry';
-    var mNode = $('<span>').addClass('badge badge-important post-mark post-mark-m').append('m');
-    var gNode = $('<span>').addClass('badge badge-important post-mark post-mark-g').append('g');
-    var newPostNode = $('<span>').addClass('badge badge-important new-post-mark').append('new');
-
-    var markM = false;
-    var markG = false;
-    if ($.inArray(bbs_type.post_mark.m, entry.flags) >= 0) {
-        class_name = 'post-entry marked-post-entry';
-        markM = true;
-    }
-    if ($.inArray(bbs_type.post_mark.g, entry.flags) >= 0) {
-        class_name = 'post-entry marked-post-entry';
-        markG = true;
-    }
-
-    var entryNode = $('<tr>').attr('href', '').addClass(class_name)
-                             .attr('post-id', entry.id)
-                             .attr('type', 
-                                   (is_sticky ? bbs_type.post_list_mode.sticky 
-                                              : bbs_type.post_list_mode.normal))
-                             .append($('<td>').append((is_sticky ? bbs_string.entry_sticky : entry.id)))
-                             .append($('<td>').addClass('board-table-center').append(
-                                     (typeof(entry.read) == 'undefined' || entry.read) ? '' : newPostNode))
-                             .append($('<td>').append(entry.owner))
-                             .append($('<td>').append(entry.posttime))
-                             .append($('<td>').append(entry.title)
-                                              .append(entry.attachment > 0 ? attachLogoNode : '')
-                                              .append(markM ? mNode : '')
-                                              .append(markG ? gNode : ''));
-    if (is_sticky) {
-        entryNode.addClass('sticky');
-    }
-    return entryNode;
-}
-
-function UI_generate_pic_attach_code(data) {
-    if (data.picattach.length <= 0) {
-        return '';
-    }
-    var attachDiv = $('<div>').addClass('pic-attach-area').append(bbs_string.attach_pic_text);
-    var attachList = $('<ul>').addClass('thumbnails');
-    
-    var attach_link = data.attachlink + '&a=';
-    
-    for (var id in data.picattach) {
-        var attach = data.picattach[id];
-        var attachLi = $('<li>').addClass('span2');
-        var attachA = $('<a>').attr('href', attach_link + attach.offset)
-                                    .attr('title', attach.name + '\n' + bbs_string.attach_pic_tooltip)
-                                    .attr('target', '_blank')
-                                    .addClass('thumbnail');
-        var attachImg = $('<img>').attr('src', attach_link + attach.offset + '&thumbnail=160x1000')
-                                  .attr('alt', attach.name);
-        attachList.append(attachLi.append(attachA.append(attachImg)));
-    }
-    attachDiv.append(attachList);
-
-    return attachDiv;
-}
-
-function UI_generate_other_attach_code(data) {
-    if (data.otherattach.length <= 0) {
-        return '';
-    }
-    var attachDiv = $('<div>').addClass('other-attach-area')
-                              .append(bbs_string.attach_other_text);
-    var attach_link = data.attachlink + '&a=';
-    
-    for (var id in data.otherattach) {
-        var attach = data.otherattach[id];
-        var attachSubDiv = $('<div>').addClass('well')
-                           .append($('<i>').addClass('icon-file'))
-                           .append(attach.name)
-                           .append($('<br>'))
-                           .append($('<a>').attr('href', attach_link + attach.offset)
-                                           .attr('target', '_blank')
-                                           .append(bbs_string.attach_other_tooltip));
-        attachDiv.append(attachSubDiv);
-    }
-    return attachDiv;
-}
-
-function UI_generate_uploading_file_entry(file) {
-    var filename = file.name;
-    if (filename.length > 15) {
-        filename = filename.substr(0, 15) + '...';
-    }
-    var entryNode = $('<div>').addClass('file-wrapper')
-                              .append($('<i>').addClass('icon-file'))
-                              .append($('<span>').addClass('filename-area')
-                                                 .append(filename))
-                              .append($('<div>').addClass('progress progress-striped active file-upload-progress')
-                                                .append($('<div>').addClass('bar').css('width', '0')))
-                              .append($('<span>').addClass('file-upload-text'))
-                              .append($('<button>').attr('type', 'button').addClass('close')
-                                                   .append('×'));
-    return $('<li>').addClass('file-li').append(entryNode);
 }
 
 function UI_register_hotkeys(){

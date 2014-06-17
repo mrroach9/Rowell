@@ -66,24 +66,12 @@ function postPrepare(mode, callback_func){
     });
 }
 
-function delPost(callback_func, popNum){
-    var boardPathTerm = bbs_path.getLastTermWithType(bbs_type.path.board);
-    var postPathTerm = bbs_path.getLastTermWithType(bbs_type.path.post);
-    if (boardPathTerm == null){
-        return;
-    }
-    if (postPathTerm == null) {
-        postPathTerm = bbs_path.getLastTermWithType(bbs_type.path.sticky_post);
-        if (postPathTerm != null) {
-        } else {
-            return;
-        }
-    }
+function delPost(board_name, id, xid, callback_func, popNum) {
     var data = {
         session : bbs_session,
-        board : boardPathTerm.name,
-        id : postPathTerm.data.id,
-        xid : postPathTerm.data.xid,
+        board : board_name,
+        id : id,
+        xid : xid,
     };
     var request_settings = {
         url : bbs_query.server + bbs_query.del_post.del_post,
@@ -95,8 +83,7 @@ function delPost(callback_func, popNum){
     var resp = $.ajax(request_settings);
     resp.success(function(response){
         bbs_post_info.quote = JSON.parse(response);
-        var currentId = postPathTerm.data.id;
-        view_board(boardPathTerm.name, -1, currentId + 1, callback_func, 'click', popNum);
+        view_board(board_name, -1, id + 1, callback_func, 'click', popNum);
         var msg = {
             type : 'info',
             content : 'post_delete_success'
@@ -167,6 +154,11 @@ function getQuote(mode, callback_func){
 }
 
 function writePost(post_info, callback_func){
+    // Save sketch before posting. If the post is published successfully, 
+    // the sketch will be removed.
+    localStorage[bbs_type.storage.sketch] = post_info.content;
+    localStorage[bbs_type.storage.sketch_title] = post_info.title;
+
     var data = {
         session : bbs_session,
         title : post_info.title,
@@ -212,11 +204,11 @@ function writePost(post_info, callback_func){
 
     var resp = $.ajax(request_settings);
     resp.success(function(response){
-        var msg = {
-            type : 'info',
-            content : 'post_publish_success'
-        };
-        UI_hide_backdrop();
+        // Remove sketch
+        localStorage.removeItem(bbs_type.storage.sketch);
+        localStorage.removeItem(bbs_type.storage.sketch_title);
+
+        // Load board.
         if (post_info.type == bbs_type.write_post.new) {
             view_board(boardPathTerm.name, -1, -1, callback_func, 'click', popNum);
         } else {
@@ -227,6 +219,14 @@ function writePost(post_info, callback_func){
                 view_board(boardPathTerm.name, -1, currentId + 3, callback_func, 'click', popNum);
             }
         }
+
+        // Update UI and notification
+        var msg = {
+            type : 'info',
+            content : 'post_publish_success'
+        };
+        UI_hide_backdrop();
+
         UI_notify_update(msg);
     });
 

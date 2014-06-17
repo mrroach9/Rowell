@@ -4,9 +4,9 @@ var bbs_string = {
     favboard_name       :   '收藏夹',
     allboard_name       :   '所有版面',
     mailbox_name        :   '站内信',
-    title               :   '9# BBS - Rowell v0.3.1',
-    version             :   '0.3.1',
-    send_source         :   '[Sent from Rowell v0.3.1]',
+    title               :   '9# BBS - Rowell v0.3.2',
+    version             :   '0.3.2',
+    send_source         :   '[Sent from Rowell v0.3.2]',
     unimpltd_title      :   '矮油',
     unimpltd_text       :   '此功能尚未实现，我们将在后续版本中添加，敬请谅解。',
     entry_folder        :   '[目录]',
@@ -118,6 +118,10 @@ var bbs_type = {
     cookie : {
         session     :   'bbs_session',
         error_session   :   'SESSION_ERROR'
+    },
+    storage : {
+        sketch      :   'bbs_recent_sketch',
+        sketch_title:   'bbs_recent_sketch_title'
     }
 };
 
@@ -166,8 +170,6 @@ var bbs_settings = {
     max_file_size   :   2097151
 };
 
-var accounts9_session_cookie = 'accounts9_session';
-
 var accounts9 = {
     server      : 'https://account.net9.org',
     client_id   : 'AicTWsI7iS-ZD53Z4AI8ev2PhjU',
@@ -177,7 +179,8 @@ var accounts9 = {
     access_token    : '/api/access_token',
     userinfo        : '/api/userinfo',
     bbsuserinfo     : '/api/bbsuserinfo',
+    session_cookie  : 'accounts9_session'
 };
 
-accounts9.auth += '?redirect_uri=' + encodeURIComponent(website_address + '/login_accounts9.html');
+accounts9.auth += '?redirect_uri=' + encodeURIComponent(website_address);
 accounts9.auth += '&client_id=' + accounts9.client_id;

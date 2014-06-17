@@ -1,4 +1,5 @@
 /*
+ *      vim: expandtab
  *      jquery.xmpp.js
  *
  *      Copyright 2011 Alvaro Garcia <maxpowel@gmail.com>
@@ -80,6 +81,8 @@
         _jsTimeout: null, //Used to save the javascript timeout
         _timeoutMilis: 500,
         __lastAjaxRequest: null,
+        errorCount: 0,
+        debug: false,
         
         /**
         * Connect to the server
@@ -142,7 +145,7 @@
 
                 if(response.find("mechanism:contains('BBSAUTH')").length){
                     xmpp.loginToken(options);
-				}else if(response.find("mechanism:contains('PLAIN')").length){
+                }else if(response.find("mechanism:contains('PLAIN')").length){
                     xmpp.loginPlain(options);
                 }else if(response.find("mechanism:contains('DIGEST-MD5')").length){
                     xmpp.loginDigestMD5(options);
@@ -205,10 +208,11 @@
 
             this._timeoutMilis = xmpp.wait * 1000;
 
-            if(options.onConnect != null)
-                xmpp.connected = true;
+            xmpp.connected = true;
+            if(options.onConnect != null) {
+                options.onConnect();
+            }
 
-            options.onConnect();
             xmpp.listen();
         },
         
@@ -221,6 +225,9 @@
             xmpp.rid = xmpp.rid + 1;
             this.listening = true;
             xmpp.connections = xmpp.connections + 1;
+            if (xmpp.debug) {
+                console.log("connection++ = " + xmpp.connections + ": disconnectSync");
+            }
             var msg = "<body rid='"+ this.rid +"' xmlns='http://jabber.org/protocol/httpbind' sid='"+ this.sid +"' type='terminate'><presence xmlns='jabber:client' type='unavailable'/></body>";
             $.ajax({
                 type: 'POST',
@@ -228,6 +235,9 @@
                 data: msg,
                 success: function(data){
                     xmpp.connections = xmpp.connections - 1;
+                    if (xmpp.debug) {
+                        console.log("connection-- = " + xmpp.connections + ": disconnectSync");
+                    }
                     xmpp.messageHandler(data);
                     xmpp.listening = false;
                     //Do not listen anymore!
@@ -252,9 +262,15 @@
             xmpp.rid = xmpp.rid + 1;
             this.listening = true;
             xmpp.connections = xmpp.connections + 1;
+            if (xmpp.debug) {
+                console.log("connection++ = " + xmpp.connections + ": disconnect");
+            }
             var msg = "<body rid='"+ this.rid +"' xmlns='http://jabber.org/protocol/httpbind' sid='"+ this.sid +"' type='terminate'><presence xmlns='jabber:client' type='unavailable'/></body>";
             $.post(this.url,msg,function(data){
                 xmpp.connections = xmpp.connections - 1;
+                if (xmpp.debug) {
+                    console.log("connection-- = " + xmpp.connections + ": disconnect");
+                }
                 xmpp.messageHandler(data);
                 xmpp.listening = false;
                 //Do not listen anymore!
@@ -359,10 +375,11 @@
                                         xmpp.rid++;
                                         var msg = "<body rid='"+xmpp.rid+"' xmlns='http://jabber.org/protocol/httpbind' sid='"+xmpp.sid+"'><iq type='set' id='_session_auth_2' xmlns='jabber:client'><session xmlns='urn:ietf:params:xml:ns:xmpp-session'/></iq></body>";
                                         $.post(this.url,msg,function(data){
-                                            if(options.onConnect != null)
-                                                xmpp.connected = true;
+                                            xmpp.connected = true;
 
-                                            options.onConnect(data);
+                                            if(options.onConnect != null) {
+                                                options.onConnect(data);
+                                            }
                                             xmpp.listen();
                                         }, 'text');
                                     }, 'text');
@@ -414,10 +431,11 @@
                             xmpp.rid++;
                             text = "<body rid='"+xmpp.rid+"' xmlns='http://jabber.org/protocol/httpbind' sid='"+xmpp.sid+"'><iq type='set' id='_session_auth_2' xmlns='jabber:client'><session xmlns='urn:ietf:params:xml:ns:xmpp-session'/></iq></body>";
                             $.post(url,text,function(data){
-                                if(options.onConnect != null)
-                                    xmpp.connected = true;
+                                xmpp.connected = true;
 
-                                options.onConnect(data);
+                                if(options.onConnect != null) {
+                                    options.onConnect(data);
+                                }
                                 xmpp.listen();
                             }, 'text');
                         }, 'text');
@@ -431,7 +449,7 @@
 
         loginToken: function(options){
             this.rid++;
-			var domain = options.domain;
+            var domain = options.domain;
             var xmpp = this;
             var text = "<body rid='"+this.rid+"' xmlns='http://jabber.org/protocol/httpbind' sid='"+this.sid+"'><auth xmlns='urn:ietf:params:xml:ns:xmpp-sasl' mechanism='BBSAUTH'>"+Base64.encode(options.token)+"</auth></body>";
             var url = this.url;
@@ -446,23 +464,30 @@
                         text ="<body rid='"+xmpp.rid+"' xmlns='http://jabber.org/protocol/httpbind' sid='"+xmpp.sid+"'><iq type='set' id='_bind_auth_2' xmlns='jabber:client'><bind xmlns='urn:ietf:params:xml:ns:xmpp-bind'><resource>" + xmpp.resource +"</resource></bind></iq></body>";
                         $.post(url,text,function(data){
                             //xmpp.messageHandler(data);
-							var response = $(xmpp.fixBody(data));
-							options.jid = response.find("jid").text().split('/')[0];
-							$.xmpp.jid = options.jid;
+                            var response = $(xmpp.fixBody(data));
+                            options.jid = response.find("jid").text().split('/')[0];
+                            $.xmpp.jid = options.jid;
                             xmpp.rid++;
                             text = "<body rid='"+xmpp.rid+"' xmlns='http://jabber.org/protocol/httpbind' sid='"+xmpp.sid+"'><iq type='set' id='_session_auth_2' xmlns='jabber:client'><session xmlns='urn:ietf:params:xml:ns:xmpp-session'/></iq></body>";
                             $.post(url,text,function(data){
-                                if(options.onConnect != null)
-                                    xmpp.connected = true;
-
-                                options.onConnect(data);
+                                var resp = $(xmpp.fixBody(data));
+                                if (resp.attr('type') == 'terminate') {
+                                    if (options.onError != null) {
+                                        options.onError({error: "Server terminated connection: " + resp.attr('condition'), data: data});
+                                    }
+                                    return;
+                                }
+                                xmpp.connected = true;
+                                if(options.onConnect != null) {
+                                    options.onConnect(data);
+                                }
                                 xmpp.listen();
                             }, 'text');
                         }, 'text');
                     }, 'text');
                 }else{
-                            if(options.onError != null)
-                                options.onError({error: "Invalid credentials", data:data});
+                    if(options.onError != null)
+                        options.onError({error: "Invalid credentials", data:data});
                 }
             }, 'text');
         },
@@ -480,9 +505,13 @@
              if($.xmpp.onDisconnect != null){
                  $.xmpp.onDisconnect()
              }
-             
-             $.xmpp.__lastAjaxRequest.abort();
-             $.xmpp.connections = $.xmpp.connections - 1;
+
+             if ($.xmpp.__lastAjaxRequest != null) {
+                 $.xmpp.__lastAjaxRequest.abort();
+             }
+             // already reduced in listen.error
+//             $.xmpp.connections = $.xmpp.connections - 1;
+//             console.log("connection-- = " + $.xmpp.connections + ": networkError");
              $.xmpp.listening = false;
              $.xmpp.connected = false
              
@@ -503,12 +532,18 @@
                     //
                     this.rid = this.rid+1;
                     xmpp.connections = xmpp.connections + 1;
+                    if (xmpp.debug) {
+                        console.log("connection++ = " + xmpp.connections + ": listen");
+                    }
                     xmpp.__lastAjaxRequest = $.ajax({
                       type: "POST",
                       url: this.url,
                       data: "<body rid='"+this.rid+"' xmlns='http://jabber.org/protocol/httpbind' sid='"+this.sid+"'></body>",
                       success: function(data){
                             xmpp.connections = xmpp.connections - 1;
+                            if (xmpp.debug) {
+                                console.log("connection-- = " + xmpp.connections + ": listen.success");
+                            }
                             xmpp.listening = false;
                             var body = $(xmpp.fixBody(data));
                             //When timeout the connections are 0
@@ -528,8 +563,12 @@
                             console.log("listen() error: " + errorThrown);
                             $.xmpp.__lastAjaxRequest.abort();
                             $.xmpp.connections = $.xmpp.connections - 1;
+                            if (xmpp.debug) {
+                                console.log("connection-- = " + xmpp.connections + ": listen.error");
+                            }
                             $.xmpp.listening = false;
-                            $.xmpp.connected = false
+                            $.xmpp.connected = false;
+                            $.xmpp.errorCount = $.xmpp.errorCount + 1;
                       },
                       dataType: 'text'
                     });
@@ -548,16 +587,36 @@
             this.rid = this.rid + 1;
             this.listening = true;
             this.connections = this.connections + 1;
+            if (this.debug) {
+                console.log("connection++ = " + this.connections + ": sendCommand");
+            }
             var command = "<body rid='"+this.rid+"' xmlns='http://jabber.org/protocol/httpbind' sid='"+this.sid+"'>"+ rawCommand+"</body>";
 
             $.post(self.url,command,function(data){
                 self.connections = self.connections - 1;
+                if (self.debug) {
+                    console.log("connection-- = " + self.connections + ": sendCommand");
+                }
                 self.messageHandler(data);
                 self.listening = false;
                 self.listen();
-                if(callback != null)
-                        callback(data);
-            }, 'text');
+                if(callback != null) callback(data);
+            }, 'text').fail(function(XMLHttpRequest, textStatus, errorThrown) {
+                if(self.onError != null){
+                    self.onError({error: errorThrown, data:textStatus});
+                }
+                console.log("sendCommand() error: " + errorThrown);
+                if (self.__lastAjaxRequest != null) {
+                    self.__lastAjaxRequest.abort();
+                }
+                self.connections = self.connections - 1;
+                if (self.debug) {
+                    console.log("connection-- = " + self.connections + ": sendCommand.error");
+                }
+                self.listening = false;
+                self.connected = false;
+                self.errorCount = self.errorCount + 1;
+            });
         },
 
         /**
@@ -666,7 +725,7 @@
                     else{
                         xmpp.onIq(element);
                     }
-                }catch(e){}
+                }catch(e){console.log(e);}
             });
 
             $.each(response.find("presence"),function(i,element){
