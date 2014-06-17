@@ -182,7 +182,7 @@ pre.post-view-area {
     min-height: 380px;
     /* Overriding Bootstrap */
     font-size: 13px;
-    line-height: 19.5px;
+    line-height: 13px;
 }
 tt {
     font-family: RowellaSans, monospace;
