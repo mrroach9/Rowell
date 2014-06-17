@@ -177,6 +177,10 @@ pre.post-view-area {
     line-height: 13px;
 }
 
+pre.post-view-area {
+    font-family: RowellaSans, monospace;
+}
+
 tr.board-entry,
 tr.post-entry,
 tr.folder-entry,
