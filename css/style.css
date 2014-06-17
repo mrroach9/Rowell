@@ -188,6 +188,10 @@ tt {
     font-family: RowellaSans, monospace;
 }
 
+pre.post-view-area {
+    font-family: RowellaSans, monospace;
+}
+
 tr.board-entry,
 tr.post-entry,
 tr.folder-entry,
