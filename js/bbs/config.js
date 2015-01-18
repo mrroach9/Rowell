@@ -167,7 +167,7 @@ var bbs_settings = {
     max_post_count  :   999,
     max_mail_count  :   999,
     mail_count      :   20,
-    max_file_size   :   2097151
+    max_file_size   :   20971519
 };
 
 var accounts9 = {
