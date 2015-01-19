@@ -123,7 +123,7 @@ Widgets.postEntry = function (entry, is_sticky) {
     var postType = is_sticky ? bbs_type.post_list_mode.sticky 
                              : bbs_type.post_list_mode.normal;
     entryNode.mouseenter(function(event) {
-      miniBar.fadeIn('fast');
+      miniBar.show();
     });
     entryNode.mouseleave(function(event) {
       miniBar.hide();
