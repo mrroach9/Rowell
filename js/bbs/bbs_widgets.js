@@ -266,3 +266,20 @@ Widgets.postMiniBar = function(entry) {
     });
     return miniBar;
 };
+
+// Creates an author icon with avatar, name and link fetched from Github repo.
+Widgets.githubAuthorWidget = function(profile) {
+  if (profile == null) {
+    return null;
+  }
+
+  var avatarIcon = $('<img>').addClass('github-avatar')
+      .attr('src', profile.avatar_url);
+  var avatar = $('<span>').addClass('github-avatar-container').append(avatarIcon);
+  var authorNameAnchor = $('<a>').addClass('github-name-anchor')
+      .attr('href', profile.html_url)
+      .attr('target', '_blank')
+      .append(profile.login);
+  var authorName = $('<a>').addClass('github-name-container').append(authorNameAnchor);
+  return $('<div>').addClass('github-author-container').append(avatar).append(authorName);
+};

@@ -83,3 +83,29 @@ function upload_file(file, node, callback_func, progress_func) {
     };
     fr.readAsDataURL(file);
 }
+
+function loadContributorStat(callback_func) {
+    var resp = $.ajax(github_stat_address);
+
+    resp.success(function(response){
+        var authorList = [];
+        for (var ind in response) {
+            authorList.push(response[ind].author);
+        }
+
+        // BYVoid contributed to Rowell but his commits were not merged into this repo.
+        // add him as hard-coded. Figure out a better solution before similar cases
+        // go crazy.
+        var byvoid = {
+            html_url: 'https://github.com/BYVoid',
+            login: 'BYVoid',
+            avatar_url: 'https://avatars3.githubusercontent.com/u/245270?v=3&s=400',
+        };
+        authorList.push(byvoid);
+        callback_func(authorList);
+    });
+
+    resp.fail(function(jqXHR, textStatus){
+        callback_func(null);
+    });
+}

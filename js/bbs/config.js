@@ -1,4 +1,6 @@
 var website_address = location.protocol + '//' + location.hostname + location.pathname;
+var github_stat_address =
+    "https://api.github.com/repos/mrroach9/Rowell/stats/contributors";
 
 var bbs_string = {
     favboard_name       :   '收藏夹',

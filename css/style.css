@@ -739,3 +739,30 @@ input[type="file"].fileuploadbox {
   display: block;
   position: relative;
 }
+
+.ctrbtr-list-panel {
+    padding: 0 10px 5px 10px;
+}
+
+.github-author-container {
+    display: inline-block;
+    padding: 5px;
+    min-width: 160px;
+}
+
+.github-avatar-container {
+    display: inline-block;
+}
+
+.github-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    box-shadow: 2px 2px 3px #CCC;
+}
+
+.github-name-container {
+    display: inline-block;
+    margin-left: 10px;
+    font-size: 16px;
+}

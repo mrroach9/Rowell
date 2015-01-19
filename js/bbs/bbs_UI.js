@@ -514,6 +514,8 @@ function UI_init() {
     $('a#login-accounts9').attr('href', accounts9.server + accounts9.auth);
     $(document).attr("title", bbs_string.title);
 
+    loadContributorStat(UI_OnLoadContributors);
+
     $('.unimplemented').popover({
         trigger: 'hover',
         placement: 'bottom',
@@ -736,4 +738,18 @@ function UI_onresize(){
 
 function UI_onfocus() {
     xmpp_onfocus();
+}
+
+function UI_OnLoadContributors(authorList) {
+    if (authorList == null) {
+        $('.ctrbtr-error').show();
+        $('.ctrbtr-list-panel').hide();
+        return;
+    }
+    $('.ctrbtr-error').hide();
+    $('.ctrbtr-list-panel').show();
+    for (var ind in authorList) {
+        $('.ctrbtr-list-panel').append(
+            Widgets.githubAuthorWidget(authorList[ind]));
+    }
 }
