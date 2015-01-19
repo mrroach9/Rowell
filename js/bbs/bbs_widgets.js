@@ -103,6 +103,8 @@ Widgets.postEntry = function (entry, is_sticky) {
         markG = true;
     }
 
+    var miniBar = Widgets.postMiniBar(entry);
+    miniBar.hide();
     var entryNode = $('<tr>').attr('href', '').addClass(class_name)
                              .append($('<td>').append((is_sticky ? bbs_string.entry_sticky : entry.id)))
                              .append($('<td>').addClass('board-table-center').append(
@@ -114,12 +116,18 @@ Widgets.postEntry = function (entry, is_sticky) {
                                               .append(entry.attachment > 0 ? attachLogoNode : '')
                                               .append(markM ? mNode : '')
                                               .append(markG ? gNode : '')
-                                              .append(Widgets.postMiniBar(entry)));
+                                              .append(miniBar));
     if (is_sticky) {
         entryNode.addClass('sticky');
     }
     var postType = is_sticky ? bbs_type.post_list_mode.sticky 
                              : bbs_type.post_list_mode.normal;
+    entryNode.mouseenter(function(event) {
+      miniBar.fadeIn('fast');
+    });
+    entryNode.mouseleave(function(event) {
+      miniBar.hide();
+    });
     entryNode.click(function() {
         UI_set_loading();
         view_post(entry.id, postType, UI_update, 'click');
@@ -214,7 +222,6 @@ Widgets.uploadFile = function (file) {
 // access to manipulating the post.
 Widgets.postMiniBar = function(entry) {
     var miniBar = $('<div>').addClass('mini-bar');
-    var dot = $('<span>').addClass('mini-bar-dot');
     var btnList = $('<ul>').addClass('mini-bar-ul');
     
     var delBtn = $('<button>').addClass('btn btn-small btn-danger')
@@ -230,9 +237,7 @@ Widgets.postMiniBar = function(entry) {
     btnList.append($('<li>').addClass('mini-bar-li')
                             .append(edtBtn));
 
-    miniBar.append(dot).append(btnList);
-    btnList.hide();
-    dot.css('opacity', 0.1);
+    miniBar.append(btnList);
 
     // These unimplemented popover are just temporary code, will be removed.
     $('.unimplemented').popover({
@@ -254,15 +259,6 @@ Widgets.postMiniBar = function(entry) {
         }
         UI_set_loading();
         delPost(boardPathTerm.name, entry.id, entry.xid, UI_update, -1);
-    });
-
-    dot.mouseenter(function() {
-        btnList.show();
-        dot.css('opacity', 0.7);
-    });
-    miniBar.mouseleave(function() {
-        btnList.hide();
-        dot.css('opacity', 0.1);
     });
     return miniBar;
 };
