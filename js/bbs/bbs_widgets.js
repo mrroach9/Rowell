@@ -31,12 +31,14 @@ Widgets.mailEntry = function(entry, type) {
 Widgets.boardEntry = function(entry, type) {
     var newPostNode = Widgets.newMark();
     var entryNode = $('<tr>').attr('href', '');
-    var entryName = '';
     if (type == bbs_type.path.allboard) {
+        var isRead = (entry.isdir || entry.read);
+        var sortValue = (isRead ? 1 : 0) + ',' + entry.name;
         entryNode.addClass('board-entry')
                  .append($('<td>').append(entry.total))
                  .append($('<td>').addClass('board-table-center')
-                         .append(((entry.isdir || entry.read) ? '' : newPostNode)))
+                         .append(isRead ? '' : newPostNode)
+                         .attr('data-sort-value', sortValue))
                  .append($('<td>').append(entry.name))
                  .append($('<td>').append(entry.desc))
                  .append($('<td>').append(entry.currentusers))
@@ -46,10 +48,12 @@ Widgets.boardEntry = function(entry, type) {
             UI_set_loading();
             view_board(entry.name, -1, -1, UI_update, 'click');
         });
-    } else if (entry.type == bbs_type.entry.folder) {
+    } else if (entry.type == bbs_type.entry.folder) {      
+        var sortValue = 1 + ',' + entry.name;
         entryNode.addClass('folder-entry')
                  .append($('<td>'))
-                 .append($('<td>').addClass('board-table-center'))
+                 .append($('<td>').addClass('board-table-center')
+                                  .attr('data-sort-value', sortValue))
                  .append($('<td>').append(bbs_string.entry_folder))
                  .append($('<td>').append(entry.name))
                  .append($('<td>')).append($('<td>'));
@@ -60,12 +64,14 @@ Widgets.boardEntry = function(entry, type) {
                            entry.name, UI_update);
         });
     } else if (entry.type == bbs_type.entry.board) {
-        entryName = entry.binfo.name;
+        var entryName = entry.binfo.name;
+        var isRead = (typeof(entry.binfo.read) == 'undefined' || entry.binfo.read);
+        var sortValue = (isRead ? 1 : 0) + ',' + entryName;
         entryNode.addClass('board-entry')
                  .append($('<td>').append(entry.binfo.total))
                  .append($('<td>').addClass('board-table-center')
-                         .append(((typeof(entry.binfo.read) == 'undefined' || entry.binfo.read) 
-                                  ? '' : newPostNode)))
+                         .append(isRead ? '' : newPostNode)
+                         .attr('data-sort-value', sortValue))
                  .append($('<td>').append(entry.binfo.name))
                  .append($('<td>').append(entry.binfo.desc))
                  .append($('<td>').append(entry.binfo.currentusers))

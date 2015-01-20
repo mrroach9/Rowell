@@ -515,6 +515,7 @@ function UI_init() {
     $(document).attr("title", bbs_string.title);
 
     loadContributorStat(UI_OnLoadContributors);
+    $('#boardlist-table').stupidtable();
 
     $('.unimplemented').popover({
         trigger: 'hover',
@@ -657,7 +658,7 @@ function UI_subnavbar_update(path) {
 
 function UI_maindiv_update(pathTerm) {
     $('#mailbox-table').hide();
-    $('#boardlist-table').hide();
+    $('#boardlist-table-container').hide();
     $('#board-table').hide();
     $('#post-view').hide();
     $('#mail-view').hide();
@@ -682,8 +683,11 @@ function UI_maindiv_update(pathTerm) {
             var entryNode = Widgets.boardEntry(pathTerm.data[i], pathTerm.type);
             $('#boardlist-table-body').append(entryNode);
         }
-        $('#boardlist-table').show();
-        bbs_topmost_stack.push('#boardlist-table');
+        $('#boardlist-table-container').show();
+        bbs_topmost_stack.push('#boardlist-table-container');
+
+        var tableSorter = $("#boardlist-table").stupidtable();
+        tableSorter.find("thead th[col=unread]").stupidsort('asc');
 
     } else if (pathTerm.type == bbs_type.path.board) {
         $('#board-table-body').empty();
