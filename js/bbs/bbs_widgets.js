@@ -28,12 +28,12 @@ Widgets.mailEntry = function(entry, type) {
 };
 
 // Creates a table row for a board entry in the board lists.
-Widgets.boardEntry = function(entry, type) {
+Widgets.boardEntry = function(entry, type, index) {
     var newPostNode = Widgets.newMark();
     var entryNode = $('<tr>').attr('href', '');
     if (type == bbs_type.path.allboard) {
         var isRead = (entry.isdir || entry.read);
-        var sortValue = (isRead ? 1 : 0) + ',' + entry.name;
+        var sortValue = (isRead ? 1 : 0) + ',' + ('000' + index).slice(-3);;
         entryNode.addClass('board-entry')
                  .append($('<td>').append(entry.total))
                  .append($('<td>').addClass('board-table-center')
@@ -49,7 +49,7 @@ Widgets.boardEntry = function(entry, type) {
             view_board(entry.name, -1, -1, UI_update, 'click');
         });
     } else if (entry.type == bbs_type.entry.folder) {      
-        var sortValue = 1 + ',' + entry.name;
+        var sortValue = 1 + ',' + ('000' + index).slice(-3);
         entryNode.addClass('folder-entry')
                  .append($('<td>'))
                  .append($('<td>').addClass('board-table-center')
@@ -66,7 +66,7 @@ Widgets.boardEntry = function(entry, type) {
     } else if (entry.type == bbs_type.entry.board) {
         var entryName = entry.binfo.name;
         var isRead = (typeof(entry.binfo.read) == 'undefined' || entry.binfo.read);
-        var sortValue = (isRead ? 1 : 0) + ',' + entryName;
+        var sortValue = (isRead ? 1 : 0) + ',' + ('000' + index).slice(-3);;
         entryNode.addClass('board-entry')
                  .append($('<td>').append(entry.binfo.total))
                  .append($('<td>').addClass('board-table-center')

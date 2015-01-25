@@ -711,7 +711,7 @@ function UI_maindiv_update(pathTerm) {
 
         $('#boardlist-table-body').empty();
         for (var i = 0; i < pathTerm.data.length; ++i) {
-            var entryNode = Widgets.boardEntry(pathTerm.data[i], pathTerm.type);
+            var entryNode = Widgets.boardEntry(pathTerm.data[i], pathTerm.type, i);
             $('#boardlist-table-body').append(entryNode);
         }
         $('#boardlist-table-container').show();
