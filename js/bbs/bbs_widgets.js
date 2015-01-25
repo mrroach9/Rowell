@@ -285,3 +285,49 @@ Widgets.githubAuthorWidget = function(profile) {
   var authorName = $('<a>').addClass('github-name-container').append(authorNameAnchor);
   return $('<div>').addClass('github-author-container').append(avatar).append(authorName);
 };
+
+// Create a widget displaying the basic profile of a user. This only renders the
+// inside content of the popover, not including the popover itself.
+Widgets.userProfile = function(profile) {
+  var topPanel = $('<div>').addClass('user-profile-topPanel');
+  var bottomPanel = $('<div>').addClass('user-profile-bottomPanel');
+
+  var userId = profile.userid;
+  var initial = userId[0].toUpperCase();
+  var avatar = $('<div>').addClass('user-profile-avatar-container')
+                .append($('<span>').addClass('user-profile-avatar')
+                          .addClass('initial-' + initial)
+                          .append(initial)
+                );
+
+  var idPanel = $('<div>').addClass('user-profile-id-panel')
+                .append($('<span>').addClass('user-profile-id').append(userId));
+  var nickPanel = $('<div>').addClass('user-profile-nickPanel')
+      .append($('<span>').addClass('user-profile-nick').append(profile.nick));
+  var idAndNickPanel = $('<div>').addClass('user-profile-idAndNick')
+      .append(idPanel).append(nickPanel);
+
+  var loginPanel = $('<div>').addClass('user-profile-statPanel')
+      .append($('<span>').addClass('user-profile-stat')
+              .append('登录数：' + profile.numlogins));
+  var postPanel = $('<div>').addClass('user-profile-statPanel')
+      .append($('<span>').addClass('user-profile-stat')
+              .append('发帖数：' + profile.numposts));
+  var lifePanel = $('<div>').addClass('user-profile-statPanel')
+      .append($('<span>').addClass('user-profile-stat')
+              .append('生命值：' + profile.life));
+  var expPanel = $('<div>').addClass('user-profile-statPanel')
+      .append($('<span>').addClass('user-profile-stat')
+              .append('经验值：' + profile.exp));
+  var statPanel = $('<div>').addClass('user-profile-allstats')
+      .append(loginPanel).append(postPanel).append(lifePanel).append(expPanel);
+  var lastLoginPanel = $('<div>').addClass('user-profile-lastLoginPanel')
+      .append($('<span>').addClass('user-profile-lastLogin')
+              .append('上次登录：' + profile.lastlogintime));
+
+  topPanel.append(avatar).append(idAndNickPanel);
+  bottomPanel.append(statPanel).append(lastLoginPanel);
+
+  return $('<div>').addClass('user-profile-container')
+      .append(topPanel).append(bottomPanel);
+}

@@ -1,15 +1,15 @@
-function UI_register_func(){
+function UI_register_func() {
     // Logging in and out.
     $('#logout-button').click(UI_logout);
 
     // Navigation bar actions.
 
-    $(document).on('click', '#favboard-nav-label', function(){
+    $(document).on('click', '#favboard-nav-label', function() {
         UI_set_loading();
         view_boardlist(bbs_type.entry.favboard, -1, '', UI_update, 0);
     });
 
-    $(document).on('click', '#allboard-nav-label', function(){
+    $(document).on('click', '#allboard-nav-label', function() {
         UI_set_loading();
         view_boardlist(bbs_type.entry.allboard, -1, '', UI_update, 0);
     });
@@ -23,11 +23,11 @@ function UI_register_func(){
 
     // Notifications and contributer lists
 
-    $('#notification-close-button').click(function(){
+    $('#notification-close-button').click(function() {
         $('#notification').fadeOut();
     });
 
-    $('#notification').click(function(){
+    $('#notification').click(function() {
         $(this).fadeOut();
     });
 
@@ -41,20 +41,20 @@ function UI_register_func(){
 
     // Posting, mailing and replying
 
-    $(document).on('click', '.reply-post-button', function(){
+    $(document).on('click', '.reply-post-button', function() {
         var type = $(this).attr('type');
-        postPrepare(bbs_type.write_post.reply, function(){
+        postPrepare(bbs_type.write_post.reply, function() {
             getQuote(type, UI_prepare_post_modal);
         });
     });
 
-    $(document).on('click', '.delete-post-button', function(){
+    $(document).on('click', '.delete-post-button', function() {
         if (confirm(bbs_string.confirm_delete_post)) {
             UI_set_loading();
 
             var boardPathTerm = bbs_path.getLastTermWithType(bbs_type.path.board);
             var postPathTerm = bbs_path.getLastTermWithType(bbs_type.path.post);
-            if (boardPathTerm == null){
+            if (boardPathTerm == null) {
                 return;
             }
             if (postPathTerm == null) {
@@ -69,20 +69,28 @@ function UI_register_func(){
         }
     });
 
-    $(document).on('click', '.new-post-normal', function(){
+    $(document).on('click', '.new-post-normal', function() {
         postPrepare(bbs_type.write_post.new, UI_prepare_post_modal);
     });
 
     // Clear unreads
-    $(document).on('click', '.clear-board-unread', function(){
+    $(document).on('click', '.clear-board-unread', function() {
         UI_set_loading();
         var pathTerm = bbs_path.getLastTermWithType(bbs_type.path.board);
         clear_unread(pathTerm.name, UI_update);
     });
 
-    $(document).on('click', '.clear-all-unread', function(){
+    $(document).on('click', '.clear-all-unread', function() {
         UI_set_loading();
         clear_unread('', UI_update);
+    });
+
+    // Hide popovers when clicking outside.
+    $(document).on('click', '', function(e) {
+      if (typeof $(e.target).data('original-title') == 'undefined' &&
+         !$(e.target).parents().is('.popover.in')) {
+        $('[data-original-title]').popover('hide');
+      }
     });
 
     UI_register_func_navigation();
@@ -96,29 +104,29 @@ function UI_register_func(){
 function UI_register_func_navigation() {
     // Linear navigations
 
-    $('#board-table .last-page-button').click(function(){
+    $('#board-table .last-page-button').click(function() {
         UI_set_loading();
         var pathTerm = bbs_path.getLastTermWithType(bbs_type.path.board);
         view_board(pathTerm.name, -1, -1, UI_update, 'click', -1);
     });
 
-    $('#board-table .first-page-button').click(function(){
+    $('#board-table .first-page-button').click(function() {
         UI_set_loading();
         var pathTerm = bbs_path.getLastTermWithType(bbs_type.path.board);
         view_board(pathTerm.name, 1, -1, UI_update, 'click', -1);
     });
 
-    $('#board-table .next-page-button').click(function(){
+    $('#board-table .next-page-button').click(function() {
         UI_set_loading();
         view_board_next_page(UI_update);
     });
 
-    $('#board-table .prev-page-button').click(function(){
+    $('#board-table .prev-page-button').click(function() {
         UI_set_loading();
         view_board_prev_page(UI_update);
     });
 
-    $('.jump-to-post-button').click(function(){
+    $('.jump-to-post-button').click(function() {
         UI_set_loading();
         var post_id = $(this).parent().children('.jump-to-post-input').val();
         view_board_jumpto(post_id, UI_update);
@@ -132,27 +140,27 @@ function UI_register_func_navigation() {
         }
     });
 
-    $('#mailbox-table .last-page-button').click(function(){
+    $('#mailbox-table .last-page-button').click(function() {
         UI_set_loading();
         view_mailbox(bbs_type.entry.mailbox, -1, -1, UI_update, 'click', -1);
     });
 
-    $('#mailbox-table .first-page-button').click(function(){
+    $('#mailbox-table .first-page-button').click(function() {
         UI_set_loading();
         view_mailbox(bbs_type.entry.mailbox, 1, -1, UI_update, 'click', -1);
     });
 
-    $('#mailbox-table .next-page-button').click(function(){
+    $('#mailbox-table .next-page-button').click(function() {
         UI_set_loading();
         view_mailbox_next_page(UI_update);
     });
 
-    $('#mailbox-table .prev-page-button').click(function(){
+    $('#mailbox-table .prev-page-button').click(function() {
         UI_set_loading();
         view_mailbox_prev_page(UI_update);
     });
 
-    $('.jump-to-mail-button').click(function(){
+    $('.jump-to-mail-button').click(function() {
         UI_set_loading();
         var mail_id = $(this).parent().children('.jump-to-mail-input').val();
         view_mailbox_jumpto(mail_id, UI_update);
@@ -166,7 +174,7 @@ function UI_register_func_navigation() {
         }
     });
 
-    $('.next-post-button').click(function(){
+    $('.next-post-button').click(function() {
         var pathTerm = bbs_path.getLastTerm();
         if (pathTerm.type == bbs_type.path.sticky_post) {
             UI_notify_update({
@@ -179,7 +187,7 @@ function UI_register_func_navigation() {
         view_next_post(UI_update);
     });
 
-    $('.prev-post-button').click(function(){
+    $('.prev-post-button').click(function() {
         var pathTerm = bbs_path.getLastTerm();
         if (pathTerm.type == bbs_type.path.sticky_post) {
             UI_notify_update({
@@ -192,17 +200,17 @@ function UI_register_func_navigation() {
         view_prev_post(UI_update);
     });
 
-    $('.next-mail-button').click(function(){
+    $('.next-mail-button').click(function() {
         UI_set_loading();
         view_next_mail(UI_update);
     });
 
-    $('.prev-mail-button').click(function(){
+    $('.prev-mail-button').click(function() {
         UI_set_loading();
         view_prev_mail(UI_update);
     });
 
-    $('.st-prev-button').click(function(){
+    $('.st-prev-button').click(function() {
         var pathTerm = bbs_path.getLastTerm();
         if (pathTerm.type == bbs_type.path.sticky_post) {
             UI_notify_update({
@@ -215,7 +223,7 @@ function UI_register_func_navigation() {
         view_post_sametopic(UI_update, 'prev');
     });
 
-    $('.st-next-button').click(function(){
+    $('.st-next-button').click(function() {
         var pathTerm = bbs_path.getLastTerm();
         if (pathTerm.type == bbs_type.path.sticky_post) {
             UI_notify_update({
@@ -228,7 +236,7 @@ function UI_register_func_navigation() {
         view_post_sametopic(UI_update, 'next');
     });
 
-    $('.st-head-button').click(function(){
+    $('.st-head-button').click(function() {
         var pathTerm = bbs_path.getLastTerm();
         if (pathTerm.type == bbs_type.path.sticky_post) {
             UI_notify_update({
@@ -241,7 +249,7 @@ function UI_register_func_navigation() {
         view_post_sametopic(UI_update, 'head');
     });
 
-    $('.st-latest-button').click(function(){
+    $('.st-latest-button').click(function() {
         var pathTerm = bbs_path.getLastTerm();
         if (pathTerm.type == bbs_type.path.sticky_post) {
             UI_notify_update({
@@ -256,19 +264,19 @@ function UI_register_func_navigation() {
 }
 
 function UI_register_func_post_modal() {
-    $(document).on('click', '#add-attachment-link', function(){
+    $(document).on('click', '#add-attachment-link', function() {
         $('div.attach-area').show();
     });
 
     $('#publish-post-button').click(UI_write_post);
 
-    $(document).on('click', '#write-post-panel .cancel-button', function(){
+    $(document).on('click', '#write-post-panel .cancel-button', function() {
         if (confirm(bbs_string.confirm_cancel_post)) {
             UI_hide_write_post();
         }
     });
 
-    $('input:radio[name=qmd-type]').change(function(){
+    $('input:radio[name=qmd-type]').change(function() {
         if ($('input:radio[name=qmd-type]:checked').val() == 'random') {
             $('input:text[name=qmd-number]').attr('disabled', true);
         } else {
@@ -357,16 +365,16 @@ function UI_start_upload(files, node) {
     }
 }
 
-function UI_hide_write_post(){
+function UI_hide_write_post() {
     $('#write-post-panel').modal('hide');
     $('.attach-area').hide();
     $('.file-list').empty();
     bbs_topmost_stack.pop();
 }
 
-function UI_set_loading(){
+function UI_set_loading() {
     bbs_loading_show = true;
-    setTimeout(function(){
+    setTimeout(function() {
         if (bbs_loading_show) {
             $('#loading-area').show();
         }
@@ -374,17 +382,17 @@ function UI_set_loading(){
     setTimeout(UI_hide_loading, 5000);
 }
 
-function UI_hide_loading(){
+function UI_hide_loading() {
     bbs_loading_show = false;
     $('#loading-area').hide();
 }
 
-function UI_prepare_post_modal(){
+function UI_prepare_post_modal() {
     $('#write-post-panel').attr('post-type', bbs_post_info.type);
     if (bbs_post_info.type == bbs_type.write_post.new) {
         $('#write-post-title').val('');
         $('#write-post-content').val('');
-    } else if (bbs_post_info.type == bbs_type.write_post.reply){
+    } else if (bbs_post_info.type == bbs_type.write_post.reply) {
         $('#write-post-title').val(bbs_post_info.quote.title);
         $('#write-post-content').val(bbs_post_info.quote.content);
     }
@@ -429,7 +437,7 @@ function UI_prepare_post_modal(){
     bbs_topmost_stack.push('#write-post-panel');
 }
 
-function UI_write_post(){
+function UI_write_post() {
     // If there is any file upload not finishing, do not post.
     var attach_list = [];
     var upload_finished = true;
@@ -454,7 +462,7 @@ function UI_write_post(){
     var title = $('#write-post-title').val();
     var qmd_type = $('input:radio[name=qmd-type]:checked').val();
     var qmd_num = $('input:text[name=qmd-number]').val();
-    if (qmd_num == '' || qmd_num == null){
+    if (qmd_num == '' || qmd_num == null) {
         qmd_num = 0;
     }
     if (qmd_type == 'random') {
@@ -463,7 +471,7 @@ function UI_write_post(){
     var content = $('#write-post-content').val();
 
     var anony = false;
-    if (bbs_post_info.can_anony && $('.anony-checkbox').attr('checked')){
+    if (bbs_post_info.can_anony && $('.anony-checkbox').attr('checked')) {
         anony = true;
     }
     var type = $('#write-post-panel').attr('post-type');
@@ -483,11 +491,11 @@ function UI_write_post(){
     writePost(post_info, UI_update);
 }
 
-function UI_hide_backdrop(){
+function UI_hide_backdrop() {
     $('#global-backdrop').hide();
 }
 
-function UI_show_backdrop(){
+function UI_show_backdrop() {
     $('#global-backdrop').show();
 }
 
@@ -525,10 +533,33 @@ function UI_init() {
         container: 'body'
     });
 
+    $('.self-user-profile').popover({
+        trigger: 'click',
+        html: true,
+        placement: 'bottom',
+        title: '',
+        content: function() {
+            return Widgets.userProfile({
+                exp: 18759,
+                lasthost: "73.19.90.195",
+                lastlogin: 1421723287,
+                lastlogintime: "Tue Jan 20 11:08:07 2015",
+                life: 999,
+                nick: "分层设色地形图",
+                numlogins: 5239,
+                numposts: 15291,
+                perf: 51,
+                plan: "",
+                unread_mail: false,
+                userid: "Roach"
+            });
+        }
+    });
+
     bbs_topmost_stack.splice(0);
 }
 
-function UI_login_finished(result){
+function UI_login_finished(result) {
     if (result) {
         if (location.href.replace('#', '') != website_address) {
             location.href = website_address;
@@ -552,7 +583,7 @@ function UI_login_finished(result){
     UI_hide_backdrop();
 }
 
-function UI_logout(){
+function UI_logout() {
     removeSessionCookie();
     Accounts9.removeSessionCookie();
     bbs_topmost_stack.splice(0);
@@ -562,15 +593,15 @@ function UI_logout(){
     $('#logged-panel').hide();
 }
 
-function UI_path_click(){
+function UI_path_click() {
     UI_set_loading();
     var id = $(this).attr('path-id');
     var pathTerm = bbs_path.get(id);
-    if (pathTerm.type == bbs_type.path.allboard){
+    if (pathTerm.type == bbs_type.path.allboard) {
         view_boardlist(bbs_type.entry.allboard, -1, '', UI_update, id);
-    } else if (pathTerm.type == bbs_type.path.favboard){
+    } else if (pathTerm.type == bbs_type.path.favboard) {
         view_boardlist(bbs_type.entry.favboard, -1, '', UI_update, id);
-    } else if (pathTerm.type == bbs_type.path.board){
+    } else if (pathTerm.type == bbs_type.path.board) {
         var postPathTerm = bbs_path.getLast();
         if (postPathTerm.type == bbs_type.path.post) {
             var currentId = postPathTerm.data.id;
@@ -599,7 +630,7 @@ function UI_path_click(){
     }
 }
 
-function UI_update(){
+function UI_update() {
     UI_subnavbar_update(bbs_path);
     UI_maindiv_update(bbs_path.getLastTerm());
     UI_hide_backdrop();
@@ -609,14 +640,14 @@ function UI_update(){
     location.href = '#';
 }
 
-function UI_notify_update(msg){
+function UI_notify_update(msg) {
     if (msg == null) return;
     var str = '<strong>'+bbs_msg[msg.type]['zhname'] + '</strong>'
             + bbs_msg[msg.type][msg.content];
     $('#notification-content').html(str);
     $('#notification').attr('class',bbs_msg[msg.type]['class_name']);
     $('#notification').fadeIn();
-    setTimeout(function(){
+    setTimeout(function() {
         $('#notification').fadeOut();
     }, 2000);
     UI_hide_loading();
@@ -642,7 +673,7 @@ function UI_subnavbar_update(path) {
         $('.path').append(term);
     }
     var type = path.getLastTerm().type;
-    if (type == bbs_type.path.favboard){
+    if (type == bbs_type.path.favboard) {
         $('.favboard-btns').show();
     } else if (type == bbs_type.path.board) {
         $('.board-btns').show();
@@ -732,11 +763,11 @@ function UI_maindiv_update(pathTerm) {
     }
 }
 
-function UI_register_hotkeys(){
+function UI_register_hotkeys() {
     register_default_hotkeys();
 }
 
-function UI_onresize(){
+function UI_onresize() {
     xmpp_onresize();
 }
 
