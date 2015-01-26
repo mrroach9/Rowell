@@ -352,7 +352,7 @@ Widgets.userAnchor = function(userId) {
   var anchor = $('<a>').addClass('user-profile-anchor')
                        .attr('user-id', userId)
                        .append(userId);
-  anchor.click(function() {
+  anchor.click(function(e) {
       var userId = $(this).attr('user-id');
       var container = $('<div>').addClass('user-profile-container')
           .attr('user-id', userId);
@@ -360,13 +360,16 @@ Widgets.userAnchor = function(userId) {
           trigger: 'manual',
           html: true,
           placement: 'bottom',
-          content: container
+          content: container,
+          container: 'body',
+          animation: false
       });
       $(this).popover('toggle');
       load_user_profile(userId, function(response) {
           container.empty();
           container.append(Widgets.userProfile(response));
       });
+      UI_closeUnfocusedPopover(e);
       // Stop propogation, otherwise it will trigger post/mail/board loading.
       return false;
   });

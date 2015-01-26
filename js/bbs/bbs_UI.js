@@ -87,17 +87,7 @@ function UI_register_func() {
 
     // If user clicks on anything outside this anchor or its popover,
     // dismiss the popover.
-    // TODO: this has a bug in bootstrap 2.x that multiple popovers
-    // may show simultaneous. 3.x does not have this bug.
-    $(document).on('click', function (e) {
-        $('[data-original-title]').each(function () {
-            if (!$(this).is(e.target) && 
-                $(this).has(e.target).length === 0 
-                && $('.popover').has(e.target).length === 0) {
-                $(this).popover('hide');
-            }
-        });
-    });
+    $(document).on('click', UI_closeUnfocusedPopover);
 
     UI_register_func_navigation();
     UI_register_func_post_modal();
@@ -775,4 +765,14 @@ function UI_OnLoadContributors(authorList) {
         $('.ctrbtr-list-panel').append(
             Widgets.githubAuthorWidget(authorList[ind]));
     }
+}
+
+function UI_closeUnfocusedPopover(e) {
+    $('[data-original-title]').each(function () {
+        if (!$(this).is(e.target) && 
+            $(this).has(e.target).length === 0 
+            && $('.popover').has(e.target).length === 0) {
+            $(this).popover('hide');
+        }
+    });
 }
