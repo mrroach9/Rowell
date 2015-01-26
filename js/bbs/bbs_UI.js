@@ -564,6 +564,7 @@ function UI_login_finished(result) {
 function UI_logout() {
     removeSessionCookie();
     Accounts9.removeSessionCookie();
+    xmpp_disconnect();
     bbs_topmost_stack.splice(0);
     $('#unlogged-navbar').show();
     $('#unlogged-panel').show();

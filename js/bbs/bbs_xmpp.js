@@ -85,7 +85,10 @@ function xmpp_connect() {
     onPresence: xmpp_presence,
     onError: xmpp_error
     });    
+}
 
+function xmpp_disconnect() {
+    $.xmpp.disconnect(null);
 }
 
 function xmpp_connected() {
