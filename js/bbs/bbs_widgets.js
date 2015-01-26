@@ -16,7 +16,7 @@ Widgets.mailEntry = function(entry, type) {
                     .append($('<td>').append(entry.id))
                     .append($('<td>').addClass('board-table-center')
                             .append((typeof(entry.read) == 'undefined' || entry.read) ? '' : newPostNode))
-                    .append($('<td>').append(entry.owner))
+                    .append($('<td>').append(Widgets.userAnchor(entry.owner)))
                     .append($('<td>').append(entry.posttime))
                     .append($('<td>').append(entry.title));
 
@@ -28,12 +28,20 @@ Widgets.mailEntry = function(entry, type) {
 };
 
 // Creates a table row for a board entry in the board lists.
+// TODO: merge allboard entry and favboard entry (why were they separated!)
 Widgets.boardEntry = function(entry, type, index) {
     var newPostNode = Widgets.newMark();
     var entryNode = $('<tr>').attr('href', '');
     if (type == bbs_type.path.allboard) {
         var isRead = (entry.isdir || entry.read);
-        var sortValue = (isRead ? 1 : 0) + ',' + ('000' + index).slice(-3);;
+        var sortValue = (isRead ? 1 : 0) + ',' + ('000' + index).slice(-3);
+
+        var bmCell = $('<td>');
+        var bmAnchors = Widgets.__BMList(entry.BM);
+        for (var index in bmAnchors) {
+          bmCell.append(bmAnchors[index]);
+        }
+
         entryNode.addClass('board-entry')
                  .append($('<td>').append(entry.total))
                  .append($('<td>').addClass('board-table-center')
@@ -42,7 +50,7 @@ Widgets.boardEntry = function(entry, type, index) {
                  .append($('<td>').append(entry.name))
                  .append($('<td>').append(entry.desc))
                  .append($('<td>').append(entry.currentusers))
-                 .append($('<td>').append(entry.BM));
+                 .append(bmCell);
 
         entryNode.click(function() {
             UI_set_loading();
@@ -66,7 +74,14 @@ Widgets.boardEntry = function(entry, type, index) {
     } else if (entry.type == bbs_type.entry.board) {
         var entryName = entry.binfo.name;
         var isRead = (typeof(entry.binfo.read) == 'undefined' || entry.binfo.read);
-        var sortValue = (isRead ? 1 : 0) + ',' + ('000' + index).slice(-3);;
+        var sortValue = (isRead ? 1 : 0) + ',' + ('000' + index).slice(-3);
+
+        var bmCell = $('<td>');
+        var bmAnchors = Widgets.__BMList(entry.binfo.BM);
+        for (var index in bmAnchors) {
+          bmCell.append(bmAnchors[index]);
+        }
+
         entryNode.addClass('board-entry')
                  .append($('<td>').append(entry.binfo.total))
                  .append($('<td>').addClass('board-table-center')
@@ -75,7 +90,7 @@ Widgets.boardEntry = function(entry, type, index) {
                  .append($('<td>').append(entry.binfo.name))
                  .append($('<td>').append(entry.binfo.desc))
                  .append($('<td>').append(entry.binfo.currentusers))
-                 .append($('<td>').append(entry.binfo.BM));
+                 .append(bmCell);
 
         entryNode.click(function() {
             UI_set_loading();
@@ -115,7 +130,7 @@ Widgets.postEntry = function (entry, is_sticky) {
                              .append($('<td>').append((is_sticky ? bbs_string.entry_sticky : entry.id)))
                              .append($('<td>').addClass('board-table-center').append(
                                      (typeof(entry.read) == 'undefined' || entry.read) ? '' : newPostNode))
-                             .append($('<td>').append(entry.owner))
+                             .append($('<td>').append(Widgets.userAnchor(entry.owner)))
                              .append($('<td>').append(entry.posttime))
                              .append($('<td>').addClass('post-title-td')
                                               .append(entry.title)
@@ -328,6 +343,43 @@ Widgets.userProfile = function(profile) {
   topPanel.append(avatar).append(idAndNickPanel);
   bottomPanel.append(statPanel).append(lastLoginPanel);
 
-  return $('<div>').addClass('user-profile-container')
-      .append(topPanel).append(bottomPanel);
+  return $('<div>').append(topPanel).append(bottomPanel);
+}
+
+// Return a user anchor, which triggers a popover when clicked,
+// loading the user's profile and render as a userProfile widget.
+Widgets.userAnchor = function(userId) {
+  var anchor = $('<a>').addClass('user-profile-anchor')
+                       .attr('user-id', userId)
+                       .append(userId);
+  anchor.click(function() {
+      var userId = $(this).attr('user-id');
+      var container = $('<div>').addClass('user-profile-container')
+          .attr('user-id', userId);
+      $(this).popover({
+          trigger: 'manual',
+          html: true,
+          placement: 'bottom',
+          content: container
+      });
+      $(this).popover('toggle');
+      load_user_profile(userId, function(response) {
+          container.empty();
+          container.append(Widgets.userProfile(response));
+      });
+      // Stop propogation, otherwise it will trigger post/mail/board loading.
+      return false;
+  });
+  return anchor;
+}
+
+// Accepts a space-separated sequence of users (usually boardmasters),
+// For each of them, render a user anchor and return a list of those.
+Widgets.__BMList = function(bmStr) {
+  var bmAnchorList = [];
+  var bmList = bmStr.split(' ');
+  for (var index in bmList) {
+    bmAnchorList.push(Widgets.userAnchor(bmList[index]));
+  }
+  return bmAnchorList;
 }

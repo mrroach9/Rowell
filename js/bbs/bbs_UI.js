@@ -85,12 +85,18 @@ function UI_register_func() {
         clear_unread('', UI_update);
     });
 
-    // Hide popovers when clicking outside.
-    $(document).on('click', '', function(e) {
-      if (typeof $(e.target).data('original-title') == 'undefined' &&
-         !$(e.target).parents().is('.popover.in')) {
-        $('[data-original-title]').popover('hide');
-      }
+    // If user clicks on anything outside this anchor or its popover,
+    // dismiss the popover.
+    // TODO: this has a bug in bootstrap 2.x that multiple popovers
+    // may show simultaneous. 3.x does not have this bug.
+    $(document).on('click', function (e) {
+        $('[data-original-title]').each(function () {
+            if (!$(this).is(e.target) && 
+                $(this).has(e.target).length === 0 
+                && $('.popover').has(e.target).length === 0) {
+                $(this).popover('hide');
+            }
+        });
     });
 
     UI_register_func_navigation();
@@ -533,29 +539,6 @@ function UI_init() {
         container: 'body'
     });
 
-    $('.self-user-profile').popover({
-        trigger: 'click',
-        html: true,
-        placement: 'bottom',
-        title: '',
-        content: function() {
-            return Widgets.userProfile({
-                exp: 18759,
-                lasthost: "73.19.90.195",
-                lastlogin: 1421723287,
-                lastlogintime: "Tue Jan 20 11:08:07 2015",
-                life: 999,
-                nick: "分层设色地形图",
-                numlogins: 5239,
-                numposts: 15291,
-                perf: 51,
-                plan: "",
-                unread_mail: false,
-                userid: "Roach"
-            });
-        }
-    });
-
     bbs_topmost_stack.splice(0);
 }
 
@@ -574,6 +557,11 @@ function UI_login_finished(result) {
 
         view_boardlist(bbs_type.entry.favboard, -1, '', UI_update, 0);
         xmpp_connect();
+        
+        load_user_profile('', function(response) {
+          $('#self-user-profile-container').empty();
+          $('#self-user-profile-container').append(Widgets.userAnchor(response.userid));
+        });
     } else {
         $('#unlogged-navbar').show();
         $('#unlogged-panel').show();

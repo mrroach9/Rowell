@@ -64,7 +64,8 @@ var bbs_query = {
     },
     utility : {
         clear_unread    :   '/board/clear_unread',
-        upload_file     :   '/store/new'
+        upload_file     :   '/store/new',
+        user_profile    :   '/user/query',
     }
 };
 
@@ -155,7 +156,8 @@ var bbs_msg = {
         cannot_reply    :   '此帖已被设置为不可回复。',
         cannot_post     :   '本版已被设置为只读。',
         invalid_sticky_op:  '无法对置底贴进行该操作。',
-        cannot_delete_post   :   '您无权限删除该贴。'
+        cannot_delete_post   :   '您无权限删除该贴。',
+        load_user_profile    :   '获取用户信息失败。'
     },
     warning : {
         class_name : 'alert alert-block',
