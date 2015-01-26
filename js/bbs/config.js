@@ -1,12 +1,14 @@
 var website_address = location.protocol + '//' + location.hostname + location.pathname;
+var github_stat_address =
+    "https://api.github.com/repos/mrroach9/Rowell/stats/contributors";
 
 var bbs_string = {
     favboard_name       :   '收藏夹',
     allboard_name       :   '所有版面',
     mailbox_name        :   '站内信',
-    title               :   '9# BBS - Rowell v0.3.2',
-    version             :   '0.3.2',
-    send_source         :   '[Sent from Rowell v0.3.2]',
+    title               :   '9# BBS - Rowell v0.3.3',
+    version             :   '0.3.3',
+    send_source         :   '[Sent from Rowell v0.3.3]',
     unimpltd_title      :   '矮油',
     unimpltd_text       :   '此功能尚未实现，我们将在后续版本中添加，敬请谅解。',
     entry_folder        :   '[目录]',
@@ -62,7 +64,8 @@ var bbs_query = {
     },
     utility : {
         clear_unread    :   '/board/clear_unread',
-        upload_file     :   '/store/new'
+        upload_file     :   '/store/new',
+        user_profile    :   '/user/query',
     }
 };
 
@@ -153,7 +156,8 @@ var bbs_msg = {
         cannot_reply    :   '此帖已被设置为不可回复。',
         cannot_post     :   '本版已被设置为只读。',
         invalid_sticky_op:  '无法对置底贴进行该操作。',
-        cannot_delete_post   :   '您无权限删除该贴。'
+        cannot_delete_post   :   '您无权限删除该贴。',
+        load_user_profile    :   '获取用户信息失败。'
     },
     warning : {
         class_name : 'alert alert-block',
