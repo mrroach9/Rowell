@@ -3,29 +3,24 @@
 <head>
     <meta charset='utf-8'>
     <title>9# BBS</title>
-    
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-
     <meta name='description' content=''>
     <meta name='author' content=''>
-	
-	<link href='./css/bootstrap.min.css' rel='stylesheet'>
+
+    <link href='./css/bootstrap.min.css' rel='stylesheet'>
     <link href='./css/style.css' rel='stylesheet'>
 	<link href="./css/bootstrap-responsive.css" rel="stylesheet">
-
+    
 	<link rel='shortcut icon' href='favicon.ico'>
 
-    <script type="text/javascript">
-          var _gaq = _gaq || [];
-          _gaq.push(['_setAccount', 'UA-27374551-1']);
-          _gaq.push(['_setDomainName', 'roach-works.com']);
-          _gaq.push(['_trackPageview']);
-
-          (function() {
-            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-          })();
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    
+      ga('create', 'UA-27374551-2', 'rowell9.com');
+      ga('send', 'pageview');
     </script>
 </head>
 
@@ -72,23 +67,23 @@
     <div class='navbar navbar-fixed-top navbar-inverse hide' id='logged-navbar'>
       <div class='navbar-inner'>
         <div class='container'>
-		  <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+		<!-- .btn-navbar is used as the toggle for collapsed navbar content -->
 		  <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-		  <div class='brand'>
+          <div class='brand'>
             <div class='title-label'>9# BBS</div>
           </div>
-		  <!-- Everything want to hidden at 940px or less, place within here -->
+          <!-- Everything want to hidden at 940px or less, place within here -->
           <div class='nav-collapse collapse'>
             <ul class='nav'>
               <li><a href='javascript:void(0)' id='favboard-nav-label'>收藏夹</a></li>
               <li><a href='javascript:void(0)' id='allboard-nav-label'>所有版面</a></li>
               <li><a href='javascript:void(0)' id='mailbox-nav-label'>站内信</a></li>
               <li><a href='javascript:void(0)' class='unimplemented'>设置</a></li>
-              <li><a>已登录</a></li>
+              <li id='self-user-profile-container'></li>
               <li><a href='javascript:void(0)' id='logout-button'>退出</a></li>
             </ul>
             <ul class='nav pull-right'>
@@ -255,12 +250,12 @@
                     </span>
                 </div>
             </div>
-            <div id='boardlist-table' class='hide display-area'>
-                <table class='table table-striped table-bordered table-hover'>
+            <div id='boardlist-table-container' class='hide display-area'>
+                <table id='boardlist-table' class='table table-striped table-bordered table-hover'>
                     <thead class='board-table-head'>
                         <th width='60px'>帖数</th>
-                        <th width='42px'>未读</th>
-                        <th width='150px'>版名</th>
+                        <th width='42px' data-sort='string' col='unread'>未读</th>
+                        <th width='150px' data-sort='string' col='name'>版名</th>
                         <th>版面中文名</th>
                         <th width='32px'>在线</th>
                         <th width='220px'>版主</th>
@@ -376,7 +371,7 @@
                 <form class='form-horizontal'>
                     <fieldset>
                         <div class='control-group fluid'>
-                            标题：<input type='text' class='input-xlarge fluid' id='write-post-title'/>
+                            标题：<input type='text' class='input-xlarge' id='write-post-title'/>
                             <br>
                             <div class='write-post-option'>
                                 发表于<label id='write-post-board'><nobr></nobr></label>版
@@ -443,27 +438,12 @@
             <h3 id='post-panel-title'>Rowell开发者名单</h3>
         </div>
         <div class='modal-body'>
-            <p>按常用ID字母序排列。</p>
-            <ul>
-                <li>
-                    <a href="https://github.com/askzy" target="_blank">askzy</a>
-                </li>
-                <li>
-                    <a href="https://github.com/BYVoid" target="_blank">BYVoid</a>
-                </li>
-                <li>
-                    <a href="https://github.com/HenryHu" target="_blank">henryhu</a>
-                </li>
-                <li>
-                    <a href="https://github.com/hs3180" target="_blank">huangs</a>
-                </li>
-                <li>
-                    <a href="https://github.com/mrroach9" target="_blank">Roach</a>
-                </li>
-                <li>
-                    <a href="https://github.com/ccding" target="_blank">Tux</a>
-                </li>
-            </ul>
+            <div class='ctrbtr-error'>
+                抱歉，加载贡献者名单出现错误，请检查您与
+                <a href='https://github.com'>Github</a>
+                的连接是否畅通。
+            </div>
+            <div class='ctrbtr-list-panel'></div>
         </div>
         <div class='modal-footer'>
             <a class='btn btn-primary cancel-button'>关闭</a>
@@ -522,6 +502,7 @@
     <script src='./js/jquery/jquery.purl.js'></script>
     <script src='./js/jquery/jquery.xmpp.js'></script>
     <script src='./js/bootstrap/bootstrap.js'></script>
+    <script src='./js/jquery/stupidtable.min.js'></script>
 
     <script src='./js/bbs/ansi2html.js'></script>
     <script src='./js/bbs/config.js'></script>
@@ -548,4 +529,3 @@
     </script>
   </body>
 </html>
-
