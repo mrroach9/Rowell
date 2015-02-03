@@ -87,7 +87,7 @@ function UI_register_func() {
 
     // If user clicks on anything outside this anchor or its popover,
     // dismiss the popover.
-    $(document).on('click', UI_closeUnfocusedPopover);
+    $(document).on('click touchend', UI_closeUnfocusedPopover);
 
     UI_register_func_navigation();
     UI_register_func_post_modal();
