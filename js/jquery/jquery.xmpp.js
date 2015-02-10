@@ -155,7 +155,13 @@
                     }
 
                 }
-            }, 'text');
+            }, 'text').fail(function(XMLHttpRequest, textStatus, errorThrown) {
+                console.log("initial connect() error: " + errorThrown);
+                if(xmpp.onError != null){
+                    xmpp.onError({error: errorThrown, data:textStatus});
+                }
+                xmpp.errorCount = xmpp.errorCount + 1;
+            });
         },
         
         /**
@@ -242,14 +248,31 @@
                     xmpp.listening = false;
                     //Do not listen anymore!
                     //Two callbacks
-                    if(callback != null)
-                    callback(data);
-                    if(xmpp.onDisconnect != null)
+                    if(callback != null) {
+                        callback(data);
+                    }
+                    if(xmpp.onDisconnect != null) {
+                        xmpp.onDisconnect(data);
+                    }
                     xmpp.connected = false;
-                    xmpp.onDisconnect(data);
                 },
                 dataType: 'text',
                 async:false
+            }).fail(function(XMLHttpRequest, textStatus, errorThrown) {
+/*                if(xmpp.onError != null){
+                    xmpp.onError({error: errorThrown, data:textStatus});
+                }*/
+                console.log("disconnectSync() error: " + errorThrown);
+                if (xmpp.__lastAjaxRequest != null) {
+                    xmpp.__lastAjaxRequest.abort();
+                }
+                xmpp.connections = xmpp.connections - 1;
+                if (xmpp.debug) {
+                    console.log("connection-- = " + xmpp.connections + ": disconnectSync.error");
+                }
+                xmpp.listening = false;
+                xmpp.connected = false;
+                xmpp.errorCount = xmpp.errorCount + 1;
             });
         },
         
@@ -482,14 +505,38 @@
                                     options.onConnect(data);
                                 }
                                 xmpp.listen();
-                            }, 'text');
-                        }, 'text');
-                    }, 'text');
+                            }, 'text').fail(function(XMLHttpRequest, textStatus, errorThrown) {
+                                if(xmpp.onError != null){
+                                    xmpp.onError({error: errorThrown, data:textStatus});
+                                }
+                                console.log("session create error: " + errorThrown);
+                                xmpp.errorCount = xmpp.errorCount + 1;
+                            });
+                        }, 'text').fail(function(XMLHttpRequest, textStatus, errorThrown) {
+                            if(xmpp.onError != null){
+                                xmpp.onError({error: errorThrown, data:textStatus});
+                            }
+                            console.log("bind error: " + errorThrown);
+                            xmpp.errorCount = xmpp.errorCount + 1;
+                        });
+                    }, 'text').fail(function(XMLHttpRequest, textStatus, errorThrown) {
+                        if(xmpp.onError != null){
+                            xmpp.onError({error: errorThrown, data:textStatus});
+                        }
+                        console.log("restart after auth error: " + errorThrown);
+                        xmpp.errorCount = xmpp.errorCount + 1;
+                    });
                 }else{
                     if(options.onError != null)
                         options.onError({error: "Invalid credentials", data:data});
                 }
-            }, 'text');
+            }, 'text').fail(function(XMLHttpRequest, textStatus, errorThrown) {
+                if(xmpp.onError != null){
+                    xmpp.onError({error: errorThrown, data:textStatus});
+                }
+                console.log("auth error: " + errorThrown);
+                xmpp.errorCount = xmpp.errorCount + 1;
+            });
         },
 
 
@@ -527,8 +574,7 @@
                 xmpp = this;
                 if(xmpp.connections === 0) {
                     //To detect networks problems
-                    clearTimeout(xmpp._jsTimeout);
-                    xmpp._jsTimeout = setTimeout(xmpp.__networkError,xmpp._timeoutMilis);
+                    xmpp.refreshTimer();
                     //
                     this.rid = this.rid+1;
                     xmpp.connections = xmpp.connections + 1;
@@ -583,6 +629,8 @@
         */
         sendCommand: function(rawCommand, callback){
             var self = this;
+
+            self.refreshTimer();
 
             this.rid = this.rid + 1;
             this.listening = true;
@@ -770,6 +818,21 @@
             ret += " type='result'/>";
 
             xmpp.sendCommand(ret);
+        },
+
+        /**
+         * Reset the watchdog timer
+         */
+        refreshTimer: function() {
+            var xmpp = this;
+            if (xmpp.debug) {
+                console.log("clear timeout " + xmpp._jsTimeout);
+            }
+            clearTimeout(xmpp._jsTimeout);
+            xmpp._jsTimeout = setTimeout(xmpp.__networkError,xmpp._timeoutMilis);
+            if (xmpp.debug) {
+                console.log("new timeout set " + xmpp._jsTimeout);
+            }
         }
     }
 })(jQuery);
