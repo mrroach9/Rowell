@@ -222,6 +222,7 @@ td.post-title-td {
   right: 8px;
   top: 4px;
   width: 210px;
+  opacity: 0.8;
 }
 
 .mini-bar-dot {
@@ -743,3 +744,147 @@ input[type="file"].fileuploadbox {
   display: block;
   position: relative;
 }
+
+.ctrbtr-list-panel {
+    padding: 0 10px 5px 10px;
+}
+
+.github-author-container {
+    display: inline-block;
+    padding: 5px;
+    min-width: 160px;
+}
+
+.github-avatar-container {
+    display: inline-block;
+}
+
+.github-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    box-shadow: 2px 2px 3px #CCC;
+}
+
+.github-name-container {
+    display: inline-block;
+    margin-left: 10px;
+    font-size: 16px;
+}
+
+.user-profile-topPanel {
+    border-bottom: solid 1px #DDD;
+    padding-bottom: 7px;
+}
+
+.user-profile-bottomPanel {
+    padding-top: 5px;
+    font-size: 13px;
+}
+
+.user-profile-avatar-container {
+    display: inline-block;
+}
+
+.user-profile-avatar {
+    display: block;
+    width: 28px;
+    height: 28px;
+    font: bold 38px Arial;
+    color: white;
+    border-radius: 15px;
+    padding: 11px;
+    line-height: 0.8em;
+}
+
+.user-profile-avatar.initial-A,
+.user-profile-avatar.initial-F,
+.user-profile-avatar.initial-K,
+.user-profile-avatar.initial-P,
+.user-profile-avatar.initial-U,
+.user-profile-avatar.initial-Z {
+    background-color: #BF73CF;
+}
+
+.user-profile-avatar.initial-B,
+.user-profile-avatar.initial-G,
+.user-profile-avatar.initial-L,
+.user-profile-avatar.initial-Q,
+.user-profile-avatar.initial-V {
+    background-color: #CB7872;
+}
+
+.user-profile-avatar.initial-C,
+.user-profile-avatar.initial-H,
+.user-profile-avatar.initial-M,
+.user-profile-avatar.initial-R,
+.user-profile-avatar.initial-W {
+    background-color: #4BD55B;
+}
+
+.user-profile-avatar.initial-D,
+.user-profile-avatar.initial-I,
+.user-profile-avatar.initial-N,
+.user-profile-avatar.initial-S,
+.user-profile-avatar.initial-X {
+    background-color: #D96881;
+}
+
+.user-profile-avatar.initial-E,
+.user-profile-avatar.initial-J,
+.user-profile-avatar.initial-O,
+.user-profile-avatar.initial-T,
+.user-profile-avatar.initial-Y {
+    background-color: #996CD2;
+}
+
+.user-profile-id {
+    font: 25px Arial;
+    color: #666;
+    letter-spacing: 0.04em;
+}
+
+.user-profile-nickPanel {
+    margin-top: -2px;
+}
+
+.user-profile-nick {
+    font-size: 14px;
+    color: #999;
+    display: block;
+    overflow-x: hidden;
+    white-space: nowrap;
+}
+
+.user-profile-idAndNick {
+    display: inline-block;
+    padding: 2px 0 2px 12px;
+    vertical-align: bottom;
+}
+
+.user-profile-container {
+    min-width: 225px;
+    height: 120px;
+}
+
+.user-profile-statPanel {
+    display: inline-block;
+    min-width: 110px;
+}
+
+.user-profile-allstats {
+    color: #666;
+    width: 225px;
+}
+
+.user-profile-lastLogin {
+    font-size: 11px;
+    font-family: Arial;
+    color: #BBB;
+    margin-top: 3px;
+    display: block;
+}
+
+.user-profile-anchor:not(:first-child) {
+    margin-left: 5px;
+};
