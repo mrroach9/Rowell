@@ -36,7 +36,7 @@ Widgets.boardEntry = function(entry, type, index) {
         var isRead = (entry.isdir || entry.read);
         var sortValue = (isRead ? 1 : 0) + ',' + ('000' + index).slice(-3);
 
-        var bmCell = $('<td>');
+        var bmCell = $('<td class="mob-hide">');
         var bmAnchors = Widgets.__BMList(entry.BM);
         for (var index in bmAnchors) {
           bmCell.append(bmAnchors[index]);
@@ -47,10 +47,11 @@ Widgets.boardEntry = function(entry, type, index) {
                  .append($('<td>').addClass('board-table-center')
                          .append(isRead ? '' : newPostNode)
                          .attr('data-sort-value', sortValue))
-                 .append($('<td>').append(entry.name))
-                 .append($('<td>').append(entry.desc))
-                 .append($('<td>').append(entry.currentusers))
-                 .append(bmCell);
+                 .append($('<td>').addClass('mob-hide').append(entry.name))
+                 .append($('<td>').addClass('mob-hide').append(entry.desc))
+                 .append($('<td>').addClass('mob-hide').append(entry.currentusers))
+                 .append(bmCell)
+				 .append($('<td>').addClass('mob-display').append(entry.name).append("&nbsp;").append($('<strong>').append(entry.desc)));
 
         entryNode.click(function() {
             UI_set_loading();
@@ -76,7 +77,7 @@ Widgets.boardEntry = function(entry, type, index) {
         var isRead = (typeof(entry.binfo.read) == 'undefined' || entry.binfo.read);
         var sortValue = (isRead ? 1 : 0) + ',' + ('000' + index).slice(-3);
 
-        var bmCell = $('<td>');
+        var bmCell = $('<td class="mob-hide">');
         var bmAnchors = Widgets.__BMList(entry.binfo.BM);
         for (var index in bmAnchors) {
           bmCell.append(bmAnchors[index]);
@@ -87,10 +88,12 @@ Widgets.boardEntry = function(entry, type, index) {
                  .append($('<td>').addClass('board-table-center')
                          .append(isRead ? '' : newPostNode)
                          .attr('data-sort-value', sortValue))
-                 .append($('<td>').append(entry.binfo.name))
-                 .append($('<td>').append(entry.binfo.desc))
-                 .append($('<td>').append(entry.binfo.currentusers))
-                 .append(bmCell);
+                 .append($('<td>').addClass('mob-hide').append(entry.binfo.name))
+                 .append($('<td>').addClass('mob-hide').append(entry.binfo.desc))
+                 .append($('<td>').addClass('mob-hide').append(entry.binfo.currentusers))
+                 .append(bmCell)
+		.append($('<td>').addClass('mob-display').append(entry.binfo.name).append("&nbsp;").append($('<strong>').append(entry.binfo.desc)));
+				
 
         entryNode.click(function() {
             UI_set_loading();
@@ -127,14 +130,15 @@ Widgets.postEntry = function (entry, is_sticky) {
     var miniBar = Widgets.postMiniBar(entry);
     miniBar.hide();
     var entryNode = $('<tr>').attr('href', '').addClass(class_name)
-                             .append($('<td>').append((is_sticky ? bbs_string.entry_sticky : entry.id)))
+							 .append($('<td>').addClass('mob-display').append(" &nbsp;").append((is_sticky ? bbs_string.entry_sticky : entry.id)).append(" &nbsp;").append(entry.posttime).append(" &nbsp;").append(Widgets.userAnchor(entry.owner)))
+                             .append($('<td>').addClass('mob-hide').append((is_sticky ? bbs_string.entry_sticky : entry.id)))
                              .append($('<td>').addClass('board-table-center').append(
-                                     (typeof(entry.read) == 'undefined' || entry.read) ? '' : newPostNode))
-                             .append($('<td>').append(Widgets.userAnchor(entry.owner)))
-                             .append($('<td>').append(entry.posttime))
+                                     (typeof(entry.read) == 'undefined' || entry.read) ? " " : newPostNode))
+                             .append($('<td>').addClass('mob-hide').append(Widgets.userAnchor(entry.owner)))
+                             .append($('<td>').addClass('mob-hide').append(entry.posttime))							 
                              .append($('<td>').addClass('post-title-td')
-                                              .append(entry.title)
-                                              .append(entry.attachment > 0 ? attachLogoNode : '')
+.append(entry.title)
+.append(entry.attachment > 0 ? attachLogoNode : '')
                                               .append(markM ? mNode : '')
                                               .append(markG ? gNode : '')
                                               .append(miniBar));

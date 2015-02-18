@@ -3,16 +3,15 @@
 <head>
     <meta charset='utf-8'>
     <title>9# BBS</title>
-    <!--
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    -->
     <meta name='description' content=''>
     <meta name='author' content=''>
 
     <link href='./css/bootstrap.min.css' rel='stylesheet'>
     <link href='./css/style.css' rel='stylesheet'>
-
-    <link rel='shortcut icon' href='favicon.ico'>
+	<link href="./css/bootstrap-responsive.css" rel="stylesheet">
+    
+	<link rel='shortcut icon' href='favicon.ico'>
 
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -30,12 +29,12 @@
     <div class='navbar navbar-fixed-top navbar-inverse' id='unlogged-navbar'>
         <div class='navbar-inner'>
             <div class='container'>
-                <div class='brand'>
-                    <div class='title-label'>9# BBS</div>
-                </div>
-                <div class='nav-collapse'>
-                    <ul class='nav'>
-                        <li class='dropdown'>
+				<div class='brand'>
+					<div class='title-label'>9# BBS</div>
+				</div>
+                <div class='nav'>
+					<ul class='nav'>
+                        <li class='dropdown' style="float: left;">
                             <a class='dropdown-toggle' data-toggle='dropdown' href='javascript:void(0)'>
                                 登录
                                 <b class='caret'></b>
@@ -58,14 +57,22 @@
             </div>
         </div>
     </div>
+	
 
     <div class='navbar navbar-fixed-top navbar-inverse hide' id='logged-navbar'>
       <div class='navbar-inner'>
         <div class='container'>
+		<!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+		  <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
           <div class='brand'>
             <div class='title-label'>9# BBS</div>
           </div>
-          <div class='nav-collapse'>
+          <!-- Everything want to hidden at 940px or less, place within here -->
+          <div class='nav-collapse collapse'>
             <ul class='nav'>
               <li><a href='javascript:void(0)' id='favboard-nav-label'>收藏夹</a></li>
               <li><a href='javascript:void(0)' id='allboard-nav-label'>所有版面</a></li>
@@ -204,13 +211,14 @@
                 </ul>
         </div>
 
-        <div class='well' id='display-area'>
+        <div class='well container-fluid' id='display-area'>
             <div id='mailbox-table' class='hide display-area'>
                 <div class='button-bar mail-buttons top-button-bar'>
                     <button class='btn btn-info first-page-button'>第一页</button>
                     <button class='btn btn-success prev-page-button'>上一页</button>
                     <button class='btn btn-success next-page-button'>下一页</button>
                     <button class='btn btn-info last-page-button'>最后一页</button>
+					<div class="mob-display">  </div>
                     <span class='jump-to-mail'>
                         跳转至第<input class='short-text jump-to-mail-input' />封邮件
                         <button class='btn btn-success jump-to-mail-button'>跳转</button>
@@ -232,6 +240,7 @@
                     <button class='btn btn-success prev-page-button'>上一页</button>
                     <button class='btn btn-success next-page-button'>下一页</button>
                     <button class='btn btn-info last-page-button'>最后一页</button>
+					<div class="mob-display">  </div>
                     <span class='jump-to-mail'>
                         跳转至第<input class='short-text jump-to-mail-input' />封邮件
                         <button class='btn btn-success jump-to-mail-button'>跳转</button>
@@ -244,9 +253,9 @@
                         <th width='60px'>帖数</th>
                         <th width='42px' data-sort='string' col='unread'>未读</th>
                         <th width='150px' data-sort='string' col='name'>版名</th>
-                        <th>版面中文名</th>
-                        <th width='32px'>在线</th>
-                        <th width='220px'>版主</th>
+                        <th class="mob-hide">版面中文名</th>
+                        <th class="mob-hide" width='32px'>在线</th>
+                        <th class="mob-hide" width='220px'>版主</th>
                     </thead>
                     <tbody id='boardlist-table-body'>
                     </tbody>
@@ -259,6 +268,7 @@
                     <button class='btn btn-success prev-page-button'>上一页</button>
                     <button class='btn btn-success next-page-button'>下一页</button>
                     <button class='btn btn-info last-page-button'>最后一页</button>
+					<div class="mob-display"> _ </div>
                     <span class='jump-to-post'>
                         跳转至<input class='short-text jump-to-post-input' />贴
                         <button class='btn btn-success jump-to-post-button'>跳转</button>
@@ -268,8 +278,8 @@
                     <thead class='board-table-head'>
                         <th width='60px'>编号</th>
                         <th width='42px'>未读</th>
-                        <th width='100px'>作者</th>
-                        <th width='60px'>日期</th>
+                        <th class='mob-hide' width='100px'>作者</th>
+                        <th class='mob-hide' width='60px'>日期</th>
                         <th>文章标题</th>
                     </thead>
                     <tbody id='board-table-body'>
@@ -280,6 +290,7 @@
                     <button class='btn btn-success prev-page-button'>上一页</button>
                     <button class='btn btn-success next-page-button'>下一页</button>
                     <button class='btn btn-info last-page-button'>最后一页</button>
+					<div class="mob-display">_</div>
                     <span class='jump-to-post'>
                         跳转至<input class='short-text jump-to-post-input' />贴
                         <button class='btn btn-success jump-to-post-button'>跳转</button>
@@ -301,11 +312,11 @@
                 </div>
             </div>
 
-            <div id='post-view' class='hide display-area'>
+            <div id='post-view' class='hide display-area fluid'>
                 <div class='button-bar post-buttons top-button-bar'>
                     <button class='btn btn-info st-prev-button'>同主题上一篇</button>
-                    <button class='btn btn-success prev-post-button'>上一篇</button>
-                    <button class='btn btn-success next-post-button'>下一篇</button>
+                    <button class='btn btn-success prev-post-button mob-hide'>上一篇</button>
+                    <button class='btn btn-success next-post-button mob-hide'>下一篇</button>
                     <button class='btn btn-info st-next-button'>同主题下一篇</button>
                     <span class='dropdown st-nav-menu'>
                         <a class='dropdown-toggle' data-toggle='dropdown' href='javascript:void(0)'>
@@ -327,11 +338,11 @@
                     </pre>
                 </div>
                 <div class='button-bar post-buttons bottom-button-bar'>
-                    <button class='btn btn-info st-prev-button'>同主题上一篇</button>
+                    <button class='btn btn-info st-prev-button mob-hide'>同主题上一篇</button>
                     <button class='btn btn-success prev-post-button'>上一篇</button>
                     <button class='btn btn-success next-post-button'>下一篇</button>
-                    <button class='btn btn-info st-next-button'>同主题下一篇</button>
-                    <span class='dropdown st-nav-menu'>
+                    <button class='btn btn-info st-next-button mob-hide'>同主题下一篇</button>
+                    <span class='dropdown st-nav-menu mob-hide'>
                         <a class='dropdown-toggle' data-toggle='dropdown' href='javascript:void(0)'>
                             更多选项
                             <b class="caret"></b>
@@ -350,15 +361,15 @@
 
         </div>
 
-        <div class='modal hide' id='write-post-panel'>
+        <div class='modal hide container-fluid' id='write-post-panel'>
             <div class='modal-header'>
                 <button type='button' class='close cancel-button'>&times;</button>
                 <h3 id='post-panel-title'>发表新文章</h3>
             </div>
-            <div class='modal-body'>
+            <div class='modal-body fluid'>
                 <form class='form-horizontal'>
                     <fieldset>
-                        <div class='control-group'>
+                        <div class='control-group fluid'>
                             标题：<input type='text' class='input-xlarge' id='write-post-title'/>
                             <br>
                             <div class='write-post-option'>
@@ -398,7 +409,11 @@
                             <ul class='file-list'>
                             </ul>
                         </div>
-                        <div class='control-group'>
+						<div class='mob-display'>
+                <a class='btn btn-primary' id='publish-post-button0'>发表</a>
+                <a class='btn cancel-button' id='cancel-post-button'>取消</a> 
+            			</div>
+                        <div class='control-group fluid'>
                             内容：<textarea class='input-xlarge' id='write-post-content'></textarea>
                         </div>
                         <div class='write-post-option'>
@@ -413,7 +428,7 @@
                     </fieldset>
                 </form>
             </div>
-            <div class='modal-footer'>
+            <div class='modal-footer mob-hide'>
                 <a class='btn btn-primary' id='publish-post-button'>发表</a>
                 <a class='btn cancel-button' id='cancel-post-button'>取消</a>
             </div>
@@ -489,7 +504,7 @@
     <script src='./js/jquery/jquery.cookie.js'></script>
     <script src='./js/jquery/jquery.purl.js'></script>
     <script src='./js/jquery/jquery.xmpp.js'></script>
-    <script src='./js/bootstrap/bootstrap.min.js'></script>
+    <script src='./js/bootstrap/bootstrap.js'></script>
     <script src='./js/jquery/stupidtable.min.js'></script>
 
     <script src='./js/bbs/ansi2html.js'></script>
@@ -517,4 +532,3 @@
     </script>
   </body>
 </html>
-

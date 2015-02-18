@@ -157,7 +157,7 @@ button.btn.btn-large {
 
 .board-table-center th,
 td.board-table-center {
-    text-align: center;
+    text-align: left;
 }
 
 .display-area {
