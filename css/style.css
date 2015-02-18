@@ -24,6 +24,10 @@ body {
     -moz-border-radius: 5px;
     border-radius: 5px;
 }
+.container-fluid {
+	padding-right: 0px;
+	padding-left: 0px;
+}
 
 .popover-title {
     font: bold 16px/20px helvetica;
@@ -850,6 +854,7 @@ input[type="file"].fileuploadbox {
     display: block;
     overflow-x: hidden;
     white-space: nowrap;
+	max-width: 170px;
 }
 
 .user-profile-idAndNick {
