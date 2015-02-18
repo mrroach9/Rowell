@@ -3,6 +3,11 @@
 // Indicating if the loading logo is now displaying
 var bbs_loading_show = false;
 
+// Indicating whether the app is running on a touch device.
+var isTouchDevice = function() {
+    return ('ontouchstart' in document.documentElement);
+};
+
 // The info and data of current post to be published
 var bbs_post_info = {
     can_anony   :   false,
