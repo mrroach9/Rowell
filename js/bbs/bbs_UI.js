@@ -264,7 +264,6 @@ function UI_register_func_post_modal() {
     });
 
     $('#publish-post-button').click(UI_write_post);
-    $('#publish-post-button0').click(UI_write_post);
 	
     $(document).on('click', '#write-post-panel .cancel-button', function() {
         if (confirm(bbs_string.confirm_cancel_post)) {
