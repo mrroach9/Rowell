@@ -1317,6 +1317,13 @@
   .post-title-td {
   	width: inherit;
   }
+  .mob-Change {
+	position: absolute;
+	padding: 0.6em;
+	background-color: transparent;
+	top: 0em;
+	left: 9em;
+  }
   #write-post-title {
   	margin-left: 2em;
 	width: 80%;
@@ -1328,5 +1335,4 @@
   #logged-panel {
   	padding-left: 1.5em;
   }
-  
 }
