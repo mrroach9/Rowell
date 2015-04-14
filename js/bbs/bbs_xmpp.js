@@ -10,6 +10,7 @@ var xmpp_reconnecting = false;
 var XMPP_TITLE_CHANGE_INTERVAL = 1000;
 var XMPP_CHAT_TITLE_ACTIVE_COLOR = '#5BB75B';
 var XMPP_CHAT_TITLE_INACTIVE_COLOR = 'rgb(91, 191, 222)';
+var xmpp_session_key = "";
 
 function xmpp_jid_normalize(jid) {
     return jid.replace(/[\.@\/]/g, '_');
@@ -76,7 +77,7 @@ function xmpp_connect() {
     $('#xmpp-panel').show();
     xmpp_show_loading(bbs_string.xmpp_connecting);
     $.xmpp.connect({
-        resource: bbs_query.xmpp_resource + bbs_session.substr(0, 4),
+        resource: bbs_query.xmpp_resource + xmpp_session_key,
     domain: bbs_query.xmpp_domain,
     token: bbs_session,
     url: bbs_query.bosh_url,
@@ -88,7 +89,10 @@ function xmpp_connect() {
     onPresence: xmpp_presence,
     onError: xmpp_error
     });    
+}
 
+function xmpp_disconnect() {
+    $.xmpp.disconnect(null);
 }
 
 function xmpp_connected() {
@@ -402,7 +406,19 @@ function xmpp_chat_min_click(jid_bare) {
     }
 }
 
+function xmpp_gen_session_key() {
+    var x = Math.random();
+    var ret = "";
+    for (var i = 0; i < 4; i ++) {
+        x = x * 10;
+        ret += String(Math.floor(x));
+        x = x - Math.floor(x);
+    }
+    return ret;
+}
+
 function xmpp_ui_init() {
+    xmpp_session_key = xmpp_gen_session_key();
     $('#xmpp-panel').hide();
     $('#xmpp-panel-handle').click(xmpp_panel_toggle);
     xmpp_onresize();
