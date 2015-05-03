@@ -6,6 +6,7 @@ var xmpp_title_alternative = "";
 var xmpp_title_changing = false;
 var xmpp_title_using_alternative = false;
 var xmpp_panel_left = 0;
+var xmpp_reconnecting = false;
 var XMPP_TITLE_CHANGE_INTERVAL = 1000;
 var XMPP_CHAT_TITLE_ACTIVE_COLOR = '#5BB75B';
 var XMPP_CHAT_TITLE_INACTIVE_COLOR = 'rgb(91, 191, 222)';
@@ -70,6 +71,9 @@ function xmpp_disconnected() {
 }
 
 function xmpp_connect() {
+    // If we are reconnecting, now it's allowed to schedule another
+    // If we aren't reconnecting, this is no-op.
+    xmpp_reconnecting = false;
     $('#xmpp-panel').show();
     xmpp_show_loading(bbs_string.xmpp_connecting);
     $.xmpp.connect({
@@ -227,14 +231,17 @@ function xmpp_presence(presence) {
 
 function xmpp_error(error) {
     console.log("Error: "+error.error);
-    xmpp_user_list = {}
-    $('#xmpp-user-list').empty();
-    xmpp_show_loading(bbs_string.xmpp_error);
-    $.xmpp.disconnectSync();
-    setTimeout(function() {
-        console.log("xmpp error. reconnecting...");
-        xmpp_connect();
-    }, 5000);
+    // If a reconnect is scheduled, don't schedule another
+    if (!xmpp_reconnecting) {
+        xmpp_reconnecting = true;
+        xmpp_user_list = {}
+        $('#xmpp-user-list').empty();
+        xmpp_show_loading(bbs_string.xmpp_error);
+        setTimeout(function() {
+            console.log("xmpp error. reconnecting...");
+            xmpp_connect();
+        }, 5000);
+    }
 }
 
 function xmpp_send(to, message) {
