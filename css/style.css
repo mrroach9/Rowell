@@ -850,6 +850,7 @@ input[type="file"].fileuploadbox {
     display: block;
     overflow-x: hidden;
     white-space: nowrap;
+    max-width: 170px;
 }
 
 .user-profile-idAndNick {

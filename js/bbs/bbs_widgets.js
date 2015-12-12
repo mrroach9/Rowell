@@ -143,12 +143,14 @@ Widgets.postEntry = function (entry, is_sticky) {
     }
     var postType = is_sticky ? bbs_type.post_list_mode.sticky 
                              : bbs_type.post_list_mode.normal;
-    entryNode.mouseenter(function(event) {
-      miniBar.show();
-    });
-    entryNode.mouseleave(function(event) {
-      miniBar.hide();
-    });
+    if (!isTouchDevice()) {
+      entryNode.mouseenter(function(event) {
+        miniBar.show();
+      });
+      entryNode.mouseleave(function(event) {
+        miniBar.hide();
+      });
+    }
     entryNode.click(function() {
         UI_set_loading();
         view_post(entry.id, postType, UI_update, 'click');
@@ -318,7 +320,8 @@ Widgets.userProfile = function(profile) {
   var idPanel = $('<div>').addClass('user-profile-id-panel')
                 .append($('<span>').addClass('user-profile-id').append(userId));
   var nickPanel = $('<div>').addClass('user-profile-nickPanel')
-      .append($('<span>').addClass('user-profile-nick').append(profile.nick));
+      .append($('<span>').addClass('user-profile-nick').append(profile.nick)
+              .attr('title', profile.nick));
   var idAndNickPanel = $('<div>').addClass('user-profile-idAndNick')
       .append(idPanel).append(nickPanel);
 
