@@ -36,7 +36,7 @@ var bbs_query = {
     client_id           :   0,
     client_secret       :   0,
     xmpp_domain         :   'bbs.net9.org',
-    bosh_url            :   'http://www.henryhu.net:5280/http-bind',
+    bosh_url            :   'https://www.henryhu.net:5281/http-bind',
     xmpp_resource       :   'Rowell',
     xmpp_wait           :   300,
     auth : {
